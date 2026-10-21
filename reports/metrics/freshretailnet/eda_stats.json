@@ -1,0 +1,78 @@
+{
+  "n_series": 50000,
+  "n_days": 97,
+  "date_range": [
+    "2024-03-28",
+    "2024-07-02"
+  ],
+  "total_sales": 4911229.322876278,
+  "total_demand": 6191176.023324322,
+  "lost_share_of_demand": 0.2067372492117875,
+  "sales_growth_first_to_last_week_pct": 50.26922174493447,
+  "weekday_index": {
+    "Mon": 0.939,
+    "Tue": 0.961,
+    "Wed": 0.911,
+    "Thu": 0.873,
+    "Fri": 0.929,
+    "Sat": 1.177,
+    "Sun": 1.209
+  },
+  "holiday_flag_weekend_share": 0.8181818181818182,
+  "holiday_vs_nonholiday_daily_sales_ratio": 1.267835937768074,
+  "share_units_top20pct_series": 0.4855815779756702,
+  "mean_daily_sales_quantiles": {
+    "0.1": 0.4383402105459233,
+    "0.5": 0.6651546446625719,
+    "0.9": 1.8455566904517164,
+    "0.99": 5.0020628712241795
+  },
+  "n_stores": 898,
+  "store_units_p90_p10_ratio": 6.5966331771199815,
+  "store_censored_share_range": [
+    0.33662034961900494,
+    0.8762886597938144
+  ],
+  "n_first_categories": 32,
+  "top3_category_share_units": 0.5060260547902973,
+  "relative_sales_by_discount_bucket": {
+    "<0.70": 1.324,
+    "0.70-0.80": 1.126,
+    "0.80-0.90": 1.058,
+    "0.90-0.95": 1.015,
+    "0.95-1.00": 1.122,
+    "no discount": 0.887
+  },
+  "relative_sales_activity_vs_not": [
+    0.93,
+    1.117
+  ],
+  "corr_note": "descriptive association only: discounts may be targeted at slow or fast items, so this is not a causal promotion effect",
+  "relative_sales_by_stockout_hours": {
+    "0": 1.015,
+    "1-3": 1.226,
+    "4-7": 1.14,
+    "8-11": 0.971,
+    "12-15": 0.674,
+    "16 (all day)": 0.048
+  },
+  "relative_demand_by_stockout_hours": {
+    "0": 1.015,
+    "1-3": 1.318,
+    "4-7": 1.53,
+    "8-11": 2.029,
+    "12-15": 1.948,
+    "16 (all day)": 1.227
+  },
+  "share_days_censored": 0.4402977319587629,
+  "share_series_censored_over_half_days": 0.27382,
+  "share_zero_sales_days": 0.044396494845360825,
+  "share_zero_sales_days_that_are_censored": 0.7643725937312781,
+  "cv_median": 0.5150587040266824,
+  "demand_classes": {
+    "erratic": 4504,
+    "intermittent": 815,
+    "lumpy": 615,
+    "smooth": 44066
+  }
+}

@@ -1,0 +1,264 @@
+{
+  "tuning": [],
+  "models": [
+    {
+      "horizon": 1,
+      "fold": "valid",
+      "train_rows": 5779200,
+      "best_iteration": 195
+    },
+    {
+      "horizon": 1,
+      "fold": "test_1",
+      "train_rows": 6164480,
+      "num_boost_round": 195
+    },
+    {
+      "horizon": 1,
+      "fold": "test_2",
+      "train_rows": 6357120,
+      "num_boost_round": 195
+    },
+    {
+      "horizon": 2,
+      "fold": "valid",
+      "train_rows": 5765440,
+      "best_iteration": 201
+    },
+    {
+      "horizon": 2,
+      "fold": "test_1",
+      "train_rows": 6150720,
+      "num_boost_round": 201
+    },
+    {
+      "horizon": 2,
+      "fold": "test_2",
+      "train_rows": 6343360,
+      "num_boost_round": 201
+    }
+  ],
+  "feature_importance": {
+    "1": [
+      {
+        "feature": "rmean_14",
+        "gain": 65346647.60350227
+      },
+      {
+        "feature": "rmean_7",
+        "gain": 26118861.394187927
+      },
+      {
+        "feature": "sales_rmean_7",
+        "gain": 11778415.951454163
+      },
+      {
+        "feature": "rmean_28",
+        "gain": 11246153.636400223
+      },
+      {
+        "feature": "rstd_28",
+        "gain": 4087392.683084488
+      },
+      {
+        "feature": "days_since_sale",
+        "gain": 4045313.456129074
+      },
+      {
+        "feature": "rstd_14",
+        "gain": 1708789.3584976196
+      },
+      {
+        "feature": "rmean_3",
+        "gain": 1065987.2516479492
+      },
+      {
+        "feature": "price_0",
+        "gain": 990532.3419113159
+      },
+      {
+        "feature": "seasonal_mean_4w",
+        "gain": 970998.0919113159
+      },
+      {
+        "feature": "lag_1",
+        "gain": 774933.4086723328
+      },
+      {
+        "feature": "target_dow",
+        "gain": 655411.2424907684
+      },
+      {
+        "feature": "trend_7_28",
+        "gain": 593536.3822002411
+      },
+      {
+        "feature": "zero_share_28",
+        "gain": 503896.7194290161
+      },
+      {
+        "feature": "target_dom",
+        "gain": 374672.05167007446
+      },
+      {
+        "feature": "target_activity_flag",
+        "gain": 221051.20182800293
+      },
+      {
+        "feature": "rmedian_28",
+        "gain": 214205.88489341736
+      },
+      {
+        "feature": "rmax_7",
+        "gain": 183920.3203315735
+      },
+      {
+        "feature": "rstd_7",
+        "gain": 177812.88285636902
+      },
+      {
+        "feature": "target_is_weekend",
+        "gain": 166570.79399490356
+      },
+      {
+        "feature": "zero_share_7",
+        "gain": 160691.42033576965
+      },
+      {
+        "feature": "target_discount_rel",
+        "gain": 152025.03121185303
+      },
+      {
+        "feature": "first_category_id",
+        "gain": 137074.53658294678
+      },
+      {
+        "feature": "city_id",
+        "gain": 130978.73474884033
+      },
+      {
+        "feature": "rmedian_7",
+        "gain": 113308.72531700134
+      }
+    ],
+    "2": [
+      {
+        "feature": "rmean_14",
+        "gain": 67651327.47740364
+      },
+      {
+        "feature": "rmean_7",
+        "gain": 23965110.84877968
+      },
+      {
+        "feature": "sales_rmean_7",
+        "gain": 11632626.0542202
+      },
+      {
+        "feature": "rmean_28",
+        "gain": 11267958.851552963
+      },
+      {
+        "feature": "rstd_28",
+        "gain": 3563558.968257904
+      },
+      {
+        "feature": "days_since_sale",
+        "gain": 3158725.682548523
+      },
+      {
+        "feature": "rstd_14",
+        "gain": 1809939.5138530731
+      },
+      {
+        "feature": "seasonal_mean_4w",
+        "gain": 1328565.2648181915
+      },
+      {
+        "feature": "price_0",
+        "gain": 1250689.138721466
+      },
+      {
+        "feature": "target_dow",
+        "gain": 704492.9625663757
+      },
+      {
+        "feature": "trend_7_28",
+        "gain": 510022.22474479675
+      },
+      {
+        "feature": "target_dom",
+        "gain": 481103.526889801
+      },
+      {
+        "feature": "zero_share_28",
+        "gain": 331254.4278755188
+      },
+      {
+        "feature": "lag_1",
+        "gain": 276777.24917030334
+      },
+      {
+        "feature": "rstd_7",
+        "gain": 260480.75708007812
+      },
+      {
+        "feature": "rmedian_7",
+        "gain": 247599.37442016602
+      },
+      {
+        "feature": "rmean_3",
+        "gain": 242028.34417152405
+      },
+      {
+        "feature": "target_activity_flag",
+        "gain": 230902.23014068604
+      },
+      {
+        "feature": "target_discount_rel",
+        "gain": 213579.3061618805
+      },
+      {
+        "feature": "rmedian_28",
+        "gain": 212002.97059822083
+      },
+      {
+        "feature": "target_is_weekend",
+        "gain": 172497.28047943115
+      },
+      {
+        "feature": "first_category_id",
+        "gain": 171775.49090194702
+      },
+      {
+        "feature": "rmax_7",
+        "gain": 164050.9721660614
+      },
+      {
+        "feature": "city_id",
+        "gain": 158628.8394756317
+      },
+      {
+        "feature": "activity_rmean_7",
+        "gain": 129268.6169013977
+      }
+    ]
+  },
+  "selected_params": {
+    "objective": "tweedie",
+    "tweedie_variance_power": 1.2,
+    "metric": "l2",
+    "learning_rate": 0.05,
+    "num_leaves": 127,
+    "min_data_in_leaf": 200,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "max_bin": 255,
+    "num_boost_round": 1500,
+    "early_stopping_rounds": 50,
+    "num_threads": 0,
+    "verbose": -1
+  }
+}

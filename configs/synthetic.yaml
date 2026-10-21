@@ -1,0 +1,23 @@
+# Synthetic FreshRetailNet-shaped fixture: CI and smoke tests ONLY, never headline results.
+extends: base.yaml
+data:
+  source: synthetic
+  processed_dir: data/processed/synthetic
+splits:
+  train_start_origin: "2024-04-25"
+forecasting:
+  horizons: [1, 2]
+  lightgbm:
+    num_leaves: 15
+    min_data_in_leaf: 20
+    num_boost_round: 60
+    early_stopping_rounds: 10
+  tuning:
+    enabled: false
+finance:
+  bootstrap_samples: 50
+paths:
+  metrics: reports/metrics/synthetic
+  figures: reports/figures/synthetic
+  models: models/synthetic
+  artifacts: data/processed/synthetic/artifacts

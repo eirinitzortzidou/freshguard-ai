@@ -1,0 +1,39 @@
+# M5 (Walmart) FOODS departments: the dataset actually executed for the reported results.
+# No stock data -> stockouts inferred from implausible zero-sales runs (see methodology).
+extends: base.yaml
+data:
+  source: m5
+  raw_dir: data/raw/m5
+  processed_dir: data/processed/m5
+  categories: [FOODS]
+  start: "2015-01-01"
+  end: "2016-06-19"
+splits:
+  train_start_origin: "2015-03-01"
+  train_end: "2016-04-24"
+  valid_start: "2016-04-25"     # M5 public "validation" period
+  valid_end: "2016-05-22"
+  test_folds:                    # M5 private "evaluation" period, two 14-day refit folds
+    - ["2016-05-23", "2016-06-05"]
+    - ["2016-06-06", "2016-06-19"]
+  min_history_days: 56
+demand:
+  zero_run:
+    window: 28
+    min_rate: 0.5
+    p_threshold: 0.01
+    max_run_days: 28
+features:
+  known_future: [discount, holiday_flag, activity_flag]   # price plan, events, SNAP days
+forecasting:
+  horizons: [1, 2]              # secondary benchmark: reduced to keep CPU time reasonable
+  tuning:
+    enabled: false              # reuse the FreshRetailNet-selected configuration family
+finance:
+  price_source: data            # observed M5 shelf prices (USD) converted to EUR
+  usd_to_eur: 0.9034            # 1 / 1.1069, ECB euro reference rate, 2016 annual average
+paths:
+  metrics: reports/metrics/m5
+  figures: reports/figures/m5
+  models: models/m5
+  artifacts: data/processed/m5/artifacts

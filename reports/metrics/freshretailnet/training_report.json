@@ -1,0 +1,557 @@
+{
+  "tuning": [
+    {
+      "params": {
+        "num_leaves": 63,
+        "min_data_in_leaf": 100,
+        "objective": "tweedie"
+      },
+      "best_iteration": 76,
+      "valid_wape": 0.32341007163272906,
+      "valid_mae": 0.41776311197402555,
+      "seconds": 31.7,
+      "train_rows": 2050000,
+      "dev_subset_origins": "27..."
+    },
+    {
+      "params": {
+        "num_leaves": 127,
+        "min_data_in_leaf": 200,
+        "objective": "tweedie"
+      },
+      "best_iteration": 79,
+      "valid_wape": 0.3225641643514127,
+      "valid_mae": 0.41667041607714106,
+      "seconds": 36.8,
+      "train_rows": 2050000,
+      "dev_subset_origins": "27..."
+    },
+    {
+      "params": {
+        "num_leaves": 255,
+        "min_data_in_leaf": 400,
+        "objective": "tweedie"
+      },
+      "best_iteration": 78,
+      "valid_wape": 0.3225248393242511,
+      "valid_mae": 0.41661961819801946,
+      "seconds": 44.4,
+      "train_rows": 2050000,
+      "dev_subset_origins": "27..."
+    },
+    {
+      "params": {
+        "num_leaves": 127,
+        "min_data_in_leaf": 200,
+        "objective": "regression"
+      },
+      "best_iteration": 90,
+      "valid_wape": 0.32293890611389825,
+      "valid_mae": 0.4171544866074503,
+      "seconds": 35.0,
+      "train_rows": 2050000,
+      "dev_subset_origins": "27..."
+    }
+  ],
+  "models": [
+    {
+      "horizon": 1,
+      "fold": "valid",
+      "train_rows": 2050000,
+      "best_iteration": 78
+    },
+    {
+      "horizon": 1,
+      "fold": "test_1",
+      "train_rows": 2750000,
+      "num_boost_round": 78
+    },
+    {
+      "horizon": 1,
+      "fold": "test_2",
+      "train_rows": 3100000,
+      "num_boost_round": 78
+    },
+    {
+      "horizon": 2,
+      "fold": "valid",
+      "train_rows": 2000000,
+      "best_iteration": 76
+    },
+    {
+      "horizon": 2,
+      "fold": "test_1",
+      "train_rows": 2700000,
+      "num_boost_round": 76
+    },
+    {
+      "horizon": 2,
+      "fold": "test_2",
+      "train_rows": 3050000,
+      "num_boost_round": 76
+    },
+    {
+      "horizon": 3,
+      "fold": "valid",
+      "train_rows": 1950000,
+      "best_iteration": 86
+    },
+    {
+      "horizon": 3,
+      "fold": "test_1",
+      "train_rows": 2650000,
+      "num_boost_round": 86
+    },
+    {
+      "horizon": 3,
+      "fold": "test_2",
+      "train_rows": 3000000,
+      "num_boost_round": 86
+    },
+    {
+      "horizon": 7,
+      "fold": "valid",
+      "train_rows": 1750000,
+      "best_iteration": 72
+    },
+    {
+      "horizon": 7,
+      "fold": "test_1",
+      "train_rows": 2450000,
+      "num_boost_round": 72
+    },
+    {
+      "horizon": 7,
+      "fold": "test_2",
+      "train_rows": 2800000,
+      "num_boost_round": 72
+    }
+  ],
+  "feature_importance": {
+    "1": [
+      {
+        "feature": "rmean_14",
+        "gain": 6793905.6957092285
+      },
+      {
+        "feature": "rmean_7",
+        "gain": 1949881.6549377441
+      },
+      {
+        "feature": "rmean_28",
+        "gain": 1848316.4221544266
+      },
+      {
+        "feature": "seasonal_mean_4w",
+        "gain": 1715446.398361206
+      },
+      {
+        "feature": "lag_7",
+        "gain": 341621.328994751
+      },
+      {
+        "feature": "third_category_id",
+        "gain": 332685.0192346573
+      },
+      {
+        "feature": "target_discount_rel",
+        "gain": 328543.2728648186
+      },
+      {
+        "feature": "lag_1",
+        "gain": 202718.96480560303
+      },
+      {
+        "feature": "rmedian_28",
+        "gain": 193176.6976366043
+      },
+      {
+        "feature": "target_dow",
+        "gain": 168944.58278656006
+      },
+      {
+        "feature": "rmean_3",
+        "gain": 98455.21052932739
+      },
+      {
+        "feature": "target_is_weekend",
+        "gain": 95619.2783908844
+      },
+      {
+        "feature": "target_discount",
+        "gain": 94947.6582288742
+      },
+      {
+        "feature": "target_dom",
+        "gain": 87641.54027938843
+      },
+      {
+        "feature": "rmedian_7",
+        "gain": 84838.6793050766
+      },
+      {
+        "feature": "second_category_id",
+        "gain": 60468.938164711
+      },
+      {
+        "feature": "target_holiday_flag",
+        "gain": 37868.56385803223
+      },
+      {
+        "feature": "lag_28",
+        "gain": 19087.113535881042
+      },
+      {
+        "feature": "temperature_0",
+        "gain": 18729.4748544693
+      },
+      {
+        "feature": "precpt_0",
+        "gain": 18148.45177268982
+      },
+      {
+        "feature": "city_id",
+        "gain": 17759.928176403046
+      },
+      {
+        "feature": "discount_0",
+        "gain": 17016.57001543045
+      },
+      {
+        "feature": "lag_14",
+        "gain": 15680.189800262451
+      },
+      {
+        "feature": "discount_rmean_7",
+        "gain": 14106.597705364227
+      },
+      {
+        "feature": "cv_28",
+        "gain": 13000.86784696579
+      }
+    ],
+    "2": [
+      {
+        "feature": "rmean_14",
+        "gain": 6676696.162524223
+      },
+      {
+        "feature": "rmean_28",
+        "gain": 2012726.0654993057
+      },
+      {
+        "feature": "seasonal_mean_4w",
+        "gain": 1762566.522705555
+      },
+      {
+        "feature": "rmean_7",
+        "gain": 1587688.1850261688
+      },
+      {
+        "feature": "third_category_id",
+        "gain": 380447.2808971405
+      },
+      {
+        "feature": "target_discount_rel",
+        "gain": 341995.3313612938
+      },
+      {
+        "feature": "lag_6",
+        "gain": 333631.3762321472
+      },
+      {
+        "feature": "rmedian_28",
+        "gain": 164765.9479827881
+      },
+      {
+        "feature": "target_dow",
+        "gain": 157833.1703672409
+      },
+      {
+        "feature": "rmedian_7",
+        "gain": 102214.22862148285
+      },
+      {
+        "feature": "target_dom",
+        "gain": 98056.73565101624
+      },
+      {
+        "feature": "target_discount",
+        "gain": 95556.97812747955
+      },
+      {
+        "feature": "target_is_weekend",
+        "gain": 95016.31871128082
+      },
+      {
+        "feature": "second_category_id",
+        "gain": 67744.17372226715
+      },
+      {
+        "feature": "lag_1",
+        "gain": 66049.22429561615
+      },
+      {
+        "feature": "rmean_3",
+        "gain": 50632.61734867096
+      },
+      {
+        "feature": "lag_28",
+        "gain": 45173.555141448975
+      },
+      {
+        "feature": "target_holiday_flag",
+        "gain": 42223.95760726929
+      },
+      {
+        "feature": "seasonal_lag_1w",
+        "gain": 31385.633962631226
+      },
+      {
+        "feature": "temperature_0",
+        "gain": 25064.99972629547
+      },
+      {
+        "feature": "city_id",
+        "gain": 22852.216254234314
+      },
+      {
+        "feature": "target_activity_flag",
+        "gain": 16934.65993976593
+      },
+      {
+        "feature": "seasonal_lag_4w",
+        "gain": 15053.265982627869
+      },
+      {
+        "feature": "discount_rmean_7",
+        "gain": 14075.398649215698
+      },
+      {
+        "feature": "seasonal_lag_2w",
+        "gain": 13143.449821472168
+      }
+    ],
+    "3": [
+      {
+        "feature": "rmean_14",
+        "gain": 6510846.713356972
+      },
+      {
+        "feature": "rmean_28",
+        "gain": 1995855.2062835693
+      },
+      {
+        "feature": "seasonal_mean_4w",
+        "gain": 1815407.0124320984
+      },
+      {
+        "feature": "rmean_7",
+        "gain": 1457344.183921814
+      },
+      {
+        "feature": "third_category_id",
+        "gain": 424051.3614373207
+      },
+      {
+        "feature": "target_discount_rel",
+        "gain": 351310.13924598694
+      },
+      {
+        "feature": "lag_5",
+        "gain": 334612.1011414528
+      },
+      {
+        "feature": "rmedian_28",
+        "gain": 202462.52323055267
+      },
+      {
+        "feature": "target_dow",
+        "gain": 153854.07027196884
+      },
+      {
+        "feature": "target_discount",
+        "gain": 117860.81674480438
+      },
+      {
+        "feature": "target_dom",
+        "gain": 112575.40274524689
+      },
+      {
+        "feature": "target_is_weekend",
+        "gain": 87190.31900691986
+      },
+      {
+        "feature": "second_category_id",
+        "gain": 69430.74623298645
+      },
+      {
+        "feature": "rmedian_7",
+        "gain": 66978.41609954834
+      },
+      {
+        "feature": "target_holiday_flag",
+        "gain": 41033.44540596008
+      },
+      {
+        "feature": "rmean_3",
+        "gain": 33435.78064584732
+      },
+      {
+        "feature": "city_id",
+        "gain": 29730.536534309387
+      },
+      {
+        "feature": "temperature_0",
+        "gain": 24428.122130393982
+      },
+      {
+        "feature": "seasonal_lag_4w",
+        "gain": 22537.253975391388
+      },
+      {
+        "feature": "target_activity_flag",
+        "gain": 19059.51819086075
+      },
+      {
+        "feature": "seasonal_lag_3w",
+        "gain": 18952.475609779358
+      },
+      {
+        "feature": "discount_rmean_7",
+        "gain": 18939.865448474884
+      },
+      {
+        "feature": "cv_28",
+        "gain": 18177.07492017746
+      },
+      {
+        "feature": "precpt_0",
+        "gain": 16644.24731206894
+      },
+      {
+        "feature": "rstd_28",
+        "gain": 15149.853370666504
+      }
+    ],
+    "7": [
+      {
+        "feature": "rmean_14",
+        "gain": 4962436.869584084
+      },
+      {
+        "feature": "seasonal_mean_4w",
+        "gain": 4271254.053954124
+      },
+      {
+        "feature": "rmean_7",
+        "gain": 750547.2126674652
+      },
+      {
+        "feature": "third_category_id",
+        "gain": 431863.2599105835
+      },
+      {
+        "feature": "rmean_28",
+        "gain": 372854.888841629
+      },
+      {
+        "feature": "target_discount_rel",
+        "gain": 309765.2248401642
+      },
+      {
+        "feature": "rmedian_28",
+        "gain": 276250.3414297104
+      },
+      {
+        "feature": "lag_1",
+        "gain": 187469.33290195465
+      },
+      {
+        "feature": "seasonal_lag_1w",
+        "gain": 145772.78893470764
+      },
+      {
+        "feature": "target_dow",
+        "gain": 128968.44802093506
+      },
+      {
+        "feature": "target_discount",
+        "gain": 110830.13352966309
+      },
+      {
+        "feature": "rmean_3",
+        "gain": 91975.5247964859
+      },
+      {
+        "feature": "target_dom",
+        "gain": 72281.0647239685
+      },
+      {
+        "feature": "second_category_id",
+        "gain": 72150.25801086426
+      },
+      {
+        "feature": "target_is_weekend",
+        "gain": 55565.29363536835
+      },
+      {
+        "feature": "rmedian_7",
+        "gain": 53758.01311588287
+      },
+      {
+        "feature": "lag_5",
+        "gain": 44608.81184101105
+      },
+      {
+        "feature": "lag_2",
+        "gain": 38351.83934497833
+      },
+      {
+        "feature": "target_holiday_flag",
+        "gain": 28998.78572845459
+      },
+      {
+        "feature": "temperature_0",
+        "gain": 26378.444514751434
+      },
+      {
+        "feature": "city_id",
+        "gain": 23629.31244277954
+      },
+      {
+        "feature": "precpt_0",
+        "gain": 22689.21953868866
+      },
+      {
+        "feature": "target_activity_flag",
+        "gain": 20507.698475837708
+      },
+      {
+        "feature": "discount_rmean_7",
+        "gain": 17638.33654499054
+      },
+      {
+        "feature": "seasonal_lag_3w",
+        "gain": 14895.650817871094
+      }
+    ]
+  },
+  "selected_params": {
+    "objective": "tweedie",
+    "tweedie_variance_power": 1.2,
+    "metric": "l2",
+    "learning_rate": 0.05,
+    "num_leaves": 255,
+    "min_data_in_leaf": 400,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "lambda_l2": 1.0,
+    "max_bin": 255,
+    "num_boost_round": 1500,
+    "early_stopping_rounds": 50,
+    "num_threads": 0,
+    "verbose": -1
+  }
+}

@@ -1,0 +1,120 @@
+# FreshGuard AI shared configuration. Dataset configs (m5.yaml, freshretailnet.yaml,
+# synthetic.yaml) extend this file. Every path is relative to the project root.
+seed: 2025
+
+data:
+  source: freshretailnet          # freshretailnet | synthetic
+  hf_repo_id: Dingdong-Inc/FreshRetailNet-50K
+  raw_dir: data/raw/freshretailnet
+  processed_dir: data/processed
+  # Operating hours covered by the stock-status annotation (stock_hour6_22_cnt).
+  open_hour_start: 6
+  open_hour_end: 22               # exclusive
+
+splits:
+  # Targets on or before train_end are available for fitting.
+  train_end: "2024-06-04"
+  # Validation window: model selection, hyperparameter tuning and policy tuning.
+  valid_start: "2024-06-05"
+  valid_end: "2024-06-18"
+  # Test window: touched once after all selection is frozen. Two rolling-origin folds,
+  # each refit on all data before the fold starts (expanding window).
+  test_folds:
+    - ["2024-06-19", "2024-06-25"]
+    - ["2024-06-26", "2024-07-02"]   # official FreshRetailNet-50K eval week
+  min_history_days: 28
+  train_start_origin: "2024-04-24"
+
+demand:
+  # Latent demand reconstruction for stockout hours (see docs/methodology.md).
+  min_instock_share: 0.25         # below this the hourly-profile estimate is too unstable
+  profile_shrinkage: 20.0         # pseudo-days of the category profile mixed into each series profile
+  max_uplift_factor: 4.0          # reconstructed demand <= factor * observed sales (+ fallback)
+
+features:
+  lags: [1, 2, 3, 4, 5, 6, 7, 14, 21, 28]
+  rolling_windows: [3, 7, 14, 28]
+  # Known-at-ordering-time covariates of the target day. Discounts and activity flags are
+  # set by the retailer in advance; weather of the target day is NOT used (not known).
+  known_future: [discount, holiday_flag, activity_flag]
+  # High-cardinality ids are excluded as categoricals: in development runs they made
+  # LightGBM overfit and stop after <100 rounds (docs/methodology.md, "development runs").
+  exclude: [product_id, store_id]
+
+forecasting:
+  horizons: [1, 2, 3, 7]          # 1 is primary (daily ordering, 1-day lead time)
+  primary_horizon: 1
+  target: demand                  # reconstructed demand; "sales" for the censored ablation
+  lightgbm:
+    objective: tweedie
+    tweedie_variance_power: 1.2
+    metric: l2
+    learning_rate: 0.05
+    num_leaves: 127
+    min_data_in_leaf: 200
+    feature_fraction: 0.8
+    bagging_fraction: 0.8
+    bagging_freq: 1
+    lambda_l2: 1.0
+    max_bin: 255
+    num_boost_round: 1500
+    early_stopping_rounds: 50
+    num_threads: 0
+    verbose: -1
+  tuning:
+    enabled: true
+    # Small, controlled grid evaluated on the validation window only.
+    grid:
+      - {num_leaves: 63,  min_data_in_leaf: 100, objective: tweedie}
+      - {num_leaves: 127, min_data_in_leaf: 200, objective: tweedie}
+      - {num_leaves: 255, min_data_in_leaf: 400, objective: tweedie}
+      - {num_leaves: 127, min_data_in_leaf: 200, objective: regression}
+
+inventory:
+  lead_time_days: 1               # order at close of day t arrives before opening of t+L
+  review_period_days: 1
+  shelf_life_days: 3              # sellable days after arrival (incl. arrival day)
+  pack_size: 0.0                  # 0 = continuous quantities (FRN units are normalised)
+  capacity_multiplier: 5.0        # order-up-to level capped at k * max historical daily demand
+  stockout_tolerance: 0.05        # stockout event = lost demand > 0.05 units (half the 0.1 sales increment)
+  warmup_days: 7                  # simulated but excluded from KPIs (inventory state burn-in)
+  baseline_buffer: 0.20           # rule-of-thumb buffer of the traditional policies
+  service_levels: [0.50, 0.60, 0.70, 0.80, 0.85, 0.90, 0.95, 0.98]
+
+finance:
+  currency: EUR
+  # price_source "scenario": a hypothetical EUR shelf price per (normalised) unit is used.
+  # price_source "data": the dataset's observed shelf price, converted with usd_to_eur.
+  price_source: scenario
+  usd_to_eur: null
+  # Unit cost = price x (1 - gross_margin). Costs, disposal fees, holding rates and goodwill
+  # penalties are NOT in any public dataset: they are documented scenario assumptions.
+  scenarios:
+    conservative:
+      unit_price: 2.00
+      gross_margin: 0.25
+      disposal_cost: 0.05          # EUR per wasted unit (collection, handling)
+      holding_rate_annual: 0.15    # carrying cost as a share of unit cost per year
+      goodwill_share_of_margin: 0.0
+      order_line_cost: 0.00        # EUR per non-zero order line
+    base:
+      unit_price: 2.50
+      gross_margin: 0.30
+      disposal_cost: 0.10
+      holding_rate_annual: 0.25
+      goodwill_share_of_margin: 0.5
+      order_line_cost: 0.02
+    optimistic:
+      unit_price: 3.00
+      gross_margin: 0.35
+      disposal_cost: 0.15
+      holding_rate_annual: 0.35
+      goodwill_share_of_margin: 1.0
+      order_line_cost: 0.02
+  bootstrap_samples: 500
+
+paths:
+  figures: reports/figures
+  metrics: reports/metrics
+  models: models
+  artifacts: data/processed/artifacts

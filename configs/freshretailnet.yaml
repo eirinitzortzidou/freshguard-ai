@@ -1,0 +1,13 @@
+# FreshRetailNet-50K (Dingdong-Inc, CC BY 4.0): preferred dataset; hourly stockout flags.
+# Blocked in the build environment (Hugging Face not on the network allowlist); kept fully
+# runnable: `make all CONFIG=configs/freshretailnet.yaml` once the Parquet files are present.
+extends: base.yaml
+data:
+  source: freshretailnet
+  raw_dir: data/raw/freshretailnet
+  processed_dir: data/processed/freshretailnet
+paths:
+  metrics: reports/metrics/freshretailnet
+  figures: reports/figures/freshretailnet
+  models: models/freshretailnet
+  artifacts: data/processed/freshretailnet/artifacts
