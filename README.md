@@ -249,7 +249,7 @@ Python 3.11+, CPU only. The full run takes about 35 minutes on 4 cores / 16 GB R
 (the forecast stage takes about 16 minutes).
 
 ```bash
-git clone <repo-url> freshguard-ai && cd freshguard-ai
+git clone https://github.com/eirinitzortzidou/freshguard-ai && cd freshguard-ai
 make setup                       # .venv + editable install with dev tools
 # Data: automatic download (needs huggingface.co) or manual copy, see docs/data_selection.md
 make all                         # data -> eda -> forecast -> evaluate -> simulate -> report
