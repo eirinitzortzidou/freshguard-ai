@@ -1,0 +1,3 @@
+# Used by hosted Streamlit deployments (Streamlit Community Cloud installs this file).
+# Same exact versions as the verified pipeline run; see docs/DEMO_DEPLOYMENT.md.
+-r requirements/lock.txt

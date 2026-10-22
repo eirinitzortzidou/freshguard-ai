@@ -48,7 +48,9 @@ with st.form("whatif"):
     goodwill = c3.slider("Lost-sales penalty (share of margin, non-cash)", 0.0, 2.0,
                          float(base_econ["goodwill_share_of_margin"]), 0.1)
     sl = c3.slider("Fixed target service level (optional comparison)", 0.50, 0.99, 0.90, 0.01)
-    n = st.select_slider("Sample size (store-SKUs)", [500, 1000, 2000, 5000], 2000)
+    sizes = [k for k in (500, 1000, 2000, 5000) if k < pa.n_series] + [pa.n_series]
+    sizes = sizes if pa.n_series <= 5000 else [500, 1000, 2000, 5000]
+    n = st.select_slider("Sample size (store-SKUs)", sizes, min(2000, sizes[-1]))
     go = st.form_submit_button("Run simulation", type="primary")
 
 if go:

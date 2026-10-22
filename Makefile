@@ -3,12 +3,16 @@ CONFIG ?= configs/freshretailnet.yaml
 PY ?= .venv/bin/python
 FG = $(PY) -m freshguard.cli
 
-.PHONY: help setup lint typecheck test smoke data eda forecast evaluate simulate report all dashboard clean-artifacts
+.PHONY: help setup setup-latest lint typecheck test smoke data eda forecast evaluate simulate report all nested reproduce check dashboard clean-artifacts
 
 help:
-	@echo "setup | lint | typecheck | test | smoke | data | eda | forecast | evaluate | simulate | all | dashboard"
+	@echo "setup | lint | typecheck | test | check | smoke | data | eda | forecast | evaluate | simulate | nested | all | reproduce | dashboard"
 
-setup:            ## create .venv and install the package with dev tools
+setup:            ## create .venv with the exact locked versions used for the reported results
+	python3 -m venv .venv && $(PY) -m pip install -U pip \
+	  && $(PY) -m pip install -r requirements/lock.txt && $(PY) -m pip install -e . --no-deps
+
+setup-latest:     ## create .venv with the newest versions allowed by pyproject.toml
 	python3 -m venv .venv && $(PY) -m pip install -U pip && $(PY) -m pip install -e ".[dev]"
 
 lint:
@@ -19,6 +23,8 @@ typecheck:
 
 test:             ## unit + integration tests (synthetic data only)
 	$(PY) -m pytest
+
+check: lint typecheck test   ## everything CI runs
 
 smoke:            ## minimal end-to-end pipeline on the synthetic fixture
 	$(FG) all --config configs/synthetic.yaml
@@ -36,7 +42,13 @@ simulate:
 report:
 	$(FG) report --config $(CONFIG)
 
-all:              ## full experiment: data -> eda -> forecast -> evaluate -> simulate -> report
+nested:           ## nested rolling-origin evaluation + calibration study (after forecast)
+	$(FG) nested --config $(CONFIG)
+
+reproduce:        ## independent clean rerun in runs/reproduce, compared with committed metrics
+	$(PY) scripts/reproduce.py --config $(CONFIG) --out runs/reproduce
+
+all:              ## full experiment: data -> eda -> forecast -> evaluate -> simulate -> nested -> report
 	$(FG) all --config $(CONFIG)
 
 dashboard:

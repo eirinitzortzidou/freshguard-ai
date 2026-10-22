@@ -185,9 +185,16 @@ def prepare_dataset(cfg: Config) -> pl.DataFrame:
     }
     panel.write_parquet(out / "panel.parquet", compression="zstd")
     write_quality_report(rep, cfg.metrics_dir / "data_quality.json",
-                         cfg.path("reports") / "data_quality.md")
+                         cfg.path("reports") / _quality_report_name(cfg))
     log.info(kv("prepare_dataset.done", source=source, rows=panel.height))
     return panel
+
+
+def _quality_report_name(cfg: Config) -> str:
+    """The primary dataset keeps ``data_quality.md``; other configs get a suffixed file so a
+    secondary run (M5, synthetic) never overwrites the primary report."""
+    name = cfg.get("config_name", "freshretailnet")
+    return "data_quality.md" if name == "freshretailnet" else f"data_quality_{name}.md"
 
 
 def load_prepared(cfg: Config) -> pl.DataFrame:

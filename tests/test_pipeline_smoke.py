@@ -28,6 +28,9 @@ def test_full_pipeline_runs_on_synthetic(tmp_path: Path):
     assert set(d) >= {"waste_reduction_pct", "stockout_reduction_pct", "net_benefit_eur"}
     assert fm["best_baseline_by_valid"]
     assert (cfg.figures_dir / "01_daily_trend.png").exists()
+    manifest = json.loads((cfg.metrics_dir / "run_manifest.json").read_text())
+    assert {"data", "forecast", "evaluate", "simulate"} <= set(manifest["stages"])
+    assert "simulation_results.json" in " ".join(manifest["outputs"])
     # Physical sanity of every policy's KPIs.
     for s in sim["base"]["policies"].values():
         assert 0 <= s["fill_rate"] <= 1 + 1e-9

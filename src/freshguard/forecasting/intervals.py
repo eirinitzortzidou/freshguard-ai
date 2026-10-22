@@ -3,7 +3,10 @@
 Residuals ``actual - forecast`` from the validation window are grouped into bins of the
 forecast value (low forecasts have small, right-skewed errors; high forecasts larger ones).
 The tau-quantile of demand is ``forecast + residual_quantile(tau | bin)``, clipped at zero.
-Bins are fitted on validation data only and applied unchanged to the test window.
+In the main backtest the bins are fitted on validation data only and applied unchanged to
+the test window. :class:`RollingQuantiles` chains several tables in time, so a table refitted
+on recent out-of-sample residuals can be applied from a given target day onwards (used by the
+nested evaluation and the calibration study).
 """
 
 from __future__ import annotations
@@ -77,3 +80,44 @@ class ResidualQuantiles:
         d = json.loads(path.read_text(encoding="utf-8"))
         return cls(n_bins=d["n_bins"], edges=np.array(d["edges"]), taus=np.array(d["taus"]),
                    table=np.array(d["table"]), sigma=np.array(d["sigma"]))
+
+
+@dataclass
+class RollingQuantiles:
+    """Time-indexed sequence of residual tables: ``tables[i]`` applies to target days
+    ``starts[i] .. starts[i + 1] - 1``. Each table must be fitted only on residuals of targets
+    that are known before ``starts[i]`` is forecast; that is the caller's responsibility and is
+    enforced in :mod:`freshguard.evaluation.nested`. Days before the first start use the first
+    table."""
+
+    starts: list[int] = field(default_factory=list)
+    tables: list[ResidualQuantiles] = field(default_factory=list)
+
+    def add(self, start: int, table: ResidualQuantiles) -> None:
+        if self.starts and start <= self.starts[-1]:
+            raise ValueError("segments must be added in increasing start order")
+        self.starts.append(start)
+        self.tables.append(table)
+
+    def segment(self, target_days: np.ndarray) -> np.ndarray:
+        if not self.starts:
+            raise ValueError("no calibration table fitted")
+        idx = np.searchsorted(np.asarray(self.starts), target_days, side="right") - 1
+        return np.maximum(idx, 0)
+
+    def _apply(self, pred: np.ndarray, target_days: np.ndarray, fn: str, level: float
+               ) -> np.ndarray:
+        """``pred`` is (S, D) with column j forecasting target day ``target_days[j]``."""
+        out = np.full(pred.shape, np.nan)
+        seg = self.segment(np.asarray(target_days))
+        for i in np.unique(seg):
+            cols = seg == i
+            out[:, cols] = getattr(self.tables[i], fn)(pred[:, cols], level)
+        return out
+
+    def quantile_at(self, pred: np.ndarray, target_days: np.ndarray, tau: float) -> np.ndarray:
+        return self._apply(pred, target_days, "quantile", tau)
+
+    def normal_quantile_at(self, pred: np.ndarray, target_days: np.ndarray,
+                           service_level: float) -> np.ndarray:
+        return self._apply(pred, target_days, "normal_quantile", service_level)

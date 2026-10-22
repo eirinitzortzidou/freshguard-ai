@@ -6,6 +6,7 @@ generated from these numbers so it cannot drift from the data.
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any
 
@@ -250,7 +251,7 @@ def _write_report(cfg: Config, st: dict[str, Any], figs: list[str]) -> None:
     lines = [f"# Exploratory Data Analysis ({cfg['config_name']})", "",
              "All numbers below are computed by `freshguard eda` "
              "(`src/freshguard/visualization/eda.py`); raw values are in "
-             f"`{Path(cfg.metrics_dir).relative_to(cfg.root)}/eda_stats.json`.", ""]
+             f"`{os.path.relpath(cfg.metrics_dir, cfg.root)}/eda_stats.json`.", ""]
     for f in figs:
         lines += [f"![{f}]({rel / f})", ""]
     lines += ["## Key statistics", "", "```json"]
