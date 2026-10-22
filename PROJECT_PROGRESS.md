@@ -2,7 +2,38 @@
 
 Living log so work can resume after an interruption. Newest state first.
 
-## Status (2026-10-20)
+## Current phase (2026-10-22): portfolio and research-grade enhancement — complete
+
+| Phase | State | Evidence |
+|---|---|---|
+| 0 Repository audit | done | `docs/ENHANCEMENT_AUDIT.md` |
+| 1 Reproducibility | done | `requirements/lock.txt`, `src/freshguard/provenance.py`, `src/freshguard/verify.py`, `scripts/reproduce.py`, `docs/REPRODUCIBILITY_REPORT.md` |
+| 2 Strict holdout evaluation | done (no untouched holdout exists; nested rolling-origin instead) | `src/freshguard/evaluation/nested.py`, `docs/EVALUATION_PROTOCOL.md`, `reports/metrics/freshretailnet/nested/` |
+| 3 Rolling quantile recalibration | done, negative result (existing method kept) | `docs/CALIBRATION_STUDY.md`, figures 16-18 |
+| 4 Dashboard | done (deployment prepared, not live) | `dashboard/`, `demo/`, `docs/DEMO_DEPLOYMENT.md`, `reports/figures/dashboard/` |
+| 5 README and presentation | done | `README.md`, `docs/REPOSITORY_METADATA.md` |
+| 6 Final QA | done | `docs/FINAL_PROJECT_REVIEW.md` |
+
+### Decisions (2026-10-22)
+- Published single-split metrics are **kept unchanged**; new results go to `reports/metrics/freshretailnet/nested/`.
+- No untouched holdout is possible (dataset ends 2024-07-02). Nested evaluation: weekly
+  walk-forward refits from 05-08 with the pre-specified default LightGBM parameters (not the
+  validation-selected grid point, to avoid look-ahead), 4 outer weeks 06-05 .. 07-02, 14-day
+  tuning windows. Primary calibration = the published in-sample table (pre-registered).
+- Rolling recalibration did not beat the published table on coverage, pinball loss or profit
+  → not adopted.
+- `reports/data_quality.md` is reserved for FreshRetailNet; other configs write
+  `data_quality_<config>.md` (the committed file had held the M5 report).
+- Dashboard demo bundle: uniform random 400-series sample, seed 2025, CC BY 4.0 attribution.
+
+### Test results
+54 tests pass; ruff and mypy clean (locked environment, Python 3.13).
+
+### Remaining issues / next steps
+- Deploy on Streamlit Community Cloud (needs the owner's account) and add the URL to README.
+- Calibration on stockout days (78% coverage at τ = 0.9) — censoring-aware calibration is future work.
+
+## Earlier status (2026-10-20)
 
 | Phase | State | Evidence |
 |---|---|---|
@@ -22,12 +53,14 @@ Living log so work can resume after an interruption. Newest state first.
 - Next-day WAPE: LightGBM 30.6% vs Croston-SBA 34.3% (validation-selected baseline), MA7 34.0%.
 - Base case vs tuned MA7 (+125% buffer): waste −56.5%, stockout events +12.4% (worse),
   fill rate 95.9% → 95.1%, net benefit +€13,373 (hypothetical, CI 11,806-14,681).
-- At equal availability: −49.2% waste, +€14.5k. LightGBM 95% policy: waste −15.6%, stockouts −37.7%.
+- At equal availability (oracle point on the test frontier): −49.2% waste, +€14.5k.
+  LightGBM 95% policy: waste −15.6%, stockouts −37.7%.
 - Negative results: observed-sales demand −€3.9k; noise σ = 0.5 −€1.0k; newsvendor fractile −€140.6k.
 
 ## Decisions
 - **Dataset**: FreshRetailNet-50K (CC BY 4.0), files uploaded by Eirini on 2026-10-20 (Hugging Face blocked
-  by the environment's network policy). sha256 train `6706832d…5a3d`, eval `1b118840…960e`.
+  by the environment's network policy). sha256 train `6706832d…5a3d`, eval `1b118840…960e`
+  (now verified automatically, `configs/freshretailnet.yaml`).
   M5 FOODS is implemented as a documented fallback and secondary benchmark (`configs/m5.yaml`).
 - **Splits** (FRN): train targets <= 2024-06-04; validation 06-05..06-18; test fold 1 06-19..06-25,
   fold 2 = official eval week 06-26..07-02. Expanding-window refits per fold.
@@ -45,13 +78,6 @@ Living log so work can resume after an interruption. Newest state first.
 - After the first test run, the baseline buffer had been tuned at the edge of its grid (1.0), so
   the grid was extended to 2.5 and everything rerun; the baseline then chose 1.25. The iso-service
   comparison was also added after that first run. All parameter choices are still made on
-  validation only, but the test window has been seen more than once.
+  validation only, but the test window has been seen more than once (see
+  `docs/EVALUATION_PROTOCOL.md`).
 - `holiday_flag` mostly marks weekends (82% of flagged days are Sat/Sun); the weekday index uses all days.
-
-## Blockers
-- huggingface.co not on the environment allowlist (worked around via manual upload).
-- No GitHub repo created yet: waiting for Eirini's explicit approval to publish.
-
-## Next steps
-- Publish to GitHub once approved.
-- Optional: rolling quantile recalibration to fix test under-coverage; category-specific parameters.
