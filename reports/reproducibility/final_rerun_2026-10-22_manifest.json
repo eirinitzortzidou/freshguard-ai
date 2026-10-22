@@ -1,0 +1,396 @@
+{
+  "stages": {
+    "data": {
+      "started_utc": "2026-10-22T20:06:18+00:00",
+      "finished_utc": "2026-10-22T20:06:47+00:00",
+      "seconds": 28.5,
+      "git": {
+        "commit": "190f69c10bed399fc0fb4d382bad7312a1f5f9c6",
+        "dirty": false
+      }
+    },
+    "eda": {
+      "started_utc": "2026-10-22T20:06:47+00:00",
+      "finished_utc": "2026-10-22T20:06:51+00:00",
+      "seconds": 4.1,
+      "git": {
+        "commit": "190f69c10bed399fc0fb4d382bad7312a1f5f9c6",
+        "dirty": false
+      }
+    },
+    "forecast": {
+      "started_utc": "2026-10-22T20:06:51+00:00",
+      "finished_utc": "2026-10-22T20:17:01+00:00",
+      "seconds": 609.8,
+      "git": {
+        "commit": "190f69c10bed399fc0fb4d382bad7312a1f5f9c6",
+        "dirty": true
+      }
+    },
+    "evaluate": {
+      "started_utc": "2026-10-22T20:17:01+00:00",
+      "finished_utc": "2026-10-22T20:17:10+00:00",
+      "seconds": 9.7,
+      "git": {
+        "commit": "190f69c10bed399fc0fb4d382bad7312a1f5f9c6",
+        "dirty": true
+      }
+    },
+    "simulate": {
+      "started_utc": "2026-10-22T20:17:10+00:00",
+      "finished_utc": "2026-10-22T20:20:58+00:00",
+      "seconds": 227.1,
+      "git": {
+        "commit": "190f69c10bed399fc0fb4d382bad7312a1f5f9c6",
+        "dirty": true
+      }
+    },
+    "nested": {
+      "started_utc": "2026-10-22T20:20:58+00:00",
+      "finished_utc": "2026-10-22T20:35:12+00:00",
+      "seconds": 854.0,
+      "git": {
+        "commit": "190f69c10bed399fc0fb4d382bad7312a1f5f9c6",
+        "dirty": true
+      }
+    },
+    "report": {
+      "started_utc": "2026-10-22T20:35:12+00:00",
+      "finished_utc": "2026-10-22T20:35:13+00:00",
+      "seconds": 1.3,
+      "git": {
+        "commit": "190f69c10bed399fc0fb4d382bad7312a1f5f9c6",
+        "dirty": true
+      }
+    }
+  },
+  "config_name": "freshretailnet",
+  "seed": 2025,
+  "dataset": {
+    "source": "freshretailnet",
+    "hf_repo_id": "Dingdong-Inc/FreshRetailNet-50K",
+    "files": {
+      "eval.parquet": {
+        "sha256": "1b118840664280c6b88bffc84c80ee1f54c05d911e354b7599e5da10995e960e",
+        "bytes": 8440124
+      },
+      "train.parquet": {
+        "sha256": "6706832db892bbae4969c19d87e07975d2543d2ba7d7d4756360654785de5a3d",
+        "bytes": 106436287
+      }
+    },
+    "expected_sha256": {
+      "train": "6706832db892bbae4969c19d87e07975d2543d2ba7d7d4756360654785de5a3d",
+      "eval": "1b118840664280c6b88bffc84c80ee1f54c05d911e354b7599e5da10995e960e"
+    }
+  },
+  "packages": {
+    "freshguard": "0.1.0",
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "polars": "2.0.0",
+    "pyarrow": "26.0.0",
+    "lightgbm": "4.7.0",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2",
+    "plotly": "7.1.0",
+    "streamlit": "1.66.1",
+    "pyyaml": "6.0.3"
+  },
+  "environment": {
+    "python": "3.13.16",
+    "implementation": "CPython",
+    "platform": "Linux-6.18.44-fc-v140-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu_count": 4
+  },
+  "config_snapshot": {
+    "seed": 2025,
+    "data": {
+      "source": "freshretailnet",
+      "hf_repo_id": "Dingdong-Inc/FreshRetailNet-50K",
+      "raw_dir": "data/raw/freshretailnet",
+      "processed_dir": "data/processed/freshretailnet",
+      "open_hour_start": 6,
+      "open_hour_end": 22,
+      "sha256": {
+        "train": "6706832db892bbae4969c19d87e07975d2543d2ba7d7d4756360654785de5a3d",
+        "eval": "1b118840664280c6b88bffc84c80ee1f54c05d911e354b7599e5da10995e960e"
+      }
+    },
+    "splits": {
+      "train_end": "2024-06-04",
+      "valid_start": "2024-06-05",
+      "valid_end": "2024-06-18",
+      "test_folds": [
+        [
+          "2024-06-19",
+          "2024-06-25"
+        ],
+        [
+          "2024-06-26",
+          "2024-07-02"
+        ]
+      ],
+      "min_history_days": 28,
+      "train_start_origin": "2024-04-24"
+    },
+    "demand": {
+      "min_instock_share": 0.25,
+      "profile_shrinkage": 20.0,
+      "max_uplift_factor": 4.0
+    },
+    "features": {
+      "lags": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        14,
+        21,
+        28
+      ],
+      "rolling_windows": [
+        3,
+        7,
+        14,
+        28
+      ],
+      "known_future": [
+        "discount",
+        "holiday_flag",
+        "activity_flag"
+      ],
+      "exclude": [
+        "product_id",
+        "store_id"
+      ]
+    },
+    "forecasting": {
+      "horizons": [
+        1,
+        2,
+        3,
+        7
+      ],
+      "primary_horizon": 1,
+      "target": "demand",
+      "lightgbm": {
+        "objective": "tweedie",
+        "tweedie_variance_power": 1.2,
+        "metric": "l2",
+        "learning_rate": 0.05,
+        "num_leaves": 127,
+        "min_data_in_leaf": 200,
+        "feature_fraction": 0.8,
+        "bagging_fraction": 0.8,
+        "bagging_freq": 1,
+        "lambda_l2": 1.0,
+        "max_bin": 255,
+        "num_boost_round": 1500,
+        "early_stopping_rounds": 50,
+        "num_threads": 0,
+        "verbose": -1
+      },
+      "tuning": {
+        "enabled": true,
+        "grid": [
+          {
+            "num_leaves": 63,
+            "min_data_in_leaf": 100,
+            "objective": "tweedie"
+          },
+          {
+            "num_leaves": 127,
+            "min_data_in_leaf": 200,
+            "objective": "tweedie"
+          },
+          {
+            "num_leaves": 255,
+            "min_data_in_leaf": 400,
+            "objective": "tweedie"
+          },
+          {
+            "num_leaves": 127,
+            "min_data_in_leaf": 200,
+            "objective": "regression"
+          }
+        ]
+      }
+    },
+    "inventory": {
+      "lead_time_days": 1,
+      "review_period_days": 1,
+      "shelf_life_days": 3,
+      "pack_size": 0.0,
+      "capacity_multiplier": 5.0,
+      "stockout_tolerance": 0.05,
+      "warmup_days": 7,
+      "baseline_buffer": 0.2,
+      "service_levels": [
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.85,
+        0.9,
+        0.95,
+        0.98
+      ]
+    },
+    "finance": {
+      "currency": "EUR",
+      "price_source": "scenario",
+      "usd_to_eur": null,
+      "scenarios": {
+        "conservative": {
+          "unit_price": 2.0,
+          "gross_margin": 0.25,
+          "disposal_cost": 0.05,
+          "holding_rate_annual": 0.15,
+          "goodwill_share_of_margin": 0.0,
+          "order_line_cost": 0.0
+        },
+        "base": {
+          "unit_price": 2.5,
+          "gross_margin": 0.3,
+          "disposal_cost": 0.1,
+          "holding_rate_annual": 0.25,
+          "goodwill_share_of_margin": 0.5,
+          "order_line_cost": 0.02
+        },
+        "optimistic": {
+          "unit_price": 3.0,
+          "gross_margin": 0.35,
+          "disposal_cost": 0.15,
+          "holding_rate_annual": 0.35,
+          "goodwill_share_of_margin": 1.0,
+          "order_line_cost": 0.02
+        }
+      },
+      "bootstrap_samples": 500
+    },
+    "nested": {
+      "enabled": true,
+      "horizon": 1,
+      "first_week": "2024-05-08",
+      "folds": [
+        "2024-06-05",
+        "2024-06-12",
+        "2024-06-19",
+        "2024-06-26"
+      ],
+      "fold_days": 7,
+      "tune_days": 14,
+      "calib_days": 14,
+      "min_calib_days": 7,
+      "es_days": 7,
+      "primary_calibration": "insample"
+    },
+    "paths": {
+      "figures": "reports/figures/freshretailnet",
+      "metrics": "reports/metrics/freshretailnet",
+      "models": "models/freshretailnet",
+      "artifacts": "data/processed/freshretailnet/artifacts"
+    },
+    "config_name": "freshretailnet"
+  },
+  "outputs": {
+    "reports/metrics/freshretailnet/data_quality.json": {
+      "sha256": "215f4b14c7c926a03ef421a5c7dfd30e4ca7b1bc0f5c0f412e2bd3c5fe12d6e6",
+      "bytes": 1761
+    },
+    "reports/metrics/freshretailnet/eda_category_summary.csv": {
+      "sha256": "2243be8773581938c6ae6a68554c18881c9df7317fb76b72d2c4c33a1c0708e2",
+      "bytes": 2021
+    },
+    "reports/metrics/freshretailnet/eda_stats.json": {
+      "sha256": "f89fbd6903bab05b195a927cf30c3bd10fc27860d93680e2bb1dd64a77ef365d",
+      "bytes": 2062
+    },
+    "reports/metrics/freshretailnet/forecast_by_city_id.csv": {
+      "sha256": "f6d2975232e77bf89a43c76cfadc73accb86e553978c367efbaacb124e0d1110",
+      "bytes": 5629
+    },
+    "reports/metrics/freshretailnet/forecast_by_demand_class.csv": {
+      "sha256": "bc50c67b68f42696a1dbe99daae45dd407131600d4270b51635db113b4ac61e7",
+      "bytes": 1348
+    },
+    "reports/metrics/freshretailnet/forecast_by_first_category_id.csv": {
+      "sha256": "50465320ea4ccf53add92d1e8ec50a0e725a6e835fc34d0c88334b11394d7f07",
+      "bytes": 9926
+    },
+    "reports/metrics/freshretailnet/forecast_by_store_id.csv": {
+      "sha256": "6faa40a0c5c98930b6e73be569cea2936070ebf0f986a692c1652c913916e32c",
+      "bytes": 280501
+    },
+    "reports/metrics/freshretailnet/forecast_by_volume_class.csv": {
+      "sha256": "869fc83df15cec704015ab1fe2b17941ffe20d43620892bc54815eaea54ad442",
+      "bytes": 1079
+    },
+    "reports/metrics/freshretailnet/forecast_metrics.json": {
+      "sha256": "d0960fd43804638d070ba332557b121d743566693bb1d23bcb89534ee89bf66b",
+      "bytes": 47027
+    },
+    "reports/metrics/freshretailnet/forecast_overall.csv": {
+      "sha256": "58492ff7ba82f30680f30420501b7f74f6b4f9e8941747d1eaa8a65e3d462584",
+      "bytes": 8342
+    },
+    "reports/metrics/freshretailnet/forecast_uncensored_sales.csv": {
+      "sha256": "2c03c80bec30d94fdcc496f2a1d8c027504fe0e13bfe763eb79edaa168ed4b57",
+      "bytes": 8245
+    },
+    "reports/metrics/freshretailnet/impact_by_city_id.csv": {
+      "sha256": "a501d51abbe9cc1084bc0baa2740cf2696fc47b2cd788365516e50f0da39ae2e",
+      "bytes": 5451
+    },
+    "reports/metrics/freshretailnet/impact_by_first_category_id.csv": {
+      "sha256": "7dbf1fe5855f2dc1d789220d47b00d9de8398b7653e67f02f34215acdcacea89",
+      "bytes": 9400
+    },
+    "reports/metrics/freshretailnet/impact_by_store_id.csv": {
+      "sha256": "9ef63104c2b4e969c9d976e6e7e9e732a446f680737dec2ce3c072b689cd7850",
+      "bytes": 255562
+    },
+    "reports/metrics/freshretailnet/nested/calibration_coverage.csv": {
+      "sha256": "824305b2af9fc5b89ad0eed48bcb962fc9b52c9335c2ace03c09a17a8a98e66f",
+      "bytes": 25459
+    },
+    "reports/metrics/freshretailnet/nested/forecast_by_fold.csv": {
+      "sha256": "01427926a6c2a511e0cfe7fbfac5353e41d5068b754eac5cbb13dd3f12c7da03",
+      "bytes": 2584
+    },
+    "reports/metrics/freshretailnet/nested/horizon_calibration.csv": {
+      "sha256": "fa6eab3bfcf1d641919fadec850c5a1b30706c9554fa52c8c0c7bdef6faeaeed",
+      "bytes": 2641
+    },
+    "reports/metrics/freshretailnet/nested/nested_results.json": {
+      "sha256": "571660e601a7038eae6bb87152e949fcf90b3e2676e7c51ba6b3dafd26aad625",
+      "bytes": 58703
+    },
+    "reports/metrics/freshretailnet/nested/policy_by_fold.csv": {
+      "sha256": "dc81a51d21a0130e330021447ee3c73965b3fb4c5e6430efac46eb38085c47de",
+      "bytes": 6515
+    },
+    "reports/metrics/freshretailnet/sensitivity.csv": {
+      "sha256": "82e76dc64f23101c7a090bdbfd0200a3408bb49e04b077e5470a6fd69cf7dc3d",
+      "bytes": 6630
+    },
+    "reports/metrics/freshretailnet/simulation_results.json": {
+      "sha256": "885ea9413ee80b86e009909112e0d6940789d39bdcdc7edd3104a6010bc3a5be",
+      "bytes": 89084
+    },
+    "reports/metrics/freshretailnet/sku_wape_test.parquet": {
+      "sha256": "d50ed9c98061f6b2c9ba2b552ad9ce2b365c9147b48b9d71d9f42f9c29e0aa91",
+      "bytes": 1402131
+    },
+    "reports/metrics/freshretailnet/training_report.json": {
+      "sha256": "383681cd0d07f3ca02e0034f1f239f11072927918bf02bca6141306e86ba0848",
+      "bytes": 11828
+    }
+  },
+  "updated_utc": "2026-10-22T20:35:13+00:00"
+}

@@ -238,9 +238,11 @@ make reproduce      # isolated rerun in runs/reproduce/, then a value-by-value d
 `make reproduce` copies the configs, links the raw data, reruns every stage without touching
 committed results, and writes `runs/reproduce/comparison.md`. Each stage records git commit,
 dataset SHA-256, package versions, seed, resolved config, platform, timestamps and output
-hashes in `run_manifest.json`. A clean rerun on 2026-10-22 reproduced all published forecast
-and simulation metrics; 13 of about 47,000 values differ by at most 2 × 10⁻⁶ (relative) because
-of float32 summation order. Details: [`docs/REPRODUCIBILITY_REPORT.md`](docs/REPRODUCIBILITY_REPORT.md).
+hashes in `run_manifest.json`. A clean rerun of the final code on 2026-10-22 reproduced every
+headline and nested metric; 29 of 51,065 values, all in two float32 segment tables, differ by at
+most about 2.5 × 10⁻⁶ (relative). Details:
+[`docs/REPRODUCIBILITY_REPORT.md`](docs/REPRODUCIBILITY_REPORT.md); full QA in
+[`docs/FINAL_PROJECT_REVIEW.md`](docs/FINAL_PROJECT_REVIEW.md).
 
 ## 11. Repository structure
 
