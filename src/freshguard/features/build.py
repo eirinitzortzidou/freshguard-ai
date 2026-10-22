@@ -3,8 +3,8 @@
 A training/prediction row is a (series, origin day ``t``, horizon ``h``) triple whose target is
 demand on day ``t + h``. Every *history* feature only reads matrix columns ``<= t``; the only
 target-day inputs are calendar fields and retailer-controlled plans (discount, activity flag)
-that are known when the order is placed. ``tests/test_leakage.py`` enforces this by perturbing
-all data after the origin and asserting that features do not change.
+that are known when the order is placed. ``tests/test_features.py::test_no_future_leakage``
+enforces this by perturbing all data after the origin and asserting that features do not change.
 """
 
 from __future__ import annotations

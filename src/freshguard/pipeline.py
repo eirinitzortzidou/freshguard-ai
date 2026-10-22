@@ -3,6 +3,10 @@ independently (``freshguard <stage>``); ``freshguard all`` runs them in order.""
 
 from __future__ import annotations
 
+import datetime as dt
+from collections.abc import Callable
+from typing import Any
+
 import polars as pl
 
 from freshguard.artifacts import save_store, write_json
@@ -11,6 +15,7 @@ from freshguard.data.ingest import load_prepared, prepare_dataset
 from freshguard.features.panel import PanelArrays, to_arrays
 from freshguard.forecasting.backtest import run_backtest
 from freshguard.logging_utils import get_logger, kv, timed
+from freshguard.provenance import record_stage, verify_checksums
 from freshguard.splits import resolve_splits
 
 log = get_logger(__name__)
@@ -23,6 +28,11 @@ def load_arrays(cfg: Config) -> PanelArrays:
 def stage_data(cfg: Config) -> pl.DataFrame:
     cfg.ensure_dirs()
     with timed(log, "stage.data"):
+        if cfg["data"]["source"] == "freshretailnet":
+            from freshguard.data.ingest import download_freshretailnet
+
+            download_freshretailnet(cfg)
+            verify_checksums(cfg)
         return prepare_dataset(cfg)
 
 
@@ -49,6 +59,12 @@ def stage_simulate(cfg: Config) -> None:
     run_experiments(cfg, load_arrays(cfg))
 
 
+def stage_nested(cfg: Config) -> None:
+    from freshguard.evaluation.nested import run_nested
+
+    run_nested(cfg, load_arrays(cfg))
+
+
 def stage_eda(cfg: Config) -> None:
     from freshguard.visualization.eda import run_eda
 
@@ -62,10 +78,19 @@ def stage_report(cfg: Config) -> None:
 
 
 STAGES = {"data": stage_data, "eda": stage_eda, "forecast": stage_forecast,
-          "evaluate": stage_evaluate, "simulate": stage_simulate, "report": stage_report}
+          "evaluate": stage_evaluate, "simulate": stage_simulate, "nested": stage_nested,
+          "report": stage_report}
+
+
+def run_stage(name: str, cfg: Config) -> None:
+    """Run one stage and record its provenance in ``<metrics_dir>/run_manifest.json``."""
+    started = dt.datetime.now(dt.UTC)
+    fn: Callable[[Config], Any] = STAGES[name]
+    fn(cfg)
+    record_stage(cfg, name, started)
 
 
 def run_all(cfg: Config) -> None:
-    for name, fn in STAGES.items():
+    for name in STAGES:
         log.info(kv("pipeline.stage", name=name))
-        fn(cfg)
+        run_stage(name, cfg)

@@ -17,7 +17,8 @@ splits:
   # Validation window: model selection, hyperparameter tuning and policy tuning.
   valid_start: "2024-06-05"
   valid_end: "2024-06-18"
-  # Test window: touched once after all selection is frozen. Two rolling-origin folds,
+  # Test window: evaluated after selection is frozen (inspected more than once during
+  # development, see docs/EVALUATION_PROTOCOL.md). Two rolling-origin folds,
   # each refit on all data before the fold starts (expanding window).
   test_folds:
     - ["2024-06-19", "2024-06-25"]
@@ -112,6 +113,22 @@ finance:
       goodwill_share_of_margin: 1.0
       order_line_cost: 0.02
   bootstrap_samples: 500
+
+nested:
+  # Nested rolling-origin evaluation + calibration study (docs/EVALUATION_PROTOCOL.md).
+  # Weekly walk-forward refits from first_week; each outer fold is a 7-day week whose policy
+  # parameters are tuned on the tune_days before it. Uses forecasting.lightgbm defaults (not
+  # the validation-selected grid point) so no fold depends on later data.
+  enabled: true
+  horizon: 1
+  first_week: "2024-05-08"
+  folds: ["2024-06-05", "2024-06-12", "2024-06-19", "2024-06-26"]
+  fold_days: 7
+  tune_days: 14
+  calib_days: 14                  # out-of-sample residual days per calibration table
+  min_calib_days: 7
+  es_days: 7                      # early-stopping window inside each week's training data
+  primary_calibration: insample   # the published method; others are challengers
 
 paths:
   figures: reports/figures

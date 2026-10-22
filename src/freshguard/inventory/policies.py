@@ -10,12 +10,13 @@ reconstructed demand and an empirical demand distribution.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 
 import numpy as np
 
 from freshguard.forecasting.baselines import _trailing_mean
-from freshguard.forecasting.intervals import ResidualQuantiles
+from freshguard.forecasting.intervals import ResidualQuantiles, RollingQuantiles
 
 
 @dataclass(frozen=True)
@@ -37,13 +38,14 @@ class PolicyInputs:
     """Everything a policy may look at, indexed by panel day (columns) and series (rows).
 
     ``forecasts[h][:, t]`` is the LightGBM point forecast of day ``t + h`` made at close of
-    day ``t``. ``residuals[h]`` turns it into quantiles.
+    day ``t``. ``residuals[h]`` turns it into quantiles: one static table, or a
+    :class:`RollingQuantiles` sequence selected by target day.
     """
 
     sales: np.ndarray
     demand_hist: np.ndarray
     forecasts: dict[int, np.ndarray]
-    residuals: dict[int, ResidualQuantiles]
+    residuals: Mapping[int, ResidualQuantiles | RollingQuantiles]
 
 
 def critical_fractile(unit_price: float, unit_cost: float, disposal_cost: float,
@@ -96,6 +98,13 @@ def build_targets(spec: PolicySpec, inp: PolicyInputs, days: np.ndarray, L: int
     rq = inp.residuals[L]
     if spec.kind == "point":
         targets = fc
+    elif isinstance(rq, RollingQuantiles):
+        if spec.kind == "quantile":
+            targets = rq.quantile_at(fc, days + L, spec.param)
+        elif spec.kind == "normal":
+            targets = rq.normal_quantile_at(fc, days + L, spec.param)
+        else:
+            raise ValueError(spec.kind)
     elif spec.kind == "quantile":
         targets = rq.quantile(fc, spec.param)
     elif spec.kind == "normal":

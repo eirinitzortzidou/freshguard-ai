@@ -98,3 +98,13 @@ class GBMForecaster:
                 "best_iteration": self.best_iteration,
                 "categories": {k: [int(x) for x in v] for k, v in self.categories.items()}}
         path.with_suffix(".json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
+    @classmethod
+    def load(cls, path: Path) -> GBMForecaster:
+        """Restore a model written by :meth:`save` (booster + feature/category metadata)."""
+        meta = json.loads(path.with_suffix(".json").read_text(encoding="utf-8"))
+        m = cls(meta["params"], int(meta["seed"]), features=list(meta["features"]),
+                booster=lgb.Booster(model_file=str(path)),
+                best_iteration=int(meta["best_iteration"]),
+                categories={k: list(v) for k, v in meta["categories"].items()})
+        return m

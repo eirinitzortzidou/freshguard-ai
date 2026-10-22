@@ -26,6 +26,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5", "mypy>=1.10", "pandas-stubs", "types-PyYAML"]
+screenshots = ["playwright>=1.40"]   # scripts/capture_dashboard.py only
 
 [project.scripts]
 freshguard = "freshguard.cli:main"
@@ -58,5 +59,6 @@ files = ["src/freshguard"]
 # Polars types Series.sum()/mean()/quantile() as a broad scalar union (incl. date, str,
 # Decimal), which makes every float(...) of a numeric aggregate an arg-type error.
 module = ["freshguard.data.ingest", "freshguard.visualization.eda",
-          "freshguard.evaluation.forecast_eval", "freshguard.inventory.experiment"]
+          "freshguard.evaluation.forecast_eval", "freshguard.inventory.experiment",
+          "freshguard.evaluation.nested"]
 disable_error_code = ["arg-type", "operator"]

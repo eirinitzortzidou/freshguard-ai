@@ -6,12 +6,13 @@ import plotly.graph_objects as go
 import polars as pl
 import streamlit as st
 
-from data import MissingArtifactError, forecast_metrics, forecast_overall, simulation
+from data import MissingArtifactError, forecast_metrics, forecast_overall, nested, simulation
 from ui import BLUE, ORANGE, eur, header, hypothetical_note, pct, plot_layout
 
 header("Executive overview",
-       "FreshGuard (LightGBM + cost-optimised order-up-to) vs. a traditional 7-day-average "
-       "policy, both tuned on validation and evaluated on the untouched test window.")
+       "FreshGuard (LightGBM demand forecasts + cost-optimised order-up-to levels) vs. a "
+       "traditional 7-day-average ordering rule with a tuned safety buffer. Offline simulation "
+       "on FreshRetailNet-50K; euro values are hypothetical.")
 try:
     sim = simulation()
     fm = forecast_metrics()
@@ -26,6 +27,43 @@ d = base["vs_baseline"][ai]
 ci = base["bootstrap_store_cluster"]
 pol = base["policies"]
 
+try:
+    nres = nested()
+except MissingArtifactError:
+    nres = None
+if nres:
+    st.subheader("Four-week nested evaluation")
+    st.caption("2024-06-05 to 07-02, 1.4 M store-SKU-days. Each week's forecasts, quantile "
+               "tables and policy parameters use only earlier days. Primary evidence for "
+               "generalisation; no untouched holdout exists for this dataset.")
+    npool = nres["policies"]["pooled"][f"{ai}__{nres['plan']['primary']}"]
+    nv, nci = npool["vs_baseline"], npool["bootstrap_store_cluster"]
+    nfc = nres["forecast"]["pooled"]
+    weeks = [r for r in nres["policies"]["by_fold"] if r["policy"] == f"{ai}__insample"]
+    c = st.columns(4)
+    c[0].metric("Forecast WAPE (next day)", pct(100 * nfc["lightgbm_wape"]),
+                delta=f"{100 * (nfc['lightgbm_wape'] - nfc['selected_baseline_wape']):+.1f} pp "
+                      "vs selected baseline", delta_color="inverse")
+    c[1].metric("Net benefit, 28 days", eur(nv["net_benefit_eur"]),
+                help=f"95% store-cluster CI {eur(nci['net_benefit_eur']['ci_low'])} to "
+                     f"{eur(nci['net_benefit_eur']['ci_high'])}; positive in "
+                     f"{sum(w['vs_baseline_net_benefit_eur'] > 0 for w in weeks)} of "
+                     f"{len(weeks)} weeks")
+    c[2].metric("Stockout events", pct(-nv["stockout_reduction_pct"]),
+                help="Change vs the tuned baseline (negative = fewer stockouts)")
+    c[3].metric("Waste (expired units)", pct(-nv["waste_reduction_pct"]),
+                help="Change vs the tuned baseline; waste rose in "
+                     f"{sum(w['vs_baseline_waste_reduction_pct'] < 0 for w in weeks)} of "
+                     f"{len(weeks)} weeks")
+    st.markdown(
+        "Robust across weeks: the forecast-accuracy gain and a positive simulated net benefit. "
+        "Not robust: how the benefit splits between less waste and fewer stockouts, which "
+        "depends on the tuned operating points (compare with the single split below).")
+
+st.subheader("Original 14-day test window (single split)")
+st.caption("Policies tuned on validation days 06-09 to 06-18 and evaluated on 06-19 to 07-02. "
+           "This window was inspected more than once during development, so it is not an "
+           "untouched holdout (docs/EVALUATION_PROTOCOL.md).")
 c = st.columns(4)
 c[0].metric("Waste reduction", pct(d["waste_reduction_pct"]),
             help="(baseline expired units - FreshGuard expired units) / baseline")
@@ -67,10 +105,12 @@ if d["stockout_reduction_pct"] < 0:
         icon="⚖️")
 if iso:
     st.markdown(
-        f"**At equal availability** ({100 * iso['matched_availability']:.1f}%), the LightGBM "
-        f"frontier wastes **{iso['waste_reduction_pct']:.1f}% fewer units** than the baseline "
-        f"and earns **{eur(iso['profit_change_eur'])}** more (interpolated on the test grid; "
-        "descriptive, not a selected policy).")
+        f"At equal availability ({100 * iso['matched_availability']:.1f}%), the LightGBM "
+        f"frontier wastes {iso['waste_reduction_pct']:.1f}% fewer units than the baseline "
+        f"and earns {eur(iso['profit_change_eur'])} more. This is an *oracle* comparison: the "
+        "operating point is read off the test-window frontier, so no policy could have "
+        "selected it in advance.")
+
 
 st.subheader("All policies on the test window")
 rows = []

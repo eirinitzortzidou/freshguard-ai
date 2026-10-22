@@ -6,7 +6,7 @@ import argparse
 
 from freshguard.config import load_config
 from freshguard.logging_utils import setup_logging
-from freshguard.pipeline import STAGES, run_all
+from freshguard.pipeline import STAGES, run_all, run_stage
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -20,7 +20,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.stage == "all":
         run_all(cfg)
     else:
-        STAGES[args.stage](cfg)
+        run_stage(args.stage, cfg)
 
 
 if __name__ == "__main__":
