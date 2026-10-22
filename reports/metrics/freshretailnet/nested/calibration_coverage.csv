@@ -1,0 +1,358 @@
+method,group_type,group,n,metric,tau,value
+insample,all,all,1400000,coverage,0.1,0.09768
+insample,all,all,1400000,coverage,0.25,0.24024785714285715
+insample,all,all,1400000,coverage,0.5,0.4815521428571429
+insample,all,all,1400000,coverage,0.75,0.72965
+insample,all,all,1400000,coverage,0.8,0.7806235714285714
+insample,all,all,1400000,coverage,0.9,0.8859421428571429
+insample,all,all,1400000,coverage,0.95,0.941055
+insample,all,all,1400000,mean_pinball,,0.16350355103940797
+insample,fold,2024-06-05,350000,coverage,0.1,0.09763714285714285
+insample,fold,2024-06-05,350000,coverage,0.25,0.23169714285714285
+insample,fold,2024-06-05,350000,coverage,0.5,0.46262285714285717
+insample,fold,2024-06-05,350000,coverage,0.75,0.7031971428571429
+insample,fold,2024-06-05,350000,coverage,0.8,0.7550142857142857
+insample,fold,2024-06-05,350000,coverage,0.9,0.8648485714285714
+insample,fold,2024-06-05,350000,coverage,0.95,0.92682
+insample,fold,2024-06-05,350000,mean_pinball,,0.16558037732989284
+insample,fold,2024-06-12,350000,coverage,0.1,0.0859
+insample,fold,2024-06-12,350000,coverage,0.25,0.22743142857142856
+insample,fold,2024-06-12,350000,coverage,0.5,0.4835114285714286
+insample,fold,2024-06-12,350000,coverage,0.75,0.7492171428571428
+insample,fold,2024-06-12,350000,coverage,0.8,0.8032342857142857
+insample,fold,2024-06-12,350000,coverage,0.9,0.9081142857142858
+insample,fold,2024-06-12,350000,coverage,0.95,0.9576742857142857
+insample,fold,2024-06-12,350000,mean_pinball,,0.1497446177759717
+insample,fold,2024-06-19,350000,coverage,0.1,0.09582571428571429
+insample,fold,2024-06-19,350000,coverage,0.25,0.23168857142857144
+insample,fold,2024-06-19,350000,coverage,0.5,0.4583714285714286
+insample,fold,2024-06-19,350000,coverage,0.75,0.7070228571428572
+insample,fold,2024-06-19,350000,coverage,0.8,0.7595971428571429
+insample,fold,2024-06-19,350000,coverage,0.9,0.8740914285714285
+insample,fold,2024-06-19,350000,coverage,0.95,0.9362514285714286
+insample,fold,2024-06-19,350000,mean_pinball,,0.16709525005268372
+insample,fold,2024-06-26,350000,coverage,0.1,0.11135714285714286
+insample,fold,2024-06-26,350000,coverage,0.25,0.2701742857142857
+insample,fold,2024-06-26,350000,coverage,0.5,0.5217028571428571
+insample,fold,2024-06-26,350000,coverage,0.75,0.7591628571428571
+insample,fold,2024-06-26,350000,coverage,0.8,0.8046485714285714
+insample,fold,2024-06-26,350000,coverage,0.9,0.8967142857142857
+insample,fold,2024-06-26,350000,coverage,0.95,0.9434742857142857
+insample,fold,2024-06-26,350000,mean_pinball,,0.1715939589990838
+insample,target_day_censored,censored (stockout hours),591815,coverage,0.1,0.03330939567263418
+insample,target_day_censored,censored (stockout hours),591815,coverage,0.25,0.10262835514476652
+insample,target_day_censored,censored (stockout hours),591815,coverage,0.5,0.27716262683439924
+insample,target_day_censored,censored (stockout hours),591815,coverage,0.75,0.5464714480031767
+insample,target_day_censored,censored (stockout hours),591815,coverage,0.8,0.6163344964220238
+insample,target_day_censored,censored (stockout hours),591815,coverage,0.9,0.780644289178206
+insample,target_day_censored,censored (stockout hours),591815,coverage,0.95,0.8797968959894562
+insample,target_day_censored,censored (stockout hours),591815,mean_pinball,,0.20871156127486207
+insample,target_day_censored,fully in stock,808185,coverage,0.1,0.14481709014643923
+insample,target_day_censored,fully in stock,808185,coverage,0.25,0.34102340429480876
+insample,target_day_censored,fully in stock,808185,coverage,0.5,0.6312218118376361
+insample,target_day_censored,fully in stock,808185,coverage,0.75,0.8637873754152824
+insample,target_day_censored,fully in stock,808185,coverage,0.8,0.900928624015541
+insample,target_day_censored,fully in stock,808185,coverage,0.9,0.9630493018306452
+insample,target_day_censored,fully in stock,808185,coverage,0.95,0.9859128788581822
+insample,target_day_censored,fully in stock,808185,mean_pinball,,0.13039878099604515
+insample,volume_class,high (top 20%),280000,coverage,0.1,0.09399642857142858
+insample,volume_class,high (top 20%),280000,coverage,0.25,0.22787857142857143
+insample,volume_class,high (top 20%),280000,coverage,0.5,0.4594
+insample,volume_class,high (top 20%),280000,coverage,0.75,0.7099214285714286
+insample,volume_class,high (top 20%),280000,coverage,0.8,0.7633285714285715
+insample,volume_class,high (top 20%),280000,coverage,0.9,0.8763821428571429
+insample,volume_class,high (top 20%),280000,coverage,0.95,0.9354642857142857
+insample,volume_class,high (top 20%),280000,mean_pinball,,0.3013017345696163
+insample,volume_class,low (bottom 30%),420000,coverage,0.1,0.10529761904761904
+insample,volume_class,low (bottom 30%),420000,coverage,0.25,0.25607142857142856
+insample,volume_class,low (bottom 30%),420000,coverage,0.5,0.50295
+insample,volume_class,low (bottom 30%),420000,coverage,0.75,0.7421309523809524
+insample,volume_class,low (bottom 30%),420000,coverage,0.8,0.7902190476190476
+insample,volume_class,low (bottom 30%),420000,coverage,0.9,0.8892190476190476
+insample,volume_class,low (bottom 30%),420000,coverage,0.95,0.941302380952381
+insample,volume_class,low (bottom 30%),420000,mean_pinball,,0.11136115113156016
+insample,volume_class,medium,700000,coverage,0.1,0.09458285714285715
+insample,volume_class,medium,700000,coverage,0.25,0.23570142857142856
+insample,volume_class,medium,700000,coverage,0.5,0.47757428571428573
+insample,volume_class,medium,700000,coverage,0.75,0.7300528571428572
+insample,volume_class,medium,700000,coverage,0.8,0.7817842857142857
+insample,volume_class,medium,700000,coverage,0.9,0.8878
+insample,volume_class,medium,700000,coverage,0.95,0.9431428571428572
+insample,volume_class,medium,700000,mean_pinball,,0.13966971757203347
+insample,demand_class,erratic,102928,coverage,0.1,0.184031556039173
+insample,demand_class,erratic,102928,coverage,0.25,0.3350400279807244
+insample,demand_class,erratic,102928,coverage,0.5,0.551278563656148
+insample,demand_class,erratic,102928,coverage,0.75,0.7521568475050521
+insample,demand_class,erratic,102928,coverage,0.8,0.7929717861029069
+insample,demand_class,erratic,102928,coverage,0.9,0.8807418778175035
+insample,demand_class,erratic,102928,coverage,0.95,0.9288143168039795
+insample,demand_class,erratic,102928,mean_pinball,,0.20583360573205747
+insample,demand_class,intermittent,39060,coverage,0.1,0.10007680491551459
+insample,demand_class,intermittent,39060,coverage,0.25,0.23174603174603176
+insample,demand_class,intermittent,39060,coverage,0.5,0.47836661546338966
+insample,demand_class,intermittent,39060,coverage,0.75,0.7492575524833589
+insample,demand_class,intermittent,39060,coverage,0.8,0.7986431131592422
+insample,demand_class,intermittent,39060,coverage,0.9,0.8983870967741936
+insample,demand_class,intermittent,39060,coverage,0.95,0.9501792114695341
+insample,demand_class,intermittent,39060,mean_pinball,,0.1569232949791682
+insample,demand_class,lumpy,18424,coverage,0.1,0.21623968736430743
+insample,demand_class,lumpy,18424,coverage,0.25,0.33027572731220145
+insample,demand_class,lumpy,18424,coverage,0.5,0.5206795484151108
+insample,demand_class,lumpy,18424,coverage,0.75,0.7373534520191055
+insample,demand_class,lumpy,18424,coverage,0.8,0.78419452887538
+insample,demand_class,lumpy,18424,coverage,0.9,0.8756513243595311
+insample,demand_class,lumpy,18424,coverage,0.95,0.9277572731220147
+insample,demand_class,lumpy,18424,mean_pinball,,0.1613275864087003
+insample,demand_class,smooth,1239588,coverage,0.1,0.08867220399035809
+insample,demand_class,smooth,1239588,coverage,0.25,0.23130669222354525
+insample,demand_class,smooth,1239588,coverage,0.5,0.4752813031426571
+insample,demand_class,smooth,1239588,coverage,0.75,0.7270488259002185
+insample,demand_class,smooth,1239588,coverage,0.8,0.7789773699003217
+insample,demand_class,smooth,1239588,coverage,0.9,0.886134747996915
+insample,demand_class,smooth,1239588,coverage,0.95,0.9419815293468475
+insample,demand_class,smooth,1239588,mean_pinball,,0.16022840389750614
+insample,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.1,0.14481709014643923
+insample,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.25,0.34102340429480876
+insample,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.5,0.6312218118376361
+insample,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.75,0.8637873754152824
+insample,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.8,0.900928624015541
+insample,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.9,0.9630493018306452
+insample,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.95,0.9859128788581822
+static,all,all,1400000,coverage,0.1,0.09842785714285714
+static,all,all,1400000,coverage,0.25,0.23434714285714286
+static,all,all,1400000,coverage,0.5,0.4606757142857143
+static,all,all,1400000,coverage,0.75,0.7008871428571428
+static,all,all,1400000,coverage,0.8,0.7537457142857142
+static,all,all,1400000,coverage,0.9,0.8673628571428571
+static,all,all,1400000,coverage,0.95,0.9315735714285714
+static,all,all,1400000,mean_pinball,,0.16469388130027673
+static,fold,2024-06-05,350000,coverage,0.1,0.11656857142857142
+static,fold,2024-06-05,350000,coverage,0.25,0.2644971428571429
+static,fold,2024-06-05,350000,coverage,0.5,0.4970457142857143
+static,fold,2024-06-05,350000,coverage,0.75,0.72792
+static,fold,2024-06-05,350000,coverage,0.8,0.7767314285714285
+static,fold,2024-06-05,350000,coverage,0.9,0.8788885714285715
+static,fold,2024-06-05,350000,coverage,0.95,0.9355342857142858
+static,fold,2024-06-05,350000,mean_pinball,,0.16503312310369325
+static,fold,2024-06-12,350000,coverage,0.1,0.09924857142857142
+static,fold,2024-06-12,350000,coverage,0.25,0.24118
+static,fold,2024-06-12,350000,coverage,0.5,0.47936
+static,fold,2024-06-12,350000,coverage,0.75,0.7242942857142857
+static,fold,2024-06-12,350000,coverage,0.8,0.7768628571428572
+static,fold,2024-06-12,350000,coverage,0.9,0.8862628571428571
+static,fold,2024-06-12,350000,coverage,0.95,0.9436657142857143
+static,fold,2024-06-12,350000,mean_pinball,,0.1502230481782771
+static,fold,2024-06-19,350000,coverage,0.1,0.08618
+static,fold,2024-06-19,350000,coverage,0.25,0.20901142857142857
+static,fold,2024-06-19,350000,coverage,0.5,0.42231714285714284
+static,fold,2024-06-19,350000,coverage,0.75,0.6687771428571428
+static,fold,2024-06-19,350000,coverage,0.8,0.7256542857142857
+static,fold,2024-06-19,350000,coverage,0.9,0.8522285714285714
+static,fold,2024-06-19,350000,coverage,0.95,0.9261685714285715
+static,fold,2024-06-19,350000,mean_pinball,,0.16929669443274498
+static,fold,2024-06-26,350000,coverage,0.1,0.09171428571428572
+static,fold,2024-06-26,350000,coverage,0.25,0.2227
+static,fold,2024-06-26,350000,coverage,0.5,0.44398
+static,fold,2024-06-26,350000,coverage,0.75,0.6825571428571429
+static,fold,2024-06-26,350000,coverage,0.8,0.7357342857142857
+static,fold,2024-06-26,350000,coverage,0.9,0.8520714285714286
+static,fold,2024-06-26,350000,coverage,0.95,0.9209257142857142
+static,fold,2024-06-26,350000,mean_pinball,,0.17422265948639157
+static,target_day_censored,censored (stockout hours),591815,coverage,0.1,0.03380448281980011
+static,target_day_censored,censored (stockout hours),591815,coverage,0.25,0.09863048418847106
+static,target_day_censored,censored (stockout hours),591815,coverage,0.5,0.25847266459957924
+static,target_day_censored,censored (stockout hours),591815,coverage,0.75,0.5120603566993064
+static,target_day_censored,censored (stockout hours),591815,coverage,0.8,0.5816446017758928
+static,target_day_censored,censored (stockout hours),591815,coverage,0.9,0.7511367572636719
+static,target_day_censored,censored (stockout hours),591815,coverage,0.95,0.8622001807997431
+static,target_day_censored,censored (stockout hours),591815,mean_pinball,,0.21388139793289726
+static,target_day_censored,fully in stock,808185,coverage,0.1,0.1457500448535917
+static,target_day_censored,fully in stock,808185,coverage,0.25,0.33372928228066595
+static,target_day_censored,fully in stock,808185,coverage,0.5,0.6087442850337484
+static,target_day_censored,fully in stock,808185,coverage,0.75,0.8391605882316548
+static,target_day_censored,fully in stock,808185,coverage,0.8,0.8797713394829154
+static,target_day_censored,fully in stock,808185,coverage,0.9,0.952472515575023
+static,target_day_censored,fully in stock,808185,coverage,0.95,0.9823740851413971
+static,target_day_censored,fully in stock,808185,mean_pinball,,0.1286750116653116
+static,volume_class,high (top 20%),280000,coverage,0.1,0.09753928571428572
+static,volume_class,high (top 20%),280000,coverage,0.25,0.219625
+static,volume_class,high (top 20%),280000,coverage,0.5,0.42675357142857145
+static,volume_class,high (top 20%),280000,coverage,0.75,0.666175
+static,volume_class,high (top 20%),280000,coverage,0.8,0.7230071428571428
+static,volume_class,high (top 20%),280000,coverage,0.9,0.8506892857142857
+static,volume_class,high (top 20%),280000,coverage,0.95,0.9266464285714285
+static,volume_class,high (top 20%),280000,mean_pinball,,0.30393676879036297
+static,volume_class,low (bottom 30%),420000,coverage,0.1,0.1065
+static,volume_class,low (bottom 30%),420000,coverage,0.25,0.2545595238095238
+static,volume_class,low (bottom 30%),420000,coverage,0.5,0.49337142857142857
+static,volume_class,low (bottom 30%),420000,coverage,0.75,0.725347619047619
+static,volume_class,low (bottom 30%),420000,coverage,0.8,0.774747619047619
+static,volume_class,low (bottom 30%),420000,coverage,0.9,0.8770428571428571
+static,volume_class,low (bottom 30%),420000,coverage,0.95,0.9341404761904762
+static,volume_class,low (bottom 30%),420000,mean_pinball,,0.11163982088087188
+static,volume_class,medium,700000,coverage,0.1,0.09394
+static,volume_class,medium,700000,coverage,0.25,0.22810857142857144
+static,volume_class,medium,700000,coverage,0.5,0.45462714285714284
+static,volume_class,medium,700000,coverage,0.75,0.7000957142857143
+static,volume_class,medium,700000,coverage,0.8,0.75344
+static,volume_class,medium,700000,coverage,0.9,0.8682242857142857
+static,volume_class,medium,700000,coverage,0.95,0.9320042857142857
+static,volume_class,medium,700000,mean_pinball,,0.1408291625558851
+static,demand_class,erratic,102928,coverage,0.1,0.18708223224001244
+static,demand_class,erratic,102928,coverage,0.25,0.33101779884968136
+static,demand_class,erratic,102928,coverage,0.5,0.5361417690035754
+static,demand_class,erratic,102928,coverage,0.75,0.7312295973884657
+static,demand_class,erratic,102928,coverage,0.8,0.7725108813928183
+static,demand_class,erratic,102928,coverage,0.9,0.8648958495258822
+static,demand_class,erratic,102928,coverage,0.95,0.9200994870200528
+static,demand_class,erratic,102928,mean_pinball,,0.2075790043796357
+static,demand_class,intermittent,39060,coverage,0.1,0.0978494623655914
+static,demand_class,intermittent,39060,coverage,0.25,0.22363031233998976
+static,demand_class,intermittent,39060,coverage,0.5,0.4503584229390681
+static,demand_class,intermittent,39060,coverage,0.75,0.7152585765488991
+static,demand_class,intermittent,39060,coverage,0.8,0.7670506912442396
+static,demand_class,intermittent,39060,coverage,0.9,0.877342549923195
+static,demand_class,intermittent,39060,coverage,0.95,0.9376856118791602
+static,demand_class,intermittent,39060,mean_pinball,,0.15779342385022255
+static,demand_class,lumpy,18424,coverage,0.1,0.21689101172383848
+static,demand_class,lumpy,18424,coverage,0.25,0.327181936604429
+static,demand_class,lumpy,18424,coverage,0.5,0.5065675206252714
+static,demand_class,lumpy,18424,coverage,0.75,0.7155883630047764
+static,demand_class,lumpy,18424,coverage,0.8,0.7613438992618324
+static,demand_class,lumpy,18424,coverage,0.9,0.8574142422926617
+static,demand_class,lumpy,18424,coverage,0.95,0.9164676508901433
+static,demand_class,lumpy,18424,mean_pinball,,0.1630096452695656
+static,demand_class,smooth,1239588,coverage,0.1,0.08932403346918492
+static,demand_class,smooth,1239588,coverage,0.25,0.22527807626404903
+static,demand_class,smooth,1239588,coverage,0.5,0.45405247549992417
+static,demand_class,smooth,1239588,coverage,0.75,0.6976963313617105
+static,demand_class,smooth,1239588,coverage,0.8,0.7516553887259315
+static,demand_class,smooth,1239588,coverage,0.9,0.8674011042378597
+static,demand_class,smooth,1239588,coverage,0.95,0.9325582370916788
+static,demand_class,smooth,1239588,mean_pinball,,0.16137542572012967
+static,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.1,0.1457500448535917
+static,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.25,0.33372928228066595
+static,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.5,0.6087442850337484
+static,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.75,0.8391605882316548
+static,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.8,0.8797713394829154
+static,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.9,0.952472515575023
+static,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.95,0.9823740851413971
+rolling,all,all,1400000,coverage,0.1,0.09557285714285714
+rolling,all,all,1400000,coverage,0.25,0.23450785714285713
+rolling,all,all,1400000,coverage,0.5,0.47182357142857145
+rolling,all,all,1400000,coverage,0.75,0.7212864285714286
+rolling,all,all,1400000,coverage,0.8,0.7732921428571429
+rolling,all,all,1400000,coverage,0.9,0.8821757142857143
+rolling,all,all,1400000,coverage,0.95,0.9396221428571429
+rolling,all,all,1400000,mean_pinball,,0.16397711721109273
+rolling,fold,2024-06-05,350000,coverage,0.1,0.11407428571428571
+rolling,fold,2024-06-05,350000,coverage,0.25,0.2621942857142857
+rolling,fold,2024-06-05,350000,coverage,0.5,0.5003514285714286
+rolling,fold,2024-06-05,350000,coverage,0.75,0.7335485714285714
+rolling,fold,2024-06-05,350000,coverage,0.8,0.7805885714285714
+rolling,fold,2024-06-05,350000,coverage,0.9,0.88048
+rolling,fold,2024-06-05,350000,coverage,0.95,0.9346085714285715
+rolling,fold,2024-06-05,350000,mean_pinball,,0.16533705436457283
+rolling,fold,2024-06-12,350000,coverage,0.1,0.08618
+rolling,fold,2024-06-12,350000,coverage,0.25,0.22010857142857143
+rolling,fold,2024-06-12,350000,coverage,0.5,0.46240857142857145
+rolling,fold,2024-06-12,350000,coverage,0.75,0.7225828571428572
+rolling,fold,2024-06-12,350000,coverage,0.8,0.7774171428571428
+rolling,fold,2024-06-12,350000,coverage,0.9,0.8905228571428572
+rolling,fold,2024-06-12,350000,coverage,0.95,0.94744
+rolling,fold,2024-06-12,350000,mean_pinball,,0.15134600162281098
+rolling,fold,2024-06-19,350000,coverage,0.1,0.08094
+rolling,fold,2024-06-19,350000,coverage,0.25,0.20723714285714287
+rolling,fold,2024-06-19,350000,coverage,0.5,0.43336857142857144
+rolling,fold,2024-06-19,350000,coverage,0.75,0.6948514285714286
+rolling,fold,2024-06-19,350000,coverage,0.8,0.7517885714285715
+rolling,fold,2024-06-19,350000,coverage,0.9,0.8740542857142857
+rolling,fold,2024-06-19,350000,coverage,0.95,0.9391714285714285
+rolling,fold,2024-06-19,350000,mean_pinball,,0.16756928593064885
+rolling,fold,2024-06-26,350000,coverage,0.1,0.10109714285714286
+rolling,fold,2024-06-26,350000,coverage,0.25,0.24849142857142856
+rolling,fold,2024-06-26,350000,coverage,0.5,0.49116571428571426
+rolling,fold,2024-06-26,350000,coverage,0.75,0.7341628571428571
+rolling,fold,2024-06-26,350000,coverage,0.8,0.7833742857142857
+rolling,fold,2024-06-26,350000,coverage,0.9,0.8836457142857143
+rolling,fold,2024-06-26,350000,coverage,0.95,0.9372685714285715
+rolling,fold,2024-06-26,350000,mean_pinball,,0.17165612692633825
+rolling,target_day_censored,censored (stockout hours),591815,coverage,0.1,0.03227021957875349
+rolling,target_day_censored,censored (stockout hours),591815,coverage,0.25,0.09865414022963256
+rolling,target_day_censored,censored (stockout hours),591815,coverage,0.5,0.2688762535589669
+rolling,target_day_censored,censored (stockout hours),591815,coverage,0.75,0.5370309978625077
+rolling,target_day_censored,censored (stockout hours),591815,coverage,0.8,0.6057636254572797
+rolling,target_day_censored,censored (stockout hours),591815,coverage,0.9,0.7738634539509813
+rolling,target_day_censored,censored (stockout hours),591815,coverage,0.95,0.8769801373740105
+rolling,target_day_censored,censored (stockout hours),591815,mean_pinball,,0.21066663481563191
+rolling,target_day_censored,fully in stock,808185,coverage,0.1,0.14192790017137166
+rolling,target_day_censored,fully in stock,808185,coverage,0.25,0.3339903611178134
+rolling,target_day_censored,fully in stock,808185,coverage,0.5,0.6204371523846643
+rolling,target_day_censored,fully in stock,808185,coverage,0.75,0.8562123771166256
+rolling,target_day_censored,fully in stock,808185,coverage,0.8,0.8959693634502002
+rolling,target_day_censored,fully in stock,808185,coverage,0.9,0.961490252850523
+rolling,target_day_censored,fully in stock,808185,coverage,0.95,0.9854934204421018
+rolling,target_day_censored,fully in stock,808185,mean_pinball,,0.12978747392257536
+rolling,volume_class,high (top 20%),280000,coverage,0.1,0.09129642857142857
+rolling,volume_class,high (top 20%),280000,coverage,0.25,0.22131071428571428
+rolling,volume_class,high (top 20%),280000,coverage,0.5,0.445825
+rolling,volume_class,high (top 20%),280000,coverage,0.75,0.6975392857142857
+rolling,volume_class,high (top 20%),280000,coverage,0.8,0.7518357142857143
+rolling,volume_class,high (top 20%),280000,coverage,0.9,0.87025
+rolling,volume_class,high (top 20%),280000,coverage,0.95,0.9336928571428571
+rolling,volume_class,high (top 20%),280000,mean_pinball,,0.3027335941058678
+rolling,volume_class,low (bottom 30%),420000,coverage,0.1,0.10325238095238096
+rolling,volume_class,low (bottom 30%),420000,coverage,0.25,0.25039761904761904
+rolling,volume_class,low (bottom 30%),420000,coverage,0.5,0.49401904761904764
+rolling,volume_class,low (bottom 30%),420000,coverage,0.75,0.7348238095238095
+rolling,volume_class,low (bottom 30%),420000,coverage,0.8,0.7843976190476191
+rolling,volume_class,low (bottom 30%),420000,coverage,0.9,0.8862690476190476
+rolling,volume_class,low (bottom 30%),420000,coverage,0.95,0.9398928571428572
+rolling,volume_class,low (bottom 30%),420000,mean_pinball,,0.11152088335550425
+rolling,volume_class,medium,700000,coverage,0.1,0.09267571428571429
+rolling,volume_class,medium,700000,coverage,0.25,0.23025285714285715
+rolling,volume_class,medium,700000,coverage,0.5,0.46890571428571426
+rolling,volume_class,medium,700000,coverage,0.75,0.7226628571428572
+rolling,volume_class,medium,700000,coverage,0.8,0.7752114285714286
+rolling,volume_class,medium,700000,coverage,0.9,0.88449
+rolling,volume_class,medium,700000,coverage,0.95,0.9418314285714285
+rolling,volume_class,medium,700000,mean_pinball,,0.13994826676653577
+rolling,demand_class,erratic,102928,coverage,0.1,0.17995103373231774
+rolling,demand_class,erratic,102928,coverage,0.25,0.326655526193067
+rolling,demand_class,erratic,102928,coverage,0.5,0.5409315249494793
+rolling,demand_class,erratic,102928,coverage,0.75,0.7451713819368879
+rolling,demand_class,erratic,102928,coverage,0.8,0.7868024249961137
+rolling,demand_class,erratic,102928,coverage,0.9,0.8769528213897093
+rolling,demand_class,erratic,102928,coverage,0.95,0.9271821078812373
+rolling,demand_class,erratic,102928,mean_pinball,,0.2048773253446114
+rolling,demand_class,intermittent,39060,coverage,0.1,0.0974910394265233
+rolling,demand_class,intermittent,39060,coverage,0.25,0.2259600614439324
+rolling,demand_class,intermittent,39060,coverage,0.5,0.4682027649769585
+rolling,demand_class,intermittent,39060,coverage,0.75,0.7395289298515105
+rolling,demand_class,intermittent,39060,coverage,0.8,0.7915770609318996
+rolling,demand_class,intermittent,39060,coverage,0.9,0.8936763952892985
+rolling,demand_class,intermittent,39060,coverage,0.95,0.9480798771121351
+rolling,demand_class,intermittent,39060,mean_pinball,,0.1575260156671614
+rolling,demand_class,lumpy,18424,coverage,0.1,0.215154146765089
+rolling,demand_class,lumpy,18424,coverage,0.25,0.32625922709509336
+rolling,demand_class,lumpy,18424,coverage,0.5,0.5144376899696048
+rolling,demand_class,lumpy,18424,coverage,0.75,0.732251411202779
+rolling,demand_class,lumpy,18424,coverage,0.8,0.7804494138080764
+rolling,demand_class,lumpy,18424,coverage,0.9,0.8728831958315241
+rolling,demand_class,lumpy,18424,coverage,0.95,0.9264003473729917
+rolling,demand_class,lumpy,18424,mean_pinball,,0.16163267168493264
+rolling,demand_class,smooth,1239588,coverage,0.1,0.08672881634865778
+rolling,demand_class,smooth,1239588,coverage,0.25,0.22576210805525707
+rolling,demand_class,smooth,1239588,coverage,0.5,0.4655659783734596
+rolling,demand_class,smooth,1239588,coverage,0.75,0.7185653620396454
+rolling,demand_class,smooth,1239588,coverage,0.8,0.7714877846510292
+rolling,demand_class,smooth,1239588,coverage,0.9,0.8823851150543568
+rolling,demand_class,smooth,1239588,coverage,0.95,0.9405850976292123
+rolling,demand_class,smooth,1239588,mean_pinball,,0.16081913041863677
+rolling,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.1,0.14192790017137166
+rolling,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.25,0.3339903611178134
+rolling,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.5,0.6204371523846643
+rolling,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.75,0.8562123771166256
+rolling,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.8,0.8959693634502002
+rolling,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.9,0.961490252850523
+rolling,observed_sales_uncensored,"sales, fully in stock",808185,coverage,0.95,0.9854934204421018

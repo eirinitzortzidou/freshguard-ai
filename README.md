@@ -1,344 +1,302 @@
 # FreshGuard AI
 
-**Reducing fresh food waste through demand forecasting and inventory optimisation.**
+**Demand forecasting and perishable-inventory optimisation for fresh food, evaluated in an
+offline simulation on 50,000 real store-SKU series.**
 
-FreshGuard forecasts next-day demand for 50,000 fresh-food store-SKUs. It corrects for
-demand hidden by stockouts and turns the forecasts into cost-aware replenishment orders. It
-then measures, in a chronological simulation, how much waste, how many stockouts and how
-much money that changes compared with traditional ordering rules.
+FreshGuard forecasts next-day demand for fresh products, corrects for demand hidden by
+stockouts, turns forecasts into cost-aware replenishment orders, and measures in a
+chronological simulation what that changes for waste, stockouts and (hypothetical) profit
+compared with a tuned traditional ordering rule.
 
-> **Status:** complete offline study on FreshRetailNet-50K. All results below come from an
-> out-of-sample backtest and simulation (`make all`). Euro amounts are **hypothetical**: the
-> dataset has no prices or costs, so they rest on documented scenario assumptions. They are not
-> observed retailer savings, and the system has not been deployed.
+> **Scope.** An offline research study on the public FreshRetailNet-50K dataset. Inventory,
+> waste and profit are **simulated**; euro amounts rest on documented **hypothetical** cost
+> assumptions (the dataset has no prices). Nothing has been deployed. Demand on stockout days
+> is **reconstructed**, not observed.
 
 ![Dashboard overview](reports/figures/dashboard/overview.png)
 
----
+## Verified results
 
-## 1. Business problem
+FreshRetailNet-50K, next-day ordering, 1-day lead time, 3-day shelf life, base cost scenario.
+Primary evidence is the **nested rolling-origin evaluation**: four consecutive weeks, each
+forecast, calibrated and tuned with earlier data only. No untouched holdout exists for this
+dataset (every day was seen during development), see
+[`docs/EVALUATION_PROTOCOL.md`](docs/EVALUATION_PROTOCOL.md).
 
-Every evening a fresh-food manager decides how much bread, fruit or meat to order for tomorrow.
-Order too much and the surplus expires; order too little and customers find empty shelves.
-Daily, product-level demand is volatile, shelf lives are a few days, and sales data hides
-part of demand: when a shelf is empty, sales are zero even if customers wanted to buy.
+| Result (vs a 7-day-average rule with a tuned safety buffer) | Nested, 4 weeks (06-05 .. 07-02) | Original single split (14 test days, inspected more than once) |
+|---|---|---|
+| Next-day WAPE, LightGBM vs best baseline | **31.3% vs 34.8%** (lower in 4 of 4 weeks) | 30.6% vs 34.3% |
+| Simulated net benefit (hypothetical €) | **+€36.4k** over 28 days (95% CI 34.5k to 38.3k), positive in 4 of 4 weeks | +€13.4k over 14 days (CI 11.8k to 14.7k) |
+| Stockout events | **−35.7%** | +12.4% (worse) |
+| Expired units (waste) | **−15.3%** (but +18% in one of the 4 weeks) | −56.5% |
 
-**Primary question:** how much waste, how many stockouts and how much money could a supermarket
-save with machine-learning-driven replenishment instead of traditional ordering rules?
+**How to read this.** The forecast-accuracy gain and a positive simulated net benefit hold in
+every week and under both protocols. How the benefit splits between *less waste* and *fewer
+stockouts* does **not**: it depends on where the profit-tuned operating points land in each
+tuning window. CIs come from store-cluster bootstraps and describe uncertainty across stores,
+not across future weeks. Source files: `reports/metrics/freshretailnet/` and
+`reports/metrics/freshretailnet/nested/`.
 
-## 2. Why food waste matters
+## 1. Problem
 
-UNEP's *Food Waste Index Report 2024* estimates about 1.05 billion tonnes of food waste in 2022,
-part of it at retail. For a grocer, fresh categories combine high spoilage risk with the
-largest availability expectations. Waste is lost purchase cost plus disposal cost, and
-stockouts are lost margin plus lost customer goodwill.
+Every evening a fresh-food manager decides how much to order for tomorrow. Order too much and
+the surplus expires; order too little and shelves run empty. Demand is volatile at
+store-product level, shelf lives are a few days, and sales data hides part of demand: when a
+shelf is empty, recorded sales understate what customers wanted.
 
-## 3. Objectives
+**Question:** how much waste, how many stockouts and how much money could a retailer change
+with forecast-driven replenishment instead of a traditional ordering rule, and how sure can we
+be?
 
-1. Forecast store-SKU demand without information leakage and beat strong simple baselines.
-2. Treat stockout-censored sales explicitly, so that empty shelves don't read as low demand.
-3. Convert forecasts into order quantities that respect lead time, shelf life and costs.
-4. Measure waste, stockouts, service and profit against traditional policies under identical
-   conditions, with uncertainty intervals and sensitivity analysis.
-5. Package the work as a reproducible, tested, documented project with a decision-support dashboard.
+## 2. Key technical capabilities
 
-## 4. Dataset and limitations
+* **Censored-demand reconstruction** from hourly stockout flags (intraday-profile estimator,
+  fitted on training days only).
+* **Global LightGBM** forecaster (direct models for 1, 2, 3, 7 days ahead, 56 leakage-tested
+  features) against **9 baselines** including Croston-SBA and TSB on identical rows.
+* **Empirical predictive quantiles** (binned residual tables) and a profit-tuned
+  **order-up-to policy**.
+* **Vectorised FEFO lost-sales simulator** for 50,000 series with lead time, shelf life,
+  capacity and asserted physical invariants; exact profit decomposition.
+* **Nested rolling-origin evaluation** with weekly walk-forward refits, per-week policy tuning
+  and a **calibration study** of rolling recalibration (negative result, documented).
+* **Reproducibility tooling**: locked dependencies, dataset SHA-256 checks, per-stage run
+  manifests, and `make reproduce`, which reruns everything in isolation and diffs it against
+  the committed metrics.
+* **Streamlit dashboard** (8 pages) that runs without the dataset using a versioned demo bundle.
 
-**FreshRetailNet-50K** (Dingdong-Inc, [Hugging Face](https://huggingface.co/datasets/Dingdong-Inc/FreshRetailNet-50K),
-[paper](https://arxiv.org/abs/2505.16319), CC BY 4.0): 50,000 store-product series of a
-fresh e-grocery retailer (898 stores, 865 products, 18 cities). It has 90 training days plus
-the official 7-day evaluation week (2024-03-28 to 2024-07-02), with hourly sales and **hourly
-stock status**, discounts, activity and holiday flags, and weather.
-Full comparison with Favorita and M5: [`docs/data_selection.md`](docs/data_selection.md).
-
-| Real (in the data) | Assumed (scenario) |
-|---|---|
-| Daily and hourly sales, hourly stockout flags, discounts, activity and holiday flags, weather, anonymised ids | Prices and costs (EUR), shelf life (3 days), lead time (1 day), capacity, disposal, holding and goodwill costs |
-
-Limitations: categories are anonymised ids, so **nothing is labelled fruit, vegetables, meat
-or bakery**. Units are normalised by the publisher. The history is short (97 days). There is
-no inventory, delivery or waste data, so these are simulated. Demand on stockout days is
-estimated, not observed.
-
-## 5. System architecture
+## 3. Architecture
 
 ```mermaid
 flowchart LR
-    A[(FreshRetailNet-50K<br/>Parquet)] --> B[Ingest and schema<br/>validation]
+    A[(FreshRetailNet-50K<br/>Parquet, SHA-256 checked)] --> B[Ingest + schema<br/>contract]
     B --> C[Quality report]
     B --> D[Censored-demand<br/>reconstruction]
     D --> E[Leakage-safe<br/>features]
     E --> F[LightGBM per horizon<br/>+ 9 baselines]
-    F --> G[Rolling-origin<br/>evaluation]
-    F --> H[Empirical demand<br/>quantiles]
-    H --> I[Replenishment<br/>policies]
+    F --> G[Forecast evaluation]
+    F --> H[Residual quantile<br/>tables]
+    H --> I[Order-up-to<br/>policies]
     I --> J[FEFO lost-sales<br/>simulator]
-    J --> K[KPIs and EUR<br/>accounting]
-    K --> L[Scenarios, sensitivity,<br/>bootstrap CIs]
-    G --> M[Streamlit<br/>dashboard]
-    L --> M
+    J --> K[KPIs + EUR ledger<br/>scenarios, sensitivity]
+    E --> N[Nested walk-forward<br/>refits + calibration study]
+    N --> J
+    G & K & N --> R[(reports/metrics<br/>+ run_manifest.json)]
+    R --> M[Streamlit dashboard]
 ```
+
+Data flow of one simulated day (identical for every policy):
 
 ```mermaid
 sequenceDiagram
-    participant D as Day t (close)
+    participant D as Close of day t
     participant P as Policy
     participant S as Store stock
-    D->>P: history up to t, planned promos for t+1
+    D->>P: history up to t, planned promotions for t+1
     P->>P: forecast demand of t+L, take quantile τ
     P->>S: order = target − projected usable stock
-    Note over S: arrives at opening of t+L, fresh (3-day life)
+    Note over S: arrives at opening of t+L with full shelf life
     S->>S: sell FEFO, lose unmet demand, expire at 0 days left
 ```
 
-## 6. Modelling approach
+Pipeline stages (`freshguard <stage>` or `make <stage>`): `data → eda → forecast → evaluate →
+simulate → nested → report`. Each stage reads the previous stage's artifacts and appends its
+provenance to `run_manifest.json`.
 
-* **Demand reconstruction.** An intraday demand profile per series (from fully in-stock
-  training days) estimates the share of daily demand that fell into out-of-stock hours.
-  Censored days are scaled up, with a fallback for near-full-day stockouts. This adds +26.1% to
-  total units. Details: [`docs/methodology.md`](docs/methodology.md#2-censored-demand-reconstruction).
-* **Forecasting.** A global LightGBM model (tweedie loss), one direct model per horizon (1, 2,
-  3, 7 days), with 56 features: lags, rolling statistics, same-weekday history, intermittency,
-  stockout history, promotions, calendar, and hierarchy ids. Only target-day features known
-  when ordering are used (planned discount and activity, calendar). Leakage is unit-tested.
-* **Baselines.** Naive, seasonal naive, MA7, MA28, 4-week weekday mean, MA28 × weekday index,
-  SES, Croston-SBA and TSB, all evaluated on identical rows.
-* **Not used, deliberately.** Deep learning (97 days of history, CPU budget, LightGBM
-  dominance in M5), CatBoost/XGBoost (no expected gain), and reinforcement learning (no
-  justification over tuned base-stock policies).
+## 4. Dataset and limitations
 
-## 7. Inventory optimisation
+**FreshRetailNet-50K** (Dingdong-Inc, [Hugging Face](https://huggingface.co/datasets/Dingdong-Inc/FreshRetailNet-50K),
+[paper](https://arxiv.org/abs/2505.16319), CC BY 4.0): 50,000 store-product series of a fresh
+e-grocery retailer (898 stores, 865 products, 18 cities), 97 days (2024-03-28 to 2024-07-02)
+with hourly sales and **hourly stock status**, discounts, activity and holiday flags, weather.
+Dataset choice: [`docs/data_selection.md`](docs/data_selection.md).
 
-Each policy sets an **order-up-to level** S for the delivery day, and the order is
-`max(0, S − projected usable stock)`. The projection removes units that will expire before
-the delivery is used. Traditional policies use observed sales, like a store without
-stockout-aware analytics. FreshGuard sets S at the τ-quantile of forecast demand, using
-binned validation residuals (a split-conformal style approach). τ is tuned **by simulated
-profit on the validation window**, because the single-period newsvendor fractile
-Cu/(Cu+Co) = 0.38 ignores that unsold units carry over for up to 3 days. The single-period
-version is also evaluated, and it fails badly.
+| Observed in the data | Reconstructed | Assumed (scenario parameters) |
+|---|---|---|
+| Daily and hourly sales, hourly stockout flags, discounts, activity and holiday flags, weather, anonymised ids | Demand on the 44% of store-SKU-days with stockout hours (+26% total units) | Prices and costs (EUR), shelf life 3 days, lead time 1 day, capacity, disposal, holding and goodwill costs |
 
-## 8. Evaluation methodology
+Categories are anonymised ids, so nothing is labelled fruit, meat or bakery. Units are
+normalised by the publisher. The history is short and covers one season.
 
-* Chronological splits: train until 06-04, **validation** 06-05 to 06-18 (all tuning and
-  selection), **test** 06-19 to 07-02 in two expanding-window refit folds. The second fold is
-  the official FreshRetailNet eval week. The test window was used once, after selection was frozen.
-* Forecasts: MAE, RMSE, WAPE (zero-safe) and bias, overall and by volume class, demand class,
-  store, category and SKU. The FreshRetailNet protocol (observed sales on fully in-stock days)
-  is reported as a check. Uncertainty comes from a store-cluster paired bootstrap.
-* Simulation: all policies share the same demand, prices, costs, lead time, shelf life, capacity
-  and initial stock. Seven warm-up days are excluded. A **stockout event** is a store-SKU-day
-  with lost demand above 0.05 units. Profit differences decompose exactly into their drivers,
-  so nothing is double-counted.
+## 5. Forecasting methodology
 
-## 9. Results
+* **Target**: reconstructed demand of day t + h, forecast at the close of day t; h = 1 is
+  primary (1-day lead time).
+* **Model**: global LightGBM, tweedie loss, one direct model per horizon. Features: lags,
+  rolling statistics, same-weekday history, intermittency, stockout history, promotions,
+  calendar, hierarchy ids. Target-day inputs are limited to calendar fields and planned
+  discount/activity flags; a future-perturbation test enforces this.
+* **Baselines**: naive, seasonal naive, MA7, MA28, 4-week weekday mean, MA28 × weekday index,
+  SES, Croston-SBA, TSB.
+* **Not used, deliberately**: deep learning (97 days, CPU budget), other GBM libraries (no
+  expected gain), reinforcement learning (no justification over tuned base-stock policies).
 
-### Forecast accuracy (test window, next day, 700,000 store-SKU-days)
+Details: [`docs/methodology.md`](docs/methodology.md).
 
-| Method | WAPE | MAE | Bias |
+## 6. Inventory optimisation methodology
+
+Each policy sets an **order-up-to level** S for the delivery day; the order is
+`max(0, S − projected usable stock)`, where the projection removes units that will expire
+first. Traditional policies use observed sales, like a store without stockout-aware analytics.
+FreshGuard sets S at the τ-quantile of forecast demand and tunes τ **by simulated profit** on
+the days before evaluation. The single-period newsvendor fractile (τ = 0.38 here) ignores that
+unsold units carry over for up to 3 days; it is evaluated and loses €140.6k against the
+baseline.
+
+## 7. Evaluation and validation
+
+* **Original protocol** (kept unchanged): train ≤ 06-04, validation 06-05..06-18 for all
+  selection, test 06-19..07-02 in two expanding-window refits. Audit finding: the test window
+  was inspected more than once (the baseline's buffer grid was widened and an equal-availability
+  comparison was added after the first run), so it is reported as *inspected*, not untouched.
+* **Nested rolling-origin evaluation** (new): weekly walk-forward refits with pre-specified
+  hyperparameters; for each of four outer weeks, baseline selection, quantile tables, the
+  baseline's buffer and FreshGuard's τ use only earlier days.
+* **Leakage and contamination audit** of every selection step:
+  [`docs/EVALUATION_PROTOCOL.md`](docs/EVALUATION_PROTOCOL.md).
+* **Calibration study**: the 0.9 quantile covers 88.6% of outcomes; coverage is 96% on
+  fully-in-stock days but 78% on stockout days, where the target is reconstructed. Rolling
+  recalibration did not improve coverage or profit, so the published method was kept:
+  [`docs/CALIBRATION_STUDY.md`](docs/CALIBRATION_STUDY.md).
+
+### Detailed single-split results (original protocol, 14 test days)
+
+| KPI | Traditional (tuned, +125% buffer) | FreshGuard (τ = 0.9) | Change |
 |---|---|---|---|
-| **LightGBM** | **30.6%** | **0.445** | −6.6% |
-| SES (α = 0.1) | 33.9% | 0.493 | −5.9% |
-| Moving average 7d | 34.0% | 0.493 | −2.3% |
-| Croston-SBA (best baseline on validation) | 34.3% | 0.497 | −10.5% |
-| Seasonal naive | 41.5% | 0.602 | −4.8% |
-
-LightGBM lowers WAPE by **3.6 pp** against the validation-selected baseline (95% CI 3.4-3.9 pp).
-It is better on **14 of 14** test days, in **97%** of stores and for **69%** of SKUs. On uncensored
-days against observed sales it scores 30.1% vs 32.8%. Error grows with horizon (h = 1/2/3/7:
-30.6 / 31.5 / 32.1 / 34.0%). All models under-forecast the late-June demand surge.
+| Expired units (waste) | 17,928 | 7,798 | −56.5% (CI −53.4 to −58.6%) |
+| Stockout events | 68,904 | 77,438 | +12.4% (worse) |
+| Unit fill rate | 95.9% | 95.1% | −0.8 pp |
+| Gross profit (hypothetical €) | 682,735 | 696,108 | +€13,373 (+2.0%) |
 
 ![Forecast accuracy](reports/figures/freshretailnet/10_forecast_accuracy.png)
 
-### Business impact (base case, 14 test days, 50,000 store-SKUs)
+* A fixed LightGBM policy with 95% normal safety stock reduced waste by 15.6% *and* stockouts
+  by 37.7% (+€16.2k).
+* A 7-day average of *reconstructed* demand without ML gains +€11.5k: a large part of the value
+  comes from correcting censored demand.
+* Interpolating the LightGBM frontier at the baseline's test availability gives −49% waste and
+  +€14.5k; this is an **oracle** operating point read off the test window, not an achievable
+  result.
 
-The baseline is the traditional 7-day sales average with its safety buffer **tuned on
-validation** (+125%). This is a deliberately strong baseline: the common "+20%" rule loses
-€89k against it.
-
-| KPI | Traditional (tuned) | FreshGuard | Change | 95% CI (store bootstrap) |
-|---|---|---|---|---|
-| Expired units (waste) | 17,928 | 7,798 | **−56.5%** | −53.4 to −58.6% |
-| Waste rate (expired / received) | 1.79% | 0.80% | −1.0 pp | |
-| Stockout events | 68,904 | 77,438 | **+12.4% (worse)** | +10.3 to +14.7% |
-| Availability (days without stockout) | 90.2% | 88.9% | −1.2 pp | |
-| Unit fill rate | 95.9% | 95.1% | −0.8 pp | −0.6 to −0.9 pp |
-| Lost demand (units) | 41,880 | 49,677 | +18.6% | |
-| Average stock (units per SKU) | 1.20 | 0.67 | −44.4% | |
-| Gross profit (hypothetical €) | 682,735 | 696,108 | **+€13,373 (+2.0%)** | +€11,806 to +€14,681 |
-
-**Reading the trade-off honestly.** The profit-optimal setting chosen on validation (τ = 0.9)
-halves waste and inventory but causes 12% more stockout events on the test window. Demand rose
-faster than forecast in late June: forecast bias was −6.6%, and the τ = 0.9 quantile covered
-only 87.5% of outcomes. FreshGuard therefore does **not** dominate the baseline at the selected
-point. The **whole frontier does**, though: at the baseline's exact availability (90.2%), the
-LightGBM policy wastes **49% fewer units** and earns about **€14.5k more**. A pre-defined fixed
-policy, LightGBM with 95% normal safety stock, reduced waste by 15.6% *and* stockouts by 37.7%
-(+€16.2k). Selecting τ on 10 validation days is the weakest link.
-
-![Pareto frontier](reports/figures/freshretailnet/12_pareto_frontier.png)
-
-Where the net benefit comes from (exact decomposition, base case): avoided waste at cost
-+€17.7k, avoided disposal +€1.0k, lower holding cost +€0.4k, ordering +€0.03k, and lost margin
-on extra stockouts −€5.8k.
-
-![Waterfall](reports/figures/freshretailnet/13_profit_waterfall.png)
-
-**Ablation.** A 7-day average of *reconstructed* demand (no ML) already gains +€11.5k
-(waste −21.7%, stockouts −7.4%). A large part of the value comes from correcting
-censored demand. LightGBM's sharper forecasts are what allow the large waste cut.
-
-### Economic scenarios (policies re-tuned per scenario)
-
-| Scenario | Price / margin / disposal / goodwill | Waste | Stockouts | Net benefit (95% CI) |
-|---|---|---|---|---|
-| Conservative | €2.00 / 25% / €0.05 / 0 | −27.0% | −19.1% | +€8,776 (7,817-9,708) |
-| Base | €2.50 / 30% / €0.10 / 0.5 × margin | −56.5% | +12.4% | +€13,373 (11,806-14,681) |
-| Optimistic | €3.00 / 35% / €0.15 / 1.0 × margin | −56.5% | +12.4% | +€13,816 (11,651-15,501) |
-
-In the conservative scenario, re-tuning picks a lower baseline buffer (+100%), and FreshGuard
-then improves **both** waste and stockouts.
-
-### Sensitivity (base economics, re-tuned each time)
-
-| Setting | Waste | Stockouts | Net benefit |
+| Sensitivity (base economics, re-tuned each time) | Waste | Stockouts | Net benefit |
 |---|---|---|---|
-| Shelf life 1 / 2 / 3 / 4 / 5 / 7 days | −48 / −25 / −57 / −20 / −3 / −33% | +20 / −7 / +12 / −24 / −37 / +4% | +€49.8k / +€19.3k / +€13.4k / +€6.0k / +€4.0k / +€0.4k |
+| Shelf life 1 / 3 / 7 days | −48 / −57 / −33% | +20 / +12 / +4% | +€49.8k / +€13.4k / +€0.4k |
 | Lead time 1 / 2 / 3 days | −57 / −50 / −46% | +12 / +6 / +2% | +€13.4k / +€18.0k / +€21.5k |
 | Demand = observed sales (no lost demand at all) | −29% | +65% | **−€3.9k** |
-| Demand = 1.5 × estimated lost demand | −41% | −7% | +€13.9k |
-| Unforecastable noise σ = 0.25 / 0.5 | −26 / −43% | −12 / +6% | +€5.1k / **−€1.0k** |
+| Unforecastable noise σ = 0.5 | −43% | +6% | **−€1.0k** |
 
-The value is largest for short shelf lives and long lead times, where forecasting matters
-most. It disappears if stockout-censored demand is assumed not to exist, or if demand is far
-noisier than the history suggests. Both are reported as negative results.
+The value disappears if stockout-censored demand is assumed not to exist or if demand is much
+noisier than its history suggests. Full tables: `reports/metrics/freshretailnet/sensitivity.csv`.
 
-![Sensitivity](reports/figures/freshretailnet/14_sensitivity.png)
+Secondary benchmark on M5 FOODS (no stock data): LightGBM did not beat the best baseline
+(WAPE 53.4% vs 53.2%), see [`docs/m5_benchmark.md`](docs/m5_benchmark.md).
 
-Across 898 stores, 90% see a positive net benefit and 98% see less waste; stockouts fall in
-38% of stores. By category id, 94% of 32 ids gain
-([`impact_by_first_category_id.csv`](reports/metrics/freshretailnet/impact_by_first_category_id.csv)).
+## 8. Interactive demo
 
-### Scale and annualisation
-
-+€13.4k over 14 days and 898 stores is about **€1.06 per store per day** on this assortment
-(56 SKUs per store), or 2.0% of simulated gross profit. A linear extrapolation to a year
-(~€349k for these 50,000 store-SKUs) is shown only for orientation. It assumes the same
-assumptions and demand regime for a whole year, which this 97-day dataset cannot support.
-
-### Secondary benchmark: M5 FOODS
-
-The same pipeline was run on 13,760 Walmart FOODS store-items, which have no stock data (stockouts
-inferred). There, LightGBM did **not** beat the best baseline on test WAPE (53.4% vs 53.2% for TSB).
-In simulation the policy still cut waste by 11.2% and stockout events by 27.7% against a tuned MA7
-rule (+€41.8k over 28 days, assumed costs). Details: [`docs/m5_benchmark.md`](docs/m5_benchmark.md).
-
-## 10. Dashboard
-
-`make dashboard` opens a six-page Streamlit app. All values are read from pipeline artifacts,
+`make dashboard` starts an eight-page Streamlit app: executive overview, demand forecasting,
+inventory optimisation, financial impact, model evaluation, robustness and calibration,
+what-if simulator, methodology and limitations. Every number is read from pipeline outputs,
 and the what-if page reruns the real tuning and simulation code.
+
+Without the dataset (fresh clone or hosted), the app runs in **demo mode**: aggregate pages use
+the committed metrics for all 50,000 series, and per-SKU pages use a versioned random sample
+of 400 series (`demo/freshretailnet/`). Deployment on Streamlit Community Cloud is prepared but
+not yet live: [`docs/DEMO_DEPLOYMENT.md`](docs/DEMO_DEPLOYMENT.md).
 
 | | |
 |---|---|
-| ![Forecasting](reports/figures/dashboard/forecasting.png) | ![Inventory](reports/figures/dashboard/inventory.png) |
-| ![Financial](reports/figures/dashboard/financial.png) | ![What-if](reports/figures/dashboard/whatif.png) |
+| ![Robustness](reports/figures/dashboard/robustness.png) | ![Inventory](reports/figures/dashboard/inventory.png) |
+| ![Forecasting](reports/figures/dashboard/forecasting.png) | ![What-if](reports/figures/dashboard/whatif.png) |
 
-## 11. Installation and reproduction
+## 9. Installation and quick start
 
-Python 3.11+, CPU only. The full run takes about 35 minutes on 4 cores / 16 GB RAM
-(the forecast stage takes about 16 minutes).
+Python 3.11+ (results produced on 3.13), CPU only, about 16 GB RAM for the full dataset.
 
 ```bash
 git clone https://github.com/eirinitzortzidou/freshguard-ai && cd freshguard-ai
-make setup                       # .venv + editable install with dev tools
-# Data: automatic download (needs huggingface.co) or manual copy, see docs/data_selection.md
-make all                         # data -> eda -> forecast -> evaluate -> simulate -> report
-make dashboard                   # http://localhost:8501
-make test                        # unit + integration tests (synthetic fixture, no download)
-make smoke                       # minimal end-to-end pipeline on synthetic data
-make all CONFIG=configs/m5.yaml  # secondary benchmark on M5 FOODS
+make setup          # .venv with the exact locked versions (requirements/lock.txt)
+make check          # lint + type check + 54 tests on synthetic data (no download)
+make dashboard      # demo mode works immediately: http://localhost:8501
 ```
 
-Individual stages: `make data | eda | forecast | evaluate | simulate | report`. Every stage
-reads the previous stage's artifacts. Seeds are fixed and LightGBM runs in deterministic mode.
+Full experiment (downloads FreshRetailNet-50K from Hugging Face, or copy `train.parquet` and
+`eval.parquet` into `data/raw/freshretailnet/`):
 
-## 12. Repository structure
+```bash
+make all            # data -> eda -> forecast -> evaluate -> simulate -> nested -> report
+make smoke          # same pipeline on the synthetic fixture (under a minute)
+freshguard simulate --config configs/freshretailnet.yaml   # any single stage
+make all CONFIG=configs/m5.yaml                            # secondary benchmark
+```
+
+## 10. Reproducibility
+
+```bash
+make reproduce      # isolated rerun in runs/reproduce/, then a value-by-value diff
+```
+
+`make reproduce` copies the configs, links the raw data, reruns every stage without touching
+committed results, and writes `runs/reproduce/comparison.md`. Each stage records git commit,
+dataset SHA-256, package versions, seed, resolved config, platform, timestamps and output
+hashes in `run_manifest.json`. A clean rerun on 2026-10-22 reproduced all published forecast
+and simulation metrics; 13 of about 47,000 values differ by at most 2 × 10⁻⁶ (relative) because
+of float32 summation order. Details: [`docs/REPRODUCIBILITY_REPORT.md`](docs/REPRODUCIBILITY_REPORT.md).
+
+## 11. Repository structure
 
 ```
-configs/            base.yaml + freshretailnet.yaml (primary), m5.yaml, synthetic.yaml (CI)
+configs/            base.yaml + freshretailnet.yaml (primary, with dataset checksums), m5.yaml, synthetic.yaml
 src/freshguard/
   data/             ingestion, schema, validation, demand reconstruction, M5 loader, synthetic fixture
   features/         rectangular panel arrays, leakage-safe feature builder
-  forecasting/      baselines, LightGBM wrapper, empirical quantiles, rolling-origin backtest
-  evaluation/       metrics, segment and bootstrap evaluation
+  forecasting/      baselines, LightGBM wrapper (save/load), quantile tables, rolling-origin backtest
+  evaluation/       metrics, segment + bootstrap evaluation, nested evaluation and calibration study
   inventory/        policies, FEFO simulator, tuning and experiments
   finance/          KPI ledger, EUR accounting, scenario comparison, bootstrap
-  visualization/    EDA and report figures
+  visualization/    EDA, report and nested-evaluation figures
+  provenance.py     checksums and run manifests;  verify.py  rerun-vs-published comparison
   pipeline.py, cli.py
-dashboard/          Streamlit app (app.py, views/)
-tests/              42 tests: schema, features, leakage, models, simulator, finance, smoke
-reports/            eda_report.md, data_quality.md, figures/, metrics/ (JSON/CSV results)
-docs/               data selection, research review, methodology, M5 benchmark
+dashboard/          Streamlit app (app.py, data.py, views/)
+demo/               versioned 400-series sample for the hosted dashboard
+scripts/            reproduce.py, build_demo_bundle.py, capture_dashboard.py
+tests/              54 tests (unit, leakage, simulator invariants, nested protocol, smoke)
+reports/            metrics/ (JSON/CSV), figures/, EDA and data-quality reports, reproducibility/
+docs/               methodology, evaluation protocol, calibration study, reproducibility,
+                    deployment, audit, final review, data selection, research review, M5
+requirements/       lock.txt (exact versions);  requirements.txt for hosted deployment
 ```
 
-## 13. Technology stack
+## 12. Engineering quality and tests
 
-Python 3.11 · Polars · NumPy · PyArrow · LightGBM · SciPy · Matplotlib · Plotly · Streamlit ·
-pytest · Ruff · mypy · GitHub Actions. No GPU, database or cloud service is required.
+`make check` runs Ruff, mypy and 54 pytest tests on synthetic data: schema contracts, panel
+construction, demand reconstruction against known truth, lag and rolling correctness,
+**future-perturbation leakage tests**, baseline alignment, quantile coverage, deterministic
+GBM output and model save/load round-trip, simulator conservation, expiry timing, FEFO, exact
+lead times, pack and capacity constraints, hand-calculated P&L, exact profit decomposition,
+**calibration tables that ignore unknown outcomes**, checksum verification, run manifests, the
+rerun comparison tool, and a full end-to-end pipeline run including the nested stage. GitHub
+Actions runs the locked environment (Python 3.13) and the newest allowed versions on
+Python 3.11.
 
-## 14. Testing
+## 13. Limitations and future work
 
-`make test` runs 42 tests on synthetic data, including:
-schema validation, panel construction, quality checks, demand reconstruction
-against known truth, lag and rolling correctness, **future-perturbation leakage tests**,
-baseline alignment, quantile coverage, non-negative deterministic GBM output, simulator
-conservation, expiry timing, FEFO, exact lead times, pack and capacity constraints, newsvendor
-ratio, hand-calculated P&L, exact profit decomposition, currency conversion, reproducibility,
-dashboard imports, and a full end-to-end pipeline run. CI runs lint, type checks, imports
-and tests on every push, without downloading any dataset.
+* Simulated, not deployed; euro values are hypothetical.
+* Reconstructed demand is an estimate; results reverse if no demand is lost at stockouts, and
+  calibration is poor on stockout days.
+* 97 days, one season, four evaluation weeks; no untouched holdout exists. A genuine holdout
+  needs new data from the same retailer.
+* Uniform shelf life, lead time and costs (anonymised categories); continuous order
+  quantities; no substitution, supplier minimums or shelf-space limits.
 
-## 15. Key findings
+Future work: calibration that accounts for censoring (censored likelihood, residual tables
+conditioned on stockout-risk features), drift-aware bias correction, category-specific
+parameters once product attributes exist, and a shadow-mode pilot against real orders.
 
-1. **Censoring is the first-order problem.** 44% of store-SKU-days have stockout hours, and an
-   estimated 21% of demand went unserved. Ordering from sales alone under-orders.
-2. **LightGBM beats every baseline** on every test day (WAPE 30.6% vs 34-42%), but it
-   under-forecasts a growing market.
-3. **Forecast-driven replenishment dominates the traditional frontier.** At equal availability
-   it wastes about 49% fewer units and earns more.
-4. **Choosing the operating point is a business decision.** The profit-optimal point traded
-   availability for waste on the test window, and a 95%-service policy improved both. The
-   dashboard makes this choice explicit.
-5. **The textbook newsvendor fractile is wrong for multi-day shelf life.** τ = 0.38 cut profit by
-   €140.6k against the baseline.
+## 14. License and acknowledgements
 
-## 16. Limitations
-
-* Simulated, not deployed. Inventory, deliveries and waste are simulated, and all EUR values
-  are hypothetical.
-* Reconstructed demand is an estimate. The results flip sign if no demand is lost at stockouts.
-* Uniform shelf life, lead time and costs for all SKUs; no per-category parameters (ids are
-  anonymised).
-* Short history (97 days), a single 14-day test window, and τ tuned on 10 days. Drift between
-  validation and test is visible.
-* Continuous order quantities (pack sizes implemented but unknown); no supplier minimums,
-  shelf-space or labour constraints; no substitution between products.
-
-## 17. Future improvements
-
-* Drift-aware recalibration of quantiles (rolling conformal) to fix under-coverage in growth periods.
-* Category-specific shelf lives and costs once real product attributes are available.
-* Hierarchical reconciliation and probabilistic models (quantile LightGBM) for multi-day orders.
-* Joint estimation of demand and stockouts (a censored-likelihood model) instead of two-stage reconstruction.
-* A shadow-mode pilot comparing recommendations with actual orders before any live use.
-
-## 18. References
-
-Key references are listed in [`docs/research_review.md`](docs/research_review.md#5-references), including
-Wang et al. (2025) FreshRetailNet-50K; Makridakis et al. (2022) M5; Ke et al. (2017) LightGBM;
-Croston (1972); Syntetos & Boylan (2005); Nahmias (1982, 1994); Bijvank & Vis (2011);
-Huh et al. (2009); Broekmeulen & van Donselaar (2009); Ban & Rudin (2019); Hyndman &
-Koehler (2006); Angelopoulos & Bates (2021).
-
----
-
-Data: FreshRetailNet-50K by Dingdong-Inc, CC BY 4.0 (not redistributed). Code: MIT licence.
+Code: MIT licence. Data: FreshRetailNet-50K by Dingdong-Inc, CC BY 4.0; raw data is not
+redistributed, and `demo/` contains a small derived sample with attribution
+([`demo/README.md`](demo/README.md)). Key references: Wang et al. (2025) FreshRetailNet-50K;
+Makridakis et al. (2022) M5; Ke et al. (2017) LightGBM; Croston (1972); Syntetos & Boylan
+(2005); Nahmias (1982); Angelopoulos & Bates (2021); full list in
+[`docs/research_review.md`](docs/research_review.md#5-references).

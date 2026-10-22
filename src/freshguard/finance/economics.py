@@ -151,7 +151,7 @@ def bootstrap_compare(led_base: dict[str, np.ndarray], led_cand: dict[str, np.nd
     rng = np.random.default_rng(seed)
     n = led_base["sold_units"].size
     groups = np.arange(n) if cluster is None else np.unique(cluster, return_inverse=True)[1]
-    k = int(groups.max()) + 1
+    k = int(np.max(groups)) + 1
     keys = ["waste_units", "stockout_events", "gross_profit", "economic_profit",
             "sold_units", "demand_units", "lost_units"]
     gb = {key: np.bincount(groups, led_base[key], k) for key in keys}

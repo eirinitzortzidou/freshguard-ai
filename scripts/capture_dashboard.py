@@ -16,7 +16,9 @@ PAGES = {
     "inventory": "inventory",
     "financial": "financial",
     "evaluation": "evaluation",
+    "robustness": "robustness",
     "whatif": "whatif",
+    "methodology": "methodology",
 }
 
 

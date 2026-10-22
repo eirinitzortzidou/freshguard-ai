@@ -23,5 +23,7 @@ models/*
 # Synthetic smoke-run outputs
 reports/metrics/synthetic/
 reports/figures/synthetic/
+reports/*synthetic*.md
 mlruns/
+runs/
 .DS_Store

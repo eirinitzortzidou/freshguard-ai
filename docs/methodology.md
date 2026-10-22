@@ -1,7 +1,9 @@
 # Methodology
 
 Code references are given as `module:function`. Every number in the README is produced by
-the pipeline described here (`make all`).
+the pipeline described here (`make all`). The evaluation protocol and contamination audit are
+in [`EVALUATION_PROTOCOL.md`](EVALUATION_PROTOCOL.md); the calibration analysis in
+[`CALIBRATION_STUDY.md`](CALIBRATION_STUDY.md).
 
 ## 1. Data pipeline
 
@@ -140,7 +142,9 @@ times, pack-size rounding, capacity cap, determinism.
 before the warm-up, fresh). Seven warm-up days are simulated and excluded from KPIs.
 
 **Tuning and testing**: each policy's parameter is chosen on validation days 06-09..06-18 by
-base-case gross profit; the test window 06-19..07-02 is simulated once with frozen choices.
+base-case gross profit; the test window 06-19..07-02 is simulated with frozen choices. The
+test window was inspected more than once during development, and a nested rolling-origin
+evaluation complements it: see [`EVALUATION_PROTOCOL.md`](EVALUATION_PROTOCOL.md).
 
 ## 8. KPIs and financial accounting (`finance.economics`)
 

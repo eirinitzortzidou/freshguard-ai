@@ -1,0 +1,1602 @@
+{
+  "plan": {
+    "horizon": 1,
+    "weeks": [
+      "2024-05-08",
+      "2024-05-15",
+      "2024-05-22",
+      "2024-05-29",
+      "2024-06-05",
+      "2024-06-12",
+      "2024-06-19",
+      "2024-06-26"
+    ],
+    "folds": [
+      {
+        "start": "2024-06-05",
+        "end": "2024-06-11",
+        "label": "original validation window (used for tuning in the original protocol)"
+      },
+      {
+        "start": "2024-06-12",
+        "end": "2024-06-18",
+        "label": "original validation window (used for tuning in the original protocol)"
+      },
+      {
+        "start": "2024-06-19",
+        "end": "2024-06-25",
+        "label": "original test window (inspected before this analysis)"
+      },
+      {
+        "start": "2024-06-26",
+        "end": "2024-07-02",
+        "label": "original test window (inspected before this analysis)"
+      }
+    ],
+    "fold_days": 7,
+    "tune_days": 14,
+    "calib_days": 14,
+    "min_calib_days": 7,
+    "es_days": 7,
+    "warmup": 7,
+    "primary": "insample",
+    "hyperparameters": "forecasting.lightgbm defaults (not validation-selected)"
+  },
+  "walk_forward": [
+    {
+      "week_start": "2024-05-08",
+      "train_rows": 650000,
+      "early_stopping_window": [
+        "2024-05-01",
+        "2024-05-07"
+      ],
+      "best_iteration": 134,
+      "forecast_targets": [
+        "2024-05-08",
+        "2024-05-14"
+      ]
+    },
+    {
+      "week_start": "2024-05-15",
+      "train_rows": 1000000,
+      "early_stopping_window": [
+        "2024-05-08",
+        "2024-05-14"
+      ],
+      "best_iteration": 150,
+      "forecast_targets": [
+        "2024-05-15",
+        "2024-05-21"
+      ]
+    },
+    {
+      "week_start": "2024-05-22",
+      "train_rows": 1350000,
+      "early_stopping_window": [
+        "2024-05-15",
+        "2024-05-21"
+      ],
+      "best_iteration": 119,
+      "forecast_targets": [
+        "2024-05-22",
+        "2024-05-28"
+      ]
+    },
+    {
+      "week_start": "2024-05-29",
+      "train_rows": 1700000,
+      "early_stopping_window": [
+        "2024-05-22",
+        "2024-05-28"
+      ],
+      "best_iteration": 314,
+      "forecast_targets": [
+        "2024-05-29",
+        "2024-06-04"
+      ]
+    },
+    {
+      "week_start": "2024-06-05",
+      "train_rows": 2050000,
+      "early_stopping_window": [
+        "2024-05-29",
+        "2024-06-04"
+      ],
+      "best_iteration": 67,
+      "forecast_targets": [
+        "2024-06-05",
+        "2024-06-11"
+      ]
+    },
+    {
+      "week_start": "2024-06-12",
+      "train_rows": 2400000,
+      "early_stopping_window": [
+        "2024-06-05",
+        "2024-06-11"
+      ],
+      "best_iteration": 69,
+      "forecast_targets": [
+        "2024-06-12",
+        "2024-06-18"
+      ]
+    },
+    {
+      "week_start": "2024-06-19",
+      "train_rows": 2750000,
+      "early_stopping_window": [
+        "2024-06-12",
+        "2024-06-18"
+      ],
+      "best_iteration": 241,
+      "forecast_targets": [
+        "2024-06-19",
+        "2024-06-25"
+      ]
+    },
+    {
+      "week_start": "2024-06-26",
+      "train_rows": 3100000,
+      "early_stopping_window": [
+        "2024-06-19",
+        "2024-06-25"
+      ],
+      "best_iteration": 486,
+      "forecast_targets": [
+        "2024-06-26",
+        "2024-07-02"
+      ]
+    }
+  ],
+  "forecast": {
+    "by_fold": [
+      {
+        "fold_start": "2024-06-05",
+        "baseline_selected_on_tuning": "croston_sba",
+        "lightgbm_wape": 0.3391094018018435,
+        "lightgbm_bias": -0.0033891627629267468,
+        "naive_wape": 0.4376148583485531,
+        "naive_bias": 0.002683579462289284,
+        "seasonal_naive_wape": 0.4490011018302092,
+        "seasonal_naive_bias": -0.038523547259605835,
+        "ma7_wape": 0.35770312417408356,
+        "ma7_bias": -0.030384197013938463,
+        "ma28_wape": 0.36988273356547124,
+        "ma28_bias": -0.014509367705911843,
+        "dow_mean_4w_wape": 0.4028571034815784,
+        "dow_mean_4w_bias": -0.012163604506999147,
+        "ma28_dow_index_wape": 0.4026604260742048,
+        "ma28_dow_index_bias": -0.012174002364695697,
+        "ses_wape": 0.3520509085140605,
+        "ses_bias": -0.026006888600502844,
+        "croston_sba_wape": 0.35206440036649705,
+        "croston_sba_bias": -0.07042823675009274,
+        "tsb_wape": 0.3543078972325872,
+        "tsb_bias": -0.02177298007453647,
+        "wape_diff_vs_selected_baseline": {
+          "diff": -0.012954998564653541,
+          "ci_low": -0.014478295582217738,
+          "ci_high": -0.01149786814242852,
+          "share_boot_a_better": 1.0
+        },
+        "fold_label": "original validation window (used for tuning in the original protocol)"
+      },
+      {
+        "fold_start": "2024-06-12",
+        "baseline_selected_on_tuning": "croston_sba",
+        "lightgbm_wape": 0.3024950786362477,
+        "lightgbm_bias": -0.018197809633749343,
+        "naive_wape": 0.42578660992721773,
+        "naive_bias": -0.009983615194550457,
+        "seasonal_naive_wape": 0.4440491041709181,
+        "seasonal_naive_bias": -0.021126975141865213,
+        "ma7_wape": 0.3548157760779875,
+        "ma7_bias": -0.012976009886706689,
+        "ma28_wape": 0.36035113378266315,
+        "ma28_bias": -0.033291389099342,
+        "dow_mean_4w_wape": 0.36826145174643005,
+        "dow_mean_4w_bias": -0.035460001498766255,
+        "ma28_dow_index_wape": 0.3681382552605176,
+        "ma28_dow_index_bias": -0.035499645077728924,
+        "ses_wape": 0.3562574055382596,
+        "ses_bias": -0.015271772089718071,
+        "croston_sba_wape": 0.35030125690924807,
+        "croston_sba_bias": -0.07379151995088781,
+        "tsb_wape": 0.35202990027777903,
+        "tsb_bias": -0.025532270921063777,
+        "wape_diff_vs_selected_baseline": {
+          "diff": -0.04780617827300038,
+          "ci_low": -0.049308576253687064,
+          "ci_high": -0.046312052126844604,
+          "share_boot_a_better": 1.0
+        },
+        "fold_label": "original validation window (used for tuning in the original protocol)"
+      },
+      {
+        "fold_start": "2024-06-19",
+        "baseline_selected_on_tuning": "croston_sba",
+        "lightgbm_wape": 0.30037725842322605,
+        "lightgbm_bias": -0.0572675489934692,
+        "naive_wape": 0.41409424389472493,
+        "naive_bias": -0.013538170230720997,
+        "seasonal_naive_wape": 0.4138650194498181,
+        "seasonal_naive_bias": -0.1049795045809848,
+        "ma7_wape": 0.3337128149583356,
+        "ma7_bias": -0.048767678423678636,
+        "ma28_wape": 0.35529817980607575,
+        "ma28_bias": -0.1136845570932146,
+        "dow_mean_4w_wape": 0.3790898737219174,
+        "dow_mean_4w_bias": -0.13043602592010892,
+        "ma28_dow_index_wape": 0.37906858364933244,
+        "ma28_dow_index_bias": -0.1303577578160279,
+        "ses_wape": 0.3354410596634287,
+        "ses_bias": -0.05341114275735713,
+        "croston_sba_wape": 0.34546362537808617,
+        "croston_sba_bias": -0.12822524687404413,
+        "tsb_wape": 0.3396741235923974,
+        "tsb_bias": -0.08328169922381533,
+        "wape_diff_vs_selected_baseline": {
+          "diff": -0.04508636695486018,
+          "ci_low": -0.04775936388515098,
+          "ci_high": -0.04298508309300537,
+          "share_boot_a_better": 1.0
+        },
+        "fold_label": "original test window (inspected before this analysis)"
+      },
+      {
+        "fold_start": "2024-06-26",
+        "baseline_selected_on_tuning": "ma7",
+        "lightgbm_wape": 0.3112991295718478,
+        "lightgbm_bias": -0.05715395550138313,
+        "naive_wape": 0.43155605002044667,
+        "naive_bias": 0.004870094979415451,
+        "seasonal_naive_wape": 0.41597938442708,
+        "seasonal_naive_bias": 0.009817749309851496,
+        "ma7_wape": 0.34545829236084435,
+        "ma7_bias": 0.0026096728022029134,
+        "ma28_wape": 0.3519192283192062,
+        "ma28_bias": -0.07172692673934894,
+        "dow_mean_4w_wape": 0.3713399735752102,
+        "dow_mean_4w_bias": -0.0877578055687945,
+        "ma28_dow_index_wape": 0.37137715069717064,
+        "ma28_dow_index_bias": -0.08764872096899032,
+        "ses_wape": 0.34282987724682557,
+        "ses_bias": -0.008197832610445805,
+        "croston_sba_wape": 0.33976006836548317,
+        "croston_sba_bias": -0.08133209984259798,
+        "tsb_wape": 0.3393847647305828,
+        "tsb_bias": -0.0344616338425754,
+        "wape_diff_vs_selected_baseline": {
+          "diff": -0.034159162788996555,
+          "ci_low": -0.035299622752277736,
+          "ci_high": -0.0329535237492534,
+          "share_boot_a_better": 1.0
+        },
+        "fold_label": "original test window (inspected before this analysis)"
+      }
+    ],
+    "pooled": {
+      "lightgbm_wape": 0.3127781548502827,
+      "selected_baseline_wape": 0.3481507861973384,
+      "wape_diff_bootstrap": {
+        "diff": -0.035372631347055705,
+        "ci_low": -0.03657205084397066,
+        "ci_high": -0.03418631960841412,
+        "share_boot_a_better": 1.0
+      },
+      "folds_lgbm_better": 4
+    }
+  },
+  "calibration": {
+    "coverage_all": {
+      "insample": {
+        "0.1": 0.09768,
+        "0.25": 0.24024785714285715,
+        "0.5": 0.4815521428571429,
+        "0.75": 0.72965,
+        "0.8": 0.7806235714285714,
+        "0.9": 0.8859421428571429,
+        "0.95": 0.941055
+      },
+      "static": {
+        "0.1": 0.09842785714285714,
+        "0.25": 0.23434714285714286,
+        "0.5": 0.4606757142857143,
+        "0.75": 0.7008871428571428,
+        "0.8": 0.7537457142857142,
+        "0.9": 0.8673628571428571,
+        "0.95": 0.9315735714285714
+      },
+      "rolling": {
+        "0.1": 0.09557285714285714,
+        "0.25": 0.23450785714285713,
+        "0.5": 0.47182357142857145,
+        "0.75": 0.7212864285714286,
+        "0.8": 0.7732921428571429,
+        "0.9": 0.8821757142857143,
+        "0.95": 0.9396221428571429
+      }
+    },
+    "mean_pinball_all": {
+      "insample": 0.16350355103940797,
+      "static": 0.16469388130027673,
+      "rolling": 0.16397711721109273
+    },
+    "horizon_published_forecasts": [
+      {
+        "horizon": 1,
+        "method": "static_validation_table",
+        "tau": 0.5,
+        "coverage": 0.44872,
+        "bias": -0.06577870806141145,
+        "wape": 0.30644520836990347
+      },
+      {
+        "horizon": 1,
+        "method": "static_validation_table",
+        "tau": 0.8,
+        "coverage": 0.75905,
+        "bias": -0.06577870806141145,
+        "wape": 0.30644520836990347
+      },
+      {
+        "horizon": 1,
+        "method": "static_validation_table",
+        "tau": 0.9,
+        "coverage": 0.8753914285714286,
+        "bias": -0.06577870806141145,
+        "wape": 0.30644520836990347
+      },
+      {
+        "horizon": 1,
+        "method": "static_validation_table",
+        "tau": 0.95,
+        "coverage": 0.9377685714285714,
+        "bias": -0.06577870806141145,
+        "wape": 0.30644520836990347
+      },
+      {
+        "horizon": 1,
+        "method": "rolling_14d",
+        "tau": 0.5,
+        "coverage": 0.46691285714285713,
+        "bias": -0.06577870806141145,
+        "wape": 0.30644520836990347
+      },
+      {
+        "horizon": 1,
+        "method": "rolling_14d",
+        "tau": 0.8,
+        "coverage": 0.7706,
+        "bias": -0.06577870806141145,
+        "wape": 0.30644520836990347
+      },
+      {
+        "horizon": 1,
+        "method": "rolling_14d",
+        "tau": 0.9,
+        "coverage": 0.88128,
+        "bias": -0.06577870806141145,
+        "wape": 0.30644520836990347
+      },
+      {
+        "horizon": 1,
+        "method": "rolling_14d",
+        "tau": 0.95,
+        "coverage": 0.9398871428571428,
+        "bias": -0.06577870806141145,
+        "wape": 0.30644520836990347
+      },
+      {
+        "horizon": 2,
+        "method": "static_validation_table",
+        "tau": 0.5,
+        "coverage": 0.44463142857142857,
+        "bias": -0.07531041568160517,
+        "wape": 0.31462934978025764
+      },
+      {
+        "horizon": 2,
+        "method": "static_validation_table",
+        "tau": 0.8,
+        "coverage": 0.75457,
+        "bias": -0.07531041568160517,
+        "wape": 0.31462934978025764
+      },
+      {
+        "horizon": 2,
+        "method": "static_validation_table",
+        "tau": 0.9,
+        "coverage": 0.8717128571428572,
+        "bias": -0.07531041568160517,
+        "wape": 0.31462934978025764
+      },
+      {
+        "horizon": 2,
+        "method": "static_validation_table",
+        "tau": 0.95,
+        "coverage": 0.9357771428571429,
+        "bias": -0.07531041568160517,
+        "wape": 0.31462934978025764
+      },
+      {
+        "horizon": 2,
+        "method": "rolling_14d",
+        "tau": 0.5,
+        "coverage": 0.4597014285714286,
+        "bias": -0.07531041568160517,
+        "wape": 0.31462934978025764
+      },
+      {
+        "horizon": 2,
+        "method": "rolling_14d",
+        "tau": 0.8,
+        "coverage": 0.7649785714285714,
+        "bias": -0.07531041568160517,
+        "wape": 0.31462934978025764
+      },
+      {
+        "horizon": 2,
+        "method": "rolling_14d",
+        "tau": 0.9,
+        "coverage": 0.8777142857142857,
+        "bias": -0.07531041568160517,
+        "wape": 0.31462934978025764
+      },
+      {
+        "horizon": 2,
+        "method": "rolling_14d",
+        "tau": 0.95,
+        "coverage": 0.9381714285714285,
+        "bias": -0.07531041568160517,
+        "wape": 0.31462934978025764
+      },
+      {
+        "horizon": 3,
+        "method": "static_validation_table",
+        "tau": 0.5,
+        "coverage": 0.44167,
+        "bias": -0.08238981106001596,
+        "wape": 0.3213931609711178
+      },
+      {
+        "horizon": 3,
+        "method": "static_validation_table",
+        "tau": 0.8,
+        "coverage": 0.7508085714285714,
+        "bias": -0.08238981106001596,
+        "wape": 0.3213931609711178
+      },
+      {
+        "horizon": 3,
+        "method": "static_validation_table",
+        "tau": 0.9,
+        "coverage": 0.87007,
+        "bias": -0.08238981106001596,
+        "wape": 0.3213931609711178
+      },
+      {
+        "horizon": 3,
+        "method": "static_validation_table",
+        "tau": 0.95,
+        "coverage": 0.9351042857142857,
+        "bias": -0.08238981106001596,
+        "wape": 0.3213931609711178
+      },
+      {
+        "horizon": 3,
+        "method": "rolling_14d",
+        "tau": 0.5,
+        "coverage": 0.4631828571428571,
+        "bias": -0.08238981106001596,
+        "wape": 0.3213931609711178
+      },
+      {
+        "horizon": 3,
+        "method": "rolling_14d",
+        "tau": 0.8,
+        "coverage": 0.7688671428571429,
+        "bias": -0.08238981106001596,
+        "wape": 0.3213931609711178
+      },
+      {
+        "horizon": 3,
+        "method": "rolling_14d",
+        "tau": 0.9,
+        "coverage": 0.8824757142857143,
+        "bias": -0.08238981106001596,
+        "wape": 0.3213931609711178
+      },
+      {
+        "horizon": 3,
+        "method": "rolling_14d",
+        "tau": 0.95,
+        "coverage": 0.9423914285714285,
+        "bias": -0.08238981106001596,
+        "wape": 0.3213931609711178
+      },
+      {
+        "horizon": 7,
+        "method": "static_validation_table",
+        "tau": 0.5,
+        "coverage": 0.41859857142857143,
+        "bias": -0.09876009137228742,
+        "wape": 0.33998072282341324
+      },
+      {
+        "horizon": 7,
+        "method": "static_validation_table",
+        "tau": 0.8,
+        "coverage": 0.7299271428571429,
+        "bias": -0.09876009137228742,
+        "wape": 0.33998072282341324
+      },
+      {
+        "horizon": 7,
+        "method": "static_validation_table",
+        "tau": 0.9,
+        "coverage": 0.8570314285714286,
+        "bias": -0.09876009137228742,
+        "wape": 0.33998072282341324
+      },
+      {
+        "horizon": 7,
+        "method": "static_validation_table",
+        "tau": 0.95,
+        "coverage": 0.9285185714285714,
+        "bias": -0.09876009137228742,
+        "wape": 0.33998072282341324
+      },
+      {
+        "horizon": 7,
+        "method": "rolling_14d",
+        "tau": 0.5,
+        "coverage": 0.41463714285714287,
+        "bias": -0.09876009137228742,
+        "wape": 0.33998072282341324
+      },
+      {
+        "horizon": 7,
+        "method": "rolling_14d",
+        "tau": 0.8,
+        "coverage": 0.7270714285714286,
+        "bias": -0.09876009137228742,
+        "wape": 0.33998072282341324
+      },
+      {
+        "horizon": 7,
+        "method": "rolling_14d",
+        "tau": 0.9,
+        "coverage": 0.85632,
+        "bias": -0.09876009137228742,
+        "wape": 0.33998072282341324
+      },
+      {
+        "horizon": 7,
+        "method": "rolling_14d",
+        "tau": 0.95,
+        "coverage": 0.9289714285714286,
+        "bias": -0.09876009137228742,
+        "wape": 0.33998072282341324
+      }
+    ]
+  },
+  "policies": {
+    "by_fold": [
+      {
+        "fold_start": "2024-06-05",
+        "policy": "traditional_ma7_tuned",
+        "param": 1.0,
+        "waste_units": 6297.654541111418,
+        "stockout_events": 48965.0,
+        "fill_rate": 0.9344004718108955,
+        "availability": 0.8601,
+        "lost_units": 29341.59519185871,
+        "gross_profit": 294591.86397841293,
+        "avg_inventory_units": 0.8368656530852814,
+        "vs_baseline_waste_reduction_pct": 0.0,
+        "vs_baseline_stockout_reduction_pct": 0.0,
+        "vs_baseline_fill_rate_change_pp": 0.0,
+        "vs_baseline_net_benefit_eur": 0.0
+      },
+      {
+        "fold_start": "2024-06-05",
+        "policy": "traditional_ma7_rule20",
+        "param": 0.2,
+        "waste_units": 731.1827697563383,
+        "stockout_events": 151195.0,
+        "fill_rate": 0.7933488791769602,
+        "availability": 0.5680142857142857,
+        "lost_units": 92431.66377133493,
+        "gross_profit": 257806.10889705204,
+        "avg_inventory_units": 0.21333582237592183,
+        "vs_baseline_waste_reduction_pct": 88.38960179566632,
+        "vs_baseline_stockout_reduction_pct": -208.78178290615747,
+        "vs_baseline_fill_rate_change_pp": -14.10515926339353,
+        "vs_baseline_net_benefit_eur": -36785.7550813609
+      },
+      {
+        "fold_start": "2024-06-05",
+        "policy": "ma7_reconstructed_tuned",
+        "param": 0.5,
+        "waste_units": 4160.280459967309,
+        "stockout_events": 54581.0,
+        "fill_rate": 0.9305052067273238,
+        "availability": 0.8440542857142856,
+        "lost_units": 31083.88350401952,
+        "gross_profit": 297310.2018446193,
+        "avg_inventory_units": 0.6594916231961768,
+        "vs_baseline_waste_reduction_pct": 33.93920811615212,
+        "vs_baseline_stockout_reduction_pct": -11.469416930460532,
+        "vs_baseline_fill_rate_change_pp": -0.38952650835716307,
+        "vs_baseline_net_benefit_eur": 2718.3378662063624
+      },
+      {
+        "fold_start": "2024-06-05",
+        "policy": "lgbm_point",
+        "param": 0.0,
+        "waste_units": 724.8550962992013,
+        "stockout_events": 132802.0,
+        "fill_rate": 0.8298491877633662,
+        "availability": 0.6205657142857143,
+        "lost_units": 76105.67319663242,
+        "gross_profit": 270072.59459501493,
+        "avg_inventory_units": 0.2149410571208277,
+        "vs_baseline_waste_reduction_pct": 88.4900784638581,
+        "vs_baseline_stockout_reduction_pct": -171.21821709384255,
+        "vs_baseline_fill_rate_change_pp": -10.455128404752923,
+        "vs_baseline_net_benefit_eur": -24519.269383398
+      },
+      {
+        "fold_start": "2024-06-05",
+        "policy": "lgbm_cost_optimal__insample",
+        "param": 0.9,
+        "waste_units": 3957.8878588481734,
+        "stockout_events": 41164.0,
+        "fill_rate": 0.9406656929681954,
+        "availability": 0.8823885714285714,
+        "lost_units": 26539.264320590428,
+        "gross_profit": 301142.506386243,
+        "avg_inventory_units": 0.6091631182279956,
+        "vs_baseline_waste_reduction_pct": 37.15298555976873,
+        "vs_baseline_stockout_reduction_pct": 15.931788011845196,
+        "vs_baseline_fill_rate_change_pp": 0.6265221157299883,
+        "vs_baseline_net_benefit_eur": 6550.642407830048
+      },
+      {
+        "fold_start": "2024-06-05",
+        "policy": "lgbm_cost_optimal__static",
+        "param": 0.9,
+        "waste_units": 4302.741736659516,
+        "stockout_events": 36969.0,
+        "fill_rate": 0.9454835250267507,
+        "availability": 0.8943742857142857,
+        "lost_units": 24384.32690157453,
+        "gross_profit": 302107.5128336814,
+        "avg_inventory_units": 0.6512991779730138,
+        "vs_baseline_waste_reduction_pct": 31.677075829247332,
+        "vs_baseline_stockout_reduction_pct": 24.499132033084855,
+        "vs_baseline_fill_rate_change_pp": 1.1083053215855232,
+        "vs_baseline_net_benefit_eur": 7515.64885526849
+      },
+      {
+        "fold_start": "2024-06-05",
+        "policy": "lgbm_cost_optimal__rolling",
+        "param": 0.9,
+        "waste_units": 4387.481865815714,
+        "stockout_events": 36580.0,
+        "fill_rate": 0.9446203375727737,
+        "availability": 0.8954857142857143,
+        "lost_units": 24770.416520638115,
+        "gross_profit": 301660.6422844324,
+        "avg_inventory_units": 0.6457073088759264,
+        "vs_baseline_waste_reduction_pct": 30.33149346039859,
+        "vs_baseline_stockout_reduction_pct": 25.293577044827938,
+        "vs_baseline_fill_rate_change_pp": 1.0219865761878277,
+        "vs_baseline_net_benefit_eur": 7068.778306019492
+      },
+      {
+        "fold_start": "2024-06-12",
+        "policy": "traditional_ma7_tuned",
+        "param": 1.0,
+        "waste_units": 6658.576612461358,
+        "stockout_events": 47366.0,
+        "fill_rate": 0.9391935449454357,
+        "availability": 0.8646685714285715,
+        "lost_units": 27784.739535783552,
+        "gross_profit": 302326.0115868054,
+        "avg_inventory_units": 0.875638708223445,
+        "vs_baseline_waste_reduction_pct": 0.0,
+        "vs_baseline_stockout_reduction_pct": 0.0,
+        "vs_baseline_fill_rate_change_pp": 0.0,
+        "vs_baseline_net_benefit_eur": 0.0
+      },
+      {
+        "fold_start": "2024-06-12",
+        "policy": "traditional_ma7_rule20",
+        "param": 0.2,
+        "waste_units": 1312.732063349762,
+        "stockout_events": 148859.0,
+        "fill_rate": 0.799874680234162,
+        "availability": 0.5746885714285714,
+        "lost_units": 91444.73032048304,
+        "gross_profit": 264709.83218064724,
+        "avg_inventory_units": 0.22403470968526934,
+        "vs_baseline_waste_reduction_pct": 80.28509485205866,
+        "vs_baseline_stockout_reduction_pct": -214.27395177975762,
+        "vs_baseline_fill_rate_change_pp": -13.931886471127374,
+        "vs_baseline_net_benefit_eur": -37616.17940615816
+      },
+      {
+        "fold_start": "2024-06-12",
+        "policy": "ma7_reconstructed_tuned",
+        "param": 0.5,
+        "waste_units": 5093.519684210952,
+        "stockout_events": 52047.0,
+        "fill_rate": 0.938081862105089,
+        "availability": 0.8512942857142858,
+        "lost_units": 28292.708930442644,
+        "gross_profit": 304928.374807841,
+        "avg_inventory_units": 0.6973758075549636,
+        "vs_baseline_waste_reduction_pct": 23.504376675961677,
+        "vs_baseline_stockout_reduction_pct": -9.882616222606934,
+        "vs_baseline_fill_rate_change_pp": -0.11116828403466839,
+        "vs_baseline_net_benefit_eur": 2602.36322103563
+      },
+      {
+        "fold_start": "2024-06-12",
+        "policy": "lgbm_point",
+        "param": 0.0,
+        "waste_units": 960.006890527904,
+        "stockout_events": 136978.0,
+        "fill_rate": 0.8400287280723884,
+        "availability": 0.6086342857142857,
+        "lost_units": 73096.84670366347,
+        "gross_profit": 279132.21681655874,
+        "avg_inventory_units": 0.18577590769094016,
+        "vs_baseline_waste_reduction_pct": 85.58240076818707,
+        "vs_baseline_stockout_reduction_pct": -189.1905586285521,
+        "vs_baseline_fill_rate_change_pp": -9.916481687304735,
+        "vs_baseline_net_benefit_eur": -23193.794770246663
+      },
+      {
+        "fold_start": "2024-06-12",
+        "policy": "lgbm_cost_optimal__insample",
+        "param": 0.9,
+        "waste_units": 5289.191866290848,
+        "stockout_events": 28108.0,
+        "fill_rate": 0.9650362044758496,
+        "availability": 0.9196914285714286,
+        "lost_units": 15976.263555393554,
+        "gross_profit": 313808.29011238145,
+        "avg_inventory_units": 0.7062554438847258,
+        "vs_baseline_waste_reduction_pct": 20.565727870544297,
+        "vs_baseline_stockout_reduction_pct": 40.657855845965464,
+        "vs_baseline_fill_rate_change_pp": 2.584265953041387,
+        "vs_baseline_net_benefit_eur": 11482.278525576054
+      },
+      {
+        "fold_start": "2024-06-12",
+        "policy": "lgbm_cost_optimal__static",
+        "param": 0.9,
+        "waste_units": 4707.625816193119,
+        "stockout_events": 34673.0,
+        "fill_rate": 0.9569511174064205,
+        "availability": 0.9009342857142857,
+        "lost_units": 19670.641695784027,
+        "gross_profit": 312126.77578658785,
+        "avg_inventory_units": 0.6205097348970222,
+        "vs_baseline_waste_reduction_pct": 29.299817510803795,
+        "vs_baseline_stockout_reduction_pct": 26.797702993708565,
+        "vs_baseline_fill_rate_change_pp": 1.775757246098475,
+        "vs_baseline_net_benefit_eur": 9800.764199782454
+      },
+      {
+        "fold_start": "2024-06-12",
+        "policy": "lgbm_cost_optimal__rolling",
+        "param": 0.9,
+        "waste_units": 4743.5553599922805,
+        "stockout_events": 33442.0,
+        "fill_rate": 0.9578995682073019,
+        "availability": 0.9044514285714286,
+        "lost_units": 19237.259114257977,
+        "gross_profit": 312383.55031633086,
+        "avg_inventory_units": 0.6295027398680242,
+        "vs_baseline_waste_reduction_pct": 28.760219547300302,
+        "vs_baseline_stockout_reduction_pct": 29.39661360469535,
+        "vs_baseline_fill_rate_change_pp": 1.8706023261866211,
+        "vs_baseline_net_benefit_eur": 10057.538729525462
+      },
+      {
+        "fold_start": "2024-06-19",
+        "policy": "traditional_ma7_tuned",
+        "param": 1.0,
+        "waste_units": 5001.714894611388,
+        "stockout_events": 51670.0,
+        "fill_rate": 0.9384736600453972,
+        "availability": 0.8523714285714286,
+        "lost_units": 31411.21568450598,
+        "gross_profit": 342829.24819275516,
+        "avg_inventory_units": 0.8750002337294331,
+        "vs_baseline_waste_reduction_pct": 0.0,
+        "vs_baseline_stockout_reduction_pct": 0.0,
+        "vs_baseline_fill_rate_change_pp": 0.0,
+        "vs_baseline_net_benefit_eur": 0.0
+      },
+      {
+        "fold_start": "2024-06-19",
+        "policy": "traditional_ma7_rule20",
+        "param": 0.2,
+        "waste_units": 869.9984742618033,
+        "stockout_events": 163901.0,
+        "fill_rate": 0.7876821271620924,
+        "availability": 0.5317114285714286,
+        "lost_units": 108395.24181525952,
+        "gross_profit": 292999.5706936467,
+        "avg_inventory_units": 0.20340804905592966,
+        "vs_baseline_waste_reduction_pct": 82.60599629141,
+        "vs_baseline_stockout_reduction_pct": -217.2072769498742,
+        "vs_baseline_fill_rate_change_pp": -15.079153288330483,
+        "vs_baseline_net_benefit_eur": -49829.67749910848
+      },
+      {
+        "fold_start": "2024-06-19",
+        "policy": "ma7_reconstructed_tuned",
+        "param": 0.75,
+        "waste_units": 6694.33488104865,
+        "stockout_events": 33568.0,
+        "fill_rate": 0.9635899600332162,
+        "availability": 0.9040914285714285,
+        "lost_units": 18588.52028776612,
+        "gross_profit": 349270.04092853435,
+        "avg_inventory_units": 1.0059636326280714,
+        "vs_baseline_waste_reduction_pct": -33.840793050015904,
+        "vs_baseline_stockout_reduction_pct": 35.033868782659184,
+        "vs_baseline_fill_rate_change_pp": 2.5116299987818946,
+        "vs_baseline_net_benefit_eur": 6440.792735779192
+      },
+      {
+        "fold_start": "2024-06-19",
+        "policy": "lgbm_point",
+        "param": 0.0,
+        "waste_units": 665.9622279288513,
+        "stockout_events": 157522.0,
+        "fill_rate": 0.8216302188966026,
+        "availability": 0.5499371428571429,
+        "lost_units": 91063.62689493597,
+        "gross_profit": 306403.097487362,
+        "avg_inventory_units": 0.17816840868900016,
+        "vs_baseline_waste_reduction_pct": 86.6853220953012,
+        "vs_baseline_stockout_reduction_pct": -204.86162183084963,
+        "vs_baseline_fill_rate_change_pp": -11.684344114879464,
+        "vs_baseline_net_benefit_eur": -36426.15070539317
+      },
+      {
+        "fold_start": "2024-06-19",
+        "policy": "lgbm_cost_optimal__insample",
+        "param": 0.925,
+        "waste_units": 5925.252270180772,
+        "stockout_events": 29234.0,
+        "fill_rate": 0.9655319295565032,
+        "availability": 0.9164742857142857,
+        "lost_units": 17597.081115637346,
+        "gross_profit": 351598.4574038038,
+        "avg_inventory_units": 0.7698982800431453,
+        "vs_baseline_waste_reduction_pct": -18.46441460636549,
+        "vs_baseline_stockout_reduction_pct": 43.42171472808206,
+        "vs_baseline_fill_rate_change_pp": 2.7058269511106015,
+        "vs_baseline_net_benefit_eur": 8769.20921104867
+      },
+      {
+        "fold_start": "2024-06-19",
+        "policy": "lgbm_cost_optimal__static",
+        "param": 0.925,
+        "waste_units": 5058.44941480852,
+        "stockout_events": 34107.0,
+        "fill_rate": 0.9611617327982204,
+        "availability": 0.9025514285714286,
+        "lost_units": 19828.209979461124,
+        "gross_profit": 351540.73427157034,
+        "avg_inventory_units": 0.7150303282623925,
+        "vs_baseline_waste_reduction_pct": -1.1343013624837799,
+        "vs_baseline_stockout_reduction_pct": 33.99071027675634,
+        "vs_baseline_fill_rate_change_pp": 2.268807275282314,
+        "vs_baseline_net_benefit_eur": 8711.486078815185
+      },
+      {
+        "fold_start": "2024-06-19",
+        "policy": "lgbm_cost_optimal__rolling",
+        "param": 0.925,
+        "waste_units": 6104.493937652883,
+        "stockout_events": 28498.0,
+        "fill_rate": 0.96776551625115,
+        "availability": 0.9185771428571429,
+        "lost_units": 16456.761807396993,
+        "gross_profit": 352127.4480178235,
+        "avg_inventory_units": 0.7991502020222604,
+        "vs_baseline_waste_reduction_pct": -22.04801885508461,
+        "vs_baseline_stockout_reduction_pct": 44.846138958776855,
+        "vs_baseline_fill_rate_change_pp": 2.929185620575281,
+        "vs_baseline_net_benefit_eur": 9298.199825068354
+      },
+      {
+        "fold_start": "2024-06-26",
+        "policy": "traditional_ma7_tuned",
+        "param": 1.0,
+        "waste_units": 5674.895954305573,
+        "stockout_events": 44106.0,
+        "fill_rate": 0.9472821087583622,
+        "availability": 0.8739828571428572,
+        "lost_units": 26652.54553516475,
+        "gross_profit": 341395.6164304694,
+        "avg_inventory_units": 1.0092134114740394,
+        "vs_baseline_waste_reduction_pct": 0.0,
+        "vs_baseline_stockout_reduction_pct": 0.0,
+        "vs_baseline_fill_rate_change_pp": 0.0,
+        "vs_baseline_net_benefit_eur": 0.0
+      },
+      {
+        "fold_start": "2024-06-26",
+        "policy": "traditional_ma7_rule20",
+        "param": 0.2,
+        "waste_units": 720.75864685082,
+        "stockout_events": 143545.0,
+        "fill_rate": 0.8150175009945667,
+        "availability": 0.5898714285714286,
+        "lost_units": 93521.4660873395,
+        "gross_profit": 300699.90254599735,
+        "avg_inventory_units": 0.2568247325076211,
+        "vs_baseline_waste_reduction_pct": 87.2991742464639,
+        "vs_baseline_stockout_reduction_pct": -225.4545866775495,
+        "vs_baseline_fill_rate_change_pp": -13.226460776379545,
+        "vs_baseline_net_benefit_eur": -40695.71388447203
+      },
+      {
+        "fold_start": "2024-06-26",
+        "policy": "ma7_reconstructed_tuned",
+        "param": 0.75,
+        "waste_units": 7345.681722447143,
+        "stockout_events": 30283.0,
+        "fill_rate": 0.9649977509774134,
+        "availability": 0.9134771428571429,
+        "lost_units": 17696.06131686164,
+        "gross_profit": 344987.8932939437,
+        "avg_inventory_units": 1.1215622092193487,
+        "vs_baseline_waste_reduction_pct": -29.44169869535559,
+        "vs_baseline_stockout_reduction_pct": 31.340407200834353,
+        "vs_baseline_fill_rate_change_pp": 1.7715642219051198,
+        "vs_baseline_net_benefit_eur": 3592.2768634743406
+      },
+      {
+        "fold_start": "2024-06-26",
+        "policy": "lgbm_point",
+        "param": 0.0,
+        "waste_units": 333.6243582846863,
+        "stockout_events": 151086.0,
+        "fill_rate": 0.816085452267979,
+        "availability": 0.5683257142857143,
+        "lost_units": 92981.542746827,
+        "gross_profit": 302819.2362141004,
+        "avg_inventory_units": 0.1838539828714713,
+        "vs_baseline_waste_reduction_pct": 94.12104889726544,
+        "vs_baseline_stockout_reduction_pct": -242.55203373690654,
+        "vs_baseline_fill_rate_change_pp": -13.119665649038314,
+        "vs_baseline_net_benefit_eur": -38576.380216369
+      },
+      {
+        "fold_start": "2024-06-26",
+        "policy": "lgbm_cost_optimal__insample",
+        "param": 0.925,
+        "waste_units": 4845.345949407199,
+        "stockout_events": 25034.0,
+        "fill_rate": 0.9658896157486628,
+        "availability": 0.9284742857142857,
+        "lost_units": 17245.16189985005,
+        "gross_profit": 351026.8602124425,
+        "avg_inventory_units": 0.8915587538729006,
+        "vs_baseline_waste_reduction_pct": 14.617889236700265,
+        "vs_baseline_stockout_reduction_pct": 43.241282365211084,
+        "vs_baseline_fill_rate_change_pp": 1.860750699030067,
+        "vs_baseline_net_benefit_eur": 9631.243781973142
+      },
+      {
+        "fold_start": "2024-06-26",
+        "policy": "lgbm_cost_optimal__static",
+        "param": 0.925,
+        "waste_units": 3341.701480879691,
+        "stockout_events": 35492.0,
+        "fill_rate": 0.9521390482194336,
+        "availability": 0.8985942857142857,
+        "lost_units": 24197.02622096463,
+        "gross_profit": 348649.1445011055,
+        "avg_inventory_units": 0.7229847398718953,
+        "vs_baseline_waste_reduction_pct": 41.11431279468084,
+        "vs_baseline_stockout_reduction_pct": 19.530222645445065,
+        "vs_baseline_fill_rate_change_pp": 0.48569394610714633,
+        "vs_baseline_net_benefit_eur": 7253.528070636094
+      },
+      {
+        "fold_start": "2024-06-26",
+        "policy": "lgbm_cost_optimal__rolling",
+        "param": 0.925,
+        "waste_units": 4321.15125470827,
+        "stockout_events": 27776.0,
+        "fill_rate": 0.9625552109136098,
+        "availability": 0.92064,
+        "lost_units": 18930.93450201227,
+        "gross_profit": 350755.0609734244,
+        "avg_inventory_units": 0.8436706885351201,
+        "vs_baseline_waste_reduction_pct": 23.854969509532754,
+        "vs_baseline_stockout_reduction_pct": 37.024441119122116,
+        "vs_baseline_fill_rate_change_pp": 1.5273102155247686,
+        "vs_baseline_net_benefit_eur": 9359.444542955025
+      }
+    ],
+    "pooled": {
+      "traditional_ma7_tuned": {
+        "kpis": {
+          "demand_units": 1920323.04928324,
+          "sold_units": 1805132.9533359269,
+          "lost_units": 115190.09594731298,
+          "waste_units": 23632.84200248974,
+          "received_units": 1836389.1851028448,
+          "ordered_units": 1844400.0185924512,
+          "stockout_events": 192107.0,
+          "demand_days": 1384532.0,
+          "days": 1400000.0,
+          "closing_units_sum": 1258851.3022792696,
+          "order_lines": 1373866.0,
+          "revenue": 4512832.383339817,
+          "cogs": 3200340.1418422293,
+          "waste_cost": 41357.47350435704,
+          "disposal": 2363.284200248974,
+          "holding": 1508.897108896385,
+          "lost_sales_value": 287975.23986828246,
+          "lost_margin": 86392.57196048475,
+          "goodwill": 43196.28598024238,
+          "inventory_value_sum": 2202989.778988722,
+          "ordering": 27477.320000000007,
+          "gross_profit": 1281142.7401884429,
+          "economic_profit": 1237946.4542082003,
+          "fill_rate": 0.9400152510848069,
+          "waste_rate": 0.01286919036237202,
+          "availability": 0.8627807142857142,
+          "stockout_rate_demand_days": 0.13875230041631395,
+          "avg_inventory_units": 0.8991795016280497,
+          "avg_inventory_value": 1.573564127849087,
+          "inventory_turnover_period": 40.15066958416118,
+          "days_of_supply": 0.697373176836024,
+          "gross_margin_pct": 0.283888837732614
+        },
+        "vs_baseline": {
+          "waste_reduction_pct": 0.0,
+          "stockout_reduction_pct": 0.0,
+          "lost_sales_reduction_pct": 0.0,
+          "fill_rate_change_pp": 0.0,
+          "availability_change_pp": 0.0,
+          "avg_inventory_change_pct": -0.0,
+          "net_benefit_eur": 0.0,
+          "net_benefit_pct_of_baseline_profit": 0.0,
+          "lost_sales_value_change_eur": 0.0,
+          "economic_benefit_eur": 0.0,
+          "recovered_sales_margin_eur": 0.0,
+          "avoided_waste_cost_eur": 0.0,
+          "avoided_disposal_eur": 0.0,
+          "holding_cost_change_eur": 0.0,
+          "ordering_cost_change_eur": 0.0,
+          "goodwill_change_eur": 0.0
+        }
+      },
+      "traditional_ma7_rule20": {
+        "kpis": {
+          "demand_units": 1920323.04928324,
+          "sold_units": 1534529.9472888228,
+          "lost_units": 385793.101994417,
+          "waste_units": 3634.671954218724,
+          "received_units": 1539725.9023136627,
+          "ordered_units": 1547529.470624638,
+          "stockout_events": 607500.0,
+          "demand_days": 1384532.0,
+          "days": 1400000.0,
+          "closing_units_sum": 314161.1597686597,
+          "order_lines": 1379067.0,
+          "revenue": 3836324.8682220574,
+          "cogs": 2691788.083675323,
+          "waste_cost": 6360.675919882766,
+          "disposal": 363.4671954218724,
+          "holding": 376.5630339692839,
+          "lost_sales_value": 964482.7549860426,
+          "lost_margin": 289344.82649581274,
+          "goodwill": 144672.41324790637,
+          "inventory_value_sum": 549782.0295951545,
+          "ordering": 27581.340000000004,
+          "gross_profit": 1116215.4143173434,
+          "economic_profit": 971543.001069437,
+          "fill_rate": 0.7990998951252425,
+          "waste_rate": 0.0023605967456656403,
+          "availability": 0.5660714285714286,
+          "stockout_rate_demand_days": 0.4387764240913175,
+          "avg_inventory_units": 0.2244008284061855,
+          "avg_inventory_value": 0.3927014497108246,
+          "inventory_turnover_period": 136.76687008580797,
+          "days_of_supply": 0.20472794312272197,
+          "gross_margin_pct": 0.2909595648594413
+        },
+        "vs_baseline": {
+          "waste_reduction_pct": 84.62025026936747,
+          "stockout_reduction_pct": -216.2300176464158,
+          "lost_sales_reduction_pct": -234.91863933412787,
+          "fill_rate_change_pp": -14.09153559595644,
+          "availability_change_pp": -29.67092857142857,
+          "avg_inventory_change_pct": -75.04382295193712,
+          "net_benefit_eur": -164927.32587109949,
+          "net_benefit_pct_of_baseline_profit": -12.873454354261913,
+          "lost_sales_value_change_eur": -676507.5151177602,
+          "economic_benefit_eur": -266403.4531387633,
+          "recovered_sales_margin_eur": -202952.2545353272,
+          "avoided_waste_cost_eur": 34996.797584474276,
+          "avoided_disposal_eur": 1999.8170048271013,
+          "holding_cost_change_eur": 1132.334074927101,
+          "ordering_cost_change_eur": -104.0199999999968,
+          "goodwill_change_eur": -101476.127267664
+        },
+        "bootstrap_store_cluster": {
+          "waste_reduction_pct": {
+            "ci_low": 83.37644155948489,
+            "ci_high": 85.44278819986667
+          },
+          "stockout_reduction_pct": {
+            "ci_low": -218.94564030131613,
+            "ci_high": -213.5364119295436
+          },
+          "net_benefit_eur": {
+            "ci_low": -172284.35119050156,
+            "ci_high": -157476.6580172241
+          },
+          "fill_rate_change_pp": {
+            "ci_low": -14.194677695306833,
+            "ci_high": -13.982130603501481
+          }
+        }
+      },
+      "ma7_reconstructed_tuned": {
+        "kpis": {
+          "demand_units": 1920323.04928324,
+          "sold_units": 1824661.8752441502,
+          "lost_units": 95661.17403908992,
+          "waste_units": 23293.816747674053,
+          "received_units": 1858101.528468579,
+          "ordered_units": 1865940.7715580303,
+          "stockout_events": 170479.0,
+          "demand_days": 1384532.0,
+          "days": 1400000.0,
+          "closing_units_sum": 1219537.645409496,
+          "order_lines": 1372228.0,
+          "revenue": 4561654.688110376,
+          "cogs": 3233922.460985692,
+          "waste_cost": 40764.17930842959,
+          "disposal": 2329.3816747674055,
+          "holding": 1461.7745749771361,
+          "lost_sales_value": 239152.9350977248,
+          "lost_margin": 71745.88052931744,
+          "goodwill": 35872.94026465872,
+          "inventory_value_sum": 2134190.8794666184,
+          "ordering": 27444.560000000005,
+          "gross_profit": 1296496.5108749387,
+          "economic_profit": 1260623.5706102797,
+          "fill_rate": 0.9501848534938977,
+          "waste_rate": 0.012536353041414526,
+          "availability": 0.8782292857142857,
+          "stockout_rate_demand_days": 0.12313113745294439,
+          "avg_inventory_units": 0.87109831814964,
+          "avg_inventory_value": 1.5244220567618703,
+          "inventory_turnover_period": 41.89336237314841,
+          "days_of_supply": 0.6683636360004042,
+          "gross_margin_pct": 0.28421627666253724
+        },
+        "vs_baseline": {
+          "waste_reduction_pct": 1.4345513534934535,
+          "stockout_reduction_pct": 11.258309171451327,
+          "lost_sales_reduction_pct": 16.95364670687958,
+          "fill_rate_change_pp": 1.0169602409090817,
+          "availability_change_pp": 1.5448571428571478,
+          "avg_inventory_change_pct": -3.1229786074489096,
+          "net_benefit_eur": 15353.770686495816,
+          "net_benefit_pct_of_baseline_profit": 1.1984434056299953,
+          "lost_sales_value_change_eur": 48822.30477055765,
+          "economic_benefit_eur": 22677.11640207935,
+          "recovered_sales_margin_eur": 14646.691431168467,
+          "avoided_waste_cost_eur": 593.2941959274467,
+          "avoided_disposal_eur": 33.90252548156832,
+          "holding_cost_change_eur": 47.12253391924878,
+          "ordering_cost_change_eur": 32.76000000000204,
+          "goodwill_change_eur": 7323.345715583659
+        },
+        "bootstrap_store_cluster": {
+          "waste_reduction_pct": {
+            "ci_low": 0.3493445646298429,
+            "ci_high": 2.439378708737922
+          },
+          "stockout_reduction_pct": {
+            "ci_low": 10.60874411622143,
+            "ci_high": 11.993411114707746
+          },
+          "net_benefit_eur": {
+            "ci_low": 14412.294994651083,
+            "ci_high": 16283.203999229503
+          },
+          "fill_rate_change_pp": {
+            "ci_low": 0.9557109251263968,
+            "ci_high": 1.0692710874848013
+          }
+        }
+      },
+      "lgbm_point": {
+        "kpis": {
+          "demand_units": 1920323.04928324,
+          "sold_units": 1587075.3597411811,
+          "lost_units": 333247.68954205886,
+          "waste_units": 2684.448573040643,
+          "received_units": 1590731.7761381636,
+          "ordered_units": 1543915.80040613,
+          "stockout_events": 578388.0,
+          "demand_days": 1384532.0,
+          "days": 1400000.0,
+          "closing_units_sum": 266958.77473028377,
+          "order_lines": 1329658.0,
+          "revenue": 3967688.399352953,
+          "cogs": 2782079.664549888,
+          "waste_cost": 4697.785002821125,
+          "disposal": 268.44485730406427,
+          "holding": 319.98483272465523,
+          "lost_sales_value": 833119.2238551471,
+          "lost_margin": 249935.76715654414,
+          "goodwill": 124967.88357827207,
+          "inventory_value_sum": 467177.8557779966,
+          "ordering": 26593.16,
+          "gross_profit": 1158427.145113036,
+          "economic_profit": 1033459.261534764,
+          "fill_rate": 0.8264626935210493,
+          "waste_rate": 0.0016875557610081238,
+          "availability": 0.5868657142857143,
+          "stockout_rate_demand_days": 0.4177498244894304,
+          "avg_inventory_units": 0.19068483909305983,
+          "avg_inventory_value": 0.3336984684128547,
+          "inventory_turnover_period": 166.46057099134572,
+          "days_of_supply": 0.16820800165016686,
+          "gross_margin_pct": 0.291965252438158
+        },
+        "vs_baseline": {
+          "waste_reduction_pct": 88.64102517692187,
+          "stockout_reduction_pct": -201.07596287485617,
+          "lost_sales_reduction_pct": -189.30238038388617,
+          "fill_rate_change_pp": -11.35525575637576,
+          "availability_change_pp": -27.59149999999999,
+          "avg_inventory_change_pct": -78.79346240124393,
+          "net_benefit_eur": -122715.59507540683,
+          "net_benefit_pct_of_baseline_profit": -9.578604415098715,
+          "lost_sales_value_change_eur": -545143.9839868647,
+          "economic_benefit_eur": -204487.19267343637,
+          "recovered_sales_margin_eur": -163543.1951960586,
+          "avoided_waste_cost_eur": 36659.688501535915,
+          "avoided_disposal_eur": 2094.8393429449097,
+          "holding_cost_change_eur": 1188.9122761717297,
+          "ordering_cost_change_eur": 884.1600000000071,
+          "goodwill_change_eur": -81771.5975980297
+        },
+        "bootstrap_store_cluster": {
+          "waste_reduction_pct": {
+            "ci_low": 86.52256673793387,
+            "ci_high": 89.89433737603355
+          },
+          "stockout_reduction_pct": {
+            "ci_low": -204.63842202945182,
+            "ci_high": -197.66456245695687
+          },
+          "net_benefit_eur": {
+            "ci_low": -129813.74180867198,
+            "ci_high": -116278.52609210642
+          },
+          "fill_rate_change_pp": {
+            "ci_low": -11.506985251636634,
+            "ci_high": -11.23595843516641
+          }
+        }
+      },
+      "lgbm_cost_optimal__insample": {
+        "kpis": {
+          "demand_units": 1920323.04928324,
+          "sold_units": 1842965.2783917687,
+          "lost_units": 77357.77089147139,
+          "waste_units": 20017.677944726995,
+          "received_units": 1872501.9704884165,
+          "ordered_units": 1824004.745046982,
+          "stockout_events": 123540.0,
+          "demand_days": 1384532.0,
+          "days": 1400000.0,
+          "closing_units_sum": 1041906.4586100687,
+          "order_lines": 1318314.0,
+          "revenue": 4607413.195979422,
+          "cogs": 3260220.1735888673,
+          "waste_cost": 35030.93640327224,
+          "disposal": 2001.7677944726993,
+          "holding": 1248.8604812106987,
+          "lost_sales_value": 193394.42722867845,
+          "lost_margin": 58018.32816860353,
+          "goodwill": 29009.164084301767,
+          "inventory_value_sum": 1823336.30256762,
+          "ordering": 26366.28,
+          "gross_profit": 1317576.1141148708,
+          "economic_profit": 1288566.950030569,
+          "fill_rate": 0.9597162722593238,
+          "waste_rate": 0.010690337452358279,
+          "availability": 0.9117571428571428,
+          "stockout_rate_demand_days": 0.08922870688434792,
+          "avg_inventory_units": 0.7442188990071918,
+          "avg_inventory_value": 1.3023830732625858,
+          "inventory_turnover_period": 49.52750543826108,
+          "days_of_supply": 0.5653424244211861,
+          "gross_margin_pct": 0.2859687330115368
+        },
+        "vs_baseline": {
+          "waste_reduction_pct": 15.297204023882882,
+          "stockout_reduction_pct": 35.6920882633116,
+          "lost_sales_reduction_pct": 32.84338357799944,
+          "fill_rate_change_pp": 1.9701021174516886,
+          "availability_change_pp": 4.897642857142859,
+          "avg_inventory_change_pct": -17.233555962995933,
+          "net_benefit_eur": 36433.373926427914,
+          "net_benefit_pct_of_baseline_profit": 2.843818474206,
+          "lost_sales_value_change_eur": 94580.812639604,
+          "economic_benefit_eur": 50620.495822368655,
+          "recovered_sales_margin_eur": 28374.243791882414,
+          "avoided_waste_cost_eur": 6326.537101084803,
+          "avoided_disposal_eur": 361.5164057762745,
+          "holding_cost_change_eur": 260.0366276856862,
+          "ordering_cost_change_eur": 1111.0400000000081,
+          "goodwill_change_eur": 14187.12189594061
+        },
+        "bootstrap_store_cluster": {
+          "waste_reduction_pct": {
+            "ci_low": 12.886780805825758,
+            "ci_high": 17.372334991842312
+          },
+          "stockout_reduction_pct": {
+            "ci_low": 34.8091324441158,
+            "ci_high": 36.6023488114241
+          },
+          "net_benefit_eur": {
+            "ci_low": 34496.6286710413,
+            "ci_high": 38325.02953011321
+          },
+          "fill_rate_change_pp": {
+            "ci_low": 1.8467167986464164,
+            "ci_high": 2.0804615586549122
+          }
+        }
+      },
+      "lgbm_cost_optimal__static": {
+        "kpis": {
+          "demand_units": 1920323.04928324,
+          "sold_units": 1832242.8444854557,
+          "lost_units": 88080.2047977843,
+          "waste_units": 17410.518448540846,
+          "received_units": 1853554.2145247406,
+          "ordered_units": 1799419.486031584,
+          "stockout_events": 141241.0,
+          "demand_days": 1384532.0,
+          "days": 1400000.0,
+          "closing_units_sum": 948438.3933515134,
+          "order_lines": 1320584.0,
+          "revenue": 4580607.111213639,
+          "cogs": 3236893.385134494,
+          "waste_cost": 30468.40728494648,
+          "disposal": 1741.0518448540847,
+          "holding": 1136.826841345992,
+          "lost_sales_value": 220200.5119944608,
+          "lost_margin": 66060.15359833823,
+          "goodwill": 33030.07679916912,
+          "inventory_value_sum": 1659767.1883651484,
+          "ordering": 26411.68,
+          "gross_profit": 1314424.1673929454,
+          "economic_profit": 1281394.0905937757,
+          "fill_rate": 0.9541326107444994,
+          "waste_rate": 0.009393045162698399,
+          "availability": 0.8991135714285714,
+          "stockout_rate_demand_days": 0.10201353237050498,
+          "avg_inventory_units": 0.677455995251081,
+          "avg_inventory_value": 1.1855479916893916,
+          "inventory_turnover_period": 54.09186300894374,
+          "days_of_supply": 0.5176379300407972,
+          "gross_margin_pct": 0.28695413849730644
+        },
+        "vs_baseline": {
+          "waste_reduction_pct": 26.329137872175362,
+          "stockout_reduction_pct": 26.477952391115366,
+          "lost_sales_reduction_pct": 23.534914982559368,
+          "fill_rate_change_pp": 1.4117359659692519,
+          "availability_change_pp": 3.6332857142857167,
+          "avg_inventory_change_pct": -24.658425372855728,
+          "net_benefit_eur": 33281.42720450251,
+          "net_benefit_pct_of_baseline_profit": 2.5977922803205487,
+          "lost_sales_value_change_eur": 67774.72787382166,
+          "economic_benefit_eur": 43447.6363855754,
+          "recovered_sales_margin_eur": 20332.41836214764,
+          "avoided_waste_cost_eur": 10889.06621941056,
+          "avoided_disposal_eur": 622.232355394889,
+          "holding_cost_change_eur": 372.0702675503928,
+          "ordering_cost_change_eur": 1065.6400000000067,
+          "goodwill_change_eur": 10166.20918107326
+        },
+        "bootstrap_store_cluster": {
+          "waste_reduction_pct": {
+            "ci_low": 24.032358572016697,
+            "ci_high": 28.4001902047422
+          },
+          "stockout_reduction_pct": {
+            "ci_low": 25.47351411823774,
+            "ci_high": 27.474964738910813
+          },
+          "net_benefit_eur": {
+            "ci_low": 31394.45985824422,
+            "ci_high": 35206.050576361275
+          },
+          "fill_rate_change_pp": {
+            "ci_low": 1.2849879028208797,
+            "ci_high": 1.522443927484289
+          }
+        }
+      },
+      "lgbm_cost_optimal__rolling": {
+        "kpis": {
+          "demand_units": 1920323.04928324,
+          "sold_units": 1840927.6773389347,
+          "lost_units": 79395.37194430537,
+          "waste_units": 19556.682418169148,
+          "received_units": 1869060.5122493806,
+          "ordered_units": 1816314.202821781,
+          "stockout_events": 126296.0,
+          "demand_days": 1384532.0,
+          "days": 1400000.0,
+          "closing_units_sum": 1021310.8287554659,
+          "order_lines": 1318251.0,
+          "revenue": 4602319.193347337,
+          "cogs": 3255847.6295749317,
+          "waste_cost": 34224.19423179601,
+          "disposal": 1955.6682418169153,
+          "holding": 1224.1739385767569,
+          "lost_sales_value": 198488.4298607634,
+          "lost_margin": 59546.52895822902,
+          "goodwill": 29773.26447911451,
+          "inventory_value_sum": 1787293.9503220653,
+          "ordering": 26365.02,
+          "gross_profit": 1316926.7015920111,
+          "economic_profit": 1287153.4371128967,
+          "fill_rate": 0.95865520024147,
+          "waste_rate": 0.010463375738773184,
+          "availability": 0.9097885714285714,
+          "stockout_rate_demand_days": 0.09121927120499923,
+          "avg_inventory_units": 0.7295077348253328,
+          "avg_inventory_value": 1.2766385359443324,
+          "inventory_turnover_period": 50.47040872787211,
+          "days_of_supply": 0.554780527951958,
+          "gross_margin_pct": 0.28614414738891464
+        },
+        "vs_baseline": {
+          "waste_reduction_pct": 17.247860345747515,
+          "stockout_reduction_pct": 34.25747109683666,
+          "lost_sales_reduction_pct": 31.074480586750987,
+          "fill_rate_change_pp": 1.8639949156663116,
+          "availability_change_pp": 4.700785714285716,
+          "avg_inventory_change_pct": -18.869621304256835,
+          "net_benefit_eur": 35783.961403568275,
+          "net_benefit_pct_of_baseline_profit": 2.7931283752429352,
+          "lost_sales_value_change_eur": 89486.81000751906,
+          "economic_benefit_eur": 49206.98290469637,
+          "recovered_sales_margin_eur": 26846.043002256658,
+          "avoided_waste_cost_eur": 7133.279272561027,
+          "avoided_disposal_eur": 407.6159584320585,
+          "holding_cost_change_eur": 284.723170319628,
+          "ordering_cost_change_eur": 1112.3000000000065,
+          "goodwill_change_eur": 13423.021501127867
+        },
+        "bootstrap_store_cluster": {
+          "waste_reduction_pct": {
+            "ci_low": 14.938923113683607,
+            "ci_high": 19.322745404624463
+          },
+          "stockout_reduction_pct": {
+            "ci_low": 33.308829498026384,
+            "ci_high": 35.14643910745815
+          },
+          "net_benefit_eur": {
+            "ci_low": 33871.553060833154,
+            "ci_high": 37713.280569491
+          },
+          "fill_rate_change_pp": {
+            "ci_low": 1.7427295534938976,
+            "ci_high": 1.9729249871365826
+          }
+        }
+      }
+    },
+    "calibration_head_to_head": {
+      "lgbm_cost_optimal__rolling_vs_lgbm_cost_optimal__insample": {
+        "point": {
+          "waste_reduction_pct": 2.302942068659271,
+          "stockout_reduction_pct": -2.2308564027845232,
+          "lost_sales_reduction_pct": -2.633996597048567,
+          "fill_rate_change_pp": -0.10610720178537703,
+          "availability_change_pp": -0.19685714285714306,
+          "avg_inventory_change_pct": -1.9767254233242555,
+          "net_benefit_eur": -649.4125228596386,
+          "net_benefit_pct_of_baseline_profit": -0.04928842560992424,
+          "lost_sales_value_change_eur": -5094.002632084943,
+          "economic_benefit_eur": -1413.512917672284,
+          "recovered_sales_margin_eur": -1528.2007896257564,
+          "avoided_waste_cost_eur": 806.742171476224,
+          "avoided_disposal_eur": 46.09955265578401,
+          "holding_cost_change_eur": 24.686542633941826,
+          "ordering_cost_change_eur": 1.2599999999983993,
+          "goodwill_change_eur": -764.1003948127436
+        },
+        "bootstrap_store_cluster": {
+          "waste_reduction_pct": {
+            "ci_low": 2.105559153931278,
+            "ci_high": 2.5104241530882225
+          },
+          "stockout_reduction_pct": {
+            "ci_low": -2.4489628686120795,
+            "ci_high": -2.03204335597441
+          },
+          "net_benefit_eur": {
+            "ci_low": -814.2259585843188,
+            "ci_high": -508.17206514384605
+          },
+          "fill_rate_change_pp": {
+            "ci_low": -0.11186832888282566,
+            "ci_high": -0.10094588246250036
+          }
+        }
+      },
+      "lgbm_cost_optimal__static_vs_lgbm_cost_optimal__insample": {
+        "point": {
+          "waste_reduction_pct": 13.02428535110347,
+          "stockout_reduction_pct": -14.328152824995952,
+          "lost_sales_reduction_pct": -13.860836193633203,
+          "fill_rate_change_pp": -0.5583661514824367,
+          "availability_change_pp": -1.264357142857142,
+          "avg_inventory_change_pct": -8.970869168355486,
+          "net_benefit_eur": -3151.9467219254,
+          "net_benefit_pct_of_baseline_profit": -0.23922312253230502,
+          "lost_sales_value_change_eur": -26806.084765782347,
+          "economic_benefit_eur": -7172.859436793253,
+          "recovered_sales_margin_eur": -8041.825429734774,
+          "avoided_waste_cost_eur": 4562.529118325758,
+          "avoided_disposal_eur": 260.71594961861456,
+          "holding_cost_change_eur": 112.03363986470663,
+          "ordering_cost_change_eur": -45.400000000001455,
+          "goodwill_change_eur": -4020.9127148673506
+        },
+        "bootstrap_store_cluster": {
+          "waste_reduction_pct": {
+            "ci_low": 12.528415293063683,
+            "ci_high": 13.463571977996196
+          },
+          "stockout_reduction_pct": {
+            "ci_low": -14.641886322705156,
+            "ci_high": -14.022185298602054
+          },
+          "net_benefit_eur": {
+            "ci_low": -3536.033547935862,
+            "ci_high": -2796.2457581844237
+          },
+          "fill_rate_change_pp": {
+            "ci_low": -0.5701818742783649,
+            "ci_high": -0.5481941748485375
+          }
+        }
+      }
+    }
+  }
+}

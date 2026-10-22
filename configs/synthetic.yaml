@@ -14,6 +14,9 @@ forecasting:
     early_stopping_rounds: 10
   tuning:
     enabled: false
+nested:
+  first_week: "2024-05-22"        # fewer walk-forward refits keep the CI smoke test fast
+  folds: ["2024-06-19", "2024-06-26"]
 finance:
   bootstrap_samples: 50
 paths:

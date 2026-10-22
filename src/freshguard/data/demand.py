@@ -68,7 +68,7 @@ def hourly_profiles(panel: pl.DataFrame, hours_sale: np.ndarray, hours_stock: np
     Returns ``(profiles, clean_daily_mean)``.
     """
     sid = series_index(panel)
-    n_series = int(sid.max()) + 1
+    n_series = int(np.max(sid)) + 1
     clean = fit_mask & (hours_stock[:, params.open_start:params.open_end].sum(axis=1) == 0)
     sums = _group_sum(sid[clean], hours_sale[clean].astype(np.float64), n_series)
     n_clean = np.bincount(sid[clean], minlength=n_series).astype(np.float64)
@@ -78,7 +78,7 @@ def hourly_profiles(panel: pl.DataFrame, hours_sale: np.ndarray, hours_stock: np
     _, cat_idx = np.unique(cat, return_inverse=True)
     cat_of_series = np.zeros(n_series, dtype=np.int64)
     cat_of_series[sid] = cat_idx
-    cat_sums = _group_sum(cat_of_series, sums, int(cat_idx.max()) + 1)
+    cat_sums = _group_sum(cat_of_series, sums, int(np.max(cat_idx)) + 1)
     global_prof = sums.sum(axis=0)
     global_prof = global_prof / max(global_prof.sum(), 1e-12)
     cat_tot = cat_sums.sum(axis=1, keepdims=True)

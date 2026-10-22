@@ -1,4 +1,4 @@
-# M5 (Walmart) FOODS departments: the dataset actually executed for the reported results.
+# M5 (Walmart) FOODS departments: secondary benchmark and documented fallback dataset.
 # No stock data -> stockouts inferred from implausible zero-sales runs (see methodology).
 extends: base.yaml
 data:
@@ -29,6 +29,8 @@ forecasting:
   horizons: [1, 2]              # secondary benchmark: reduced to keep CPU time reasonable
   tuning:
     enabled: false              # reuse the FreshRetailNet-selected configuration family
+nested:
+  enabled: false                # dates are FreshRetailNet-specific; not run for M5
 finance:
   price_source: data            # observed M5 shelf prices (USD) converted to EUR
   usd_to_eur: 0.9034            # 1 / 1.1069, ECB euro reference rate, 2016 annual average
